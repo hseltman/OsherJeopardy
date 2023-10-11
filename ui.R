@@ -7,11 +7,9 @@
 
 library(shiny)
 library(shinydashboard)
+library(shinythemes)
 library(shinyjs)
 
-dbHeader = dashboardHeader(title="Osher Jeopardy", titleWidth=100)
-
-dbSidebar = dashboardSidebar(width=100)
 
 makeJBox = function(n, prefix, multiple=1, width=NULL, height=100) {
   box(actionButton(paste0(prefix, n), paste0(n*100*multiple)), 
@@ -35,31 +33,30 @@ makeJHColumn = function(label, prefix, width=NULL, height=100, multiple=1) {
                            multiple=multiple)))
 }
 
-
-
-
-dbBody = dashboardBody(
-  # tags$head(
-  #   # Note the wrapping of the string in HTML()
-  #   tags$style(HTML("
-  #     .box {
-  #        padding: 1px; /* Adds 10px padding inside the box */
-  #        margin: 0px;
-  #        margin-left: 0px;
-  #        margin-right: 0px;
-  #     }"))
-  # ),
-  fluidRow(
-    mapply(makeJHColumn, tecateg, prefix=paste0("jbs", LETTERS[1:6]),
-           MoreArgs=list(multiple=2))
-    )
+ui = navbarPage("Jeopardy Game", theme = shinytheme("flatly"),
+                tabPanel("Jeopardy",
+                         sidebarLayout(
+                           sidebarPanel(width=0),
+                           mainPanel(
+                             fluidRow(
+                               mapply(makeJHColumn, tecateg, 
+                                      prefix=paste0("jbs", LETTERS[1:6]),
+                                      MoreArgs=list(multiple=1))
+                             )
+                           )
+                         )),
+                tabPanel("Double Jeopardy",
+                         sidebarLayout(
+                           sidebarPanel(width=0),
+                           mainPanel(
+                             fluidRow(
+                               mapply(makeJHColumn, paste(tecateg, 2), 
+                                      prefix=paste0("jbs", LETTERS[1:6]),
+                                      MoreArgs=list(multiple=2))
+                             )
+                           )
+                ))
 )
 
-# Define UI for application that draws a histogram
-dashboardPage(
-  dbHeader,
-  dbSidebar,
-  dbBody
-)
 
 
