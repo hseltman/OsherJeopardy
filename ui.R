@@ -25,21 +25,28 @@ makeJColList = function(prefix, width=NULL, height=100, multiple=1) {
   return(JColumns)
 }
 
-makeJHColumn = function(label, prefix, width=NULL, height=100, multiple=1) {
+makeJHColumn = function(prefix, width=NULL, height=150, multiple=1) {
   list(column(width=2, 
               div(style = "text-align: center;", 
-                  actionButton("x2", label)),
+                  box(textOutput(prefix), height=100)),
               makeJColList(prefix, width=width, height=height, 
                            multiple=multiple)))
 }
 
 ui = navbarPage("Jeopardy Game", theme = shinytheme("flatly"),
+                #tags$head(tags$style(HTML("pre { white-space: pre-wrap; word-break: keep-all; }"))),
+                tabPanel("Test",
+                         sidebarLayout(
+                           sidebarPanel(width=0),
+                           mainPanel(fluidRow(box(actionButton("a", "action!")),
+                                     box(textOutput("toTest"))))
+                        )),
                 tabPanel("Jeopardy",
                          sidebarLayout(
                            sidebarPanel(width=0),
                            mainPanel(
                              fluidRow(
-                               mapply(makeJHColumn, tecateg, 
+                               mapply(makeJHColumn, 
                                       prefix=paste0("jbs", LETTERS[1:6]),
                                       MoreArgs=list(multiple=1))
                              )
@@ -50,8 +57,8 @@ ui = navbarPage("Jeopardy Game", theme = shinytheme("flatly"),
                            sidebarPanel(width=0),
                            mainPanel(
                              fluidRow(
-                               mapply(makeJHColumn, paste(tecateg, 2), 
-                                      prefix=paste0("jbs", LETTERS[1:6]),
+                               mapply(makeJHColumn, 
+                                      prefix=paste0("jbd", LETTERS[1:6]),
                                       MoreArgs=list(multiple=2))
                              )
                            )
