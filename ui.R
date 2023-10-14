@@ -33,14 +33,28 @@ makeJHColumn = function(prefix, width=NULL, height=150, multiple=1) {
                            multiple=multiple)))
 }
 
+###########################
+## Create User Interface ##
+###########################
+
 ui = navbarPage("Jeopardy Game", theme = shinytheme("flatly"),
                 #tags$head(tags$style(HTML("pre { white-space: pre-wrap; word-break: keep-all; }"))),
-                tabPanel("Test",
-                         sidebarLayout(
-                           sidebarPanel(width=0),
-                           mainPanel(fluidRow(box(actionButton("a", "action!")),
-                                     box(textOutput("toTest"))))
-                        )),
+
+                # Intro Panel  
+                tabPanel("Intro",
+                          sidebarLayout(
+                            sidebarPanel(width=0),
+                            mainPanel(
+                              fluidRow(
+                                shinyFilesButton("files", "File select",
+                                                 "Please select a file", 
+                                                 multiple=FALSE)
+                              )
+                            )
+                          )
+                        ),
+                
+                # Jeopardy Panel
                 tabPanel("Jeopardy",
                          sidebarLayout(
                            sidebarPanel(width=0),
@@ -52,6 +66,8 @@ ui = navbarPage("Jeopardy Game", theme = shinytheme("flatly"),
                              )
                            )
                          )),
+                
+                # Double Jeopardy Panel
                 tabPanel("Double Jeopardy",
                          sidebarLayout(
                            sidebarPanel(width=0),
@@ -62,8 +78,19 @@ ui = navbarPage("Jeopardy Game", theme = shinytheme("flatly"),
                                       MoreArgs=list(multiple=2))
                              )
                            )
-                ))
-)
+                )),
+                
+                # Question Panel
+                tabPanel("Question",
+                         sidebarLayout(
+                           sidebarPanel(width=0),
+                           mainPanel(
+                             fluidRow(
+                               box(textOutput("question"), height=100))
+                             )
+                           )
+                         )
+) # end NavbarPage
 
 
 

@@ -13,6 +13,16 @@ library(shiny)
 # Define server logic required to draw a histogram
 function(input, output, session) {
   
+  # File selection
+  shinyFileChoose(input, "files", roots = roots, filetype="txt")
+  # 
+  data <- reactive({
+    req(input$files)
+    f1 = readLines(input$files)[1]
+    print(f1)
+    f1
+  })
+  
   # Add headers to Jeopardy board
   lapply(1:6, function(i) {
     outputId <- paste0("jbs", LETTERS[i])
@@ -25,5 +35,6 @@ function(input, output, session) {
     output[[outputId]] <- renderText(djCateg[i])
   })  
 
-  output$toTest <- renderText({"This is a test of the emergency broadcasting ststem"})
+  #output$question <- renderText({"No question"})
+  output$question <- renderText({data})
 }
