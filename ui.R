@@ -45,10 +45,11 @@ ui = navbarPage("Jeopardy Game", theme = shinytheme("flatly"),
                           sidebarLayout(
                             sidebarPanel(width=0),
                             mainPanel(
-                              fluidRow(
-                                shinyFilesButton("inputFile", "File select",
-                                                 "Please select a file", 
-                                                 multiple=FALSE)
+                              column(width=12,
+                                textOutput("gameNameText"), #height=100),
+                                shinyFilesButton("inputFile", "Select a game",
+                                                 "Please select a game file", 
+                                                 multiple=FALSE), #height=100)
                               )
                             )
                           )

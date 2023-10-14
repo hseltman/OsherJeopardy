@@ -8,6 +8,7 @@
 #
 
 library(shiny)
+library(shinyalert)
 
 
 # Define server logic required to draw a histogram
@@ -15,10 +16,25 @@ function(input, output, session) {
   
   # File selection
   shinyFileChoose(input, "inputFile", roots = roots, session=session, filetype="txt")
-  gameData <- reactive({
+  
+  gameName = reactive({
     req(input$inputFile)
-    fName = parseFilePaths(roots, input$inputFile)$datapath
-    readLines(fName)
+    parseFilePaths(roots, input$inputFile)$datapath
+  })
+  
+  gameData <- reactive({
+    fName = gameName()
+    req(fName)
+    inData = readLines(fName)
+    if (length(inData) != (1+5)*6*2+1) {
+        shinyalert("Bad input",
+                 paste("File must contain", (1+5)*6*2+1, "lines"),
+                 type="error")
+      return("Bad Game Data")
+    } else {
+      return(inData)
+    }
+    inData
   })
   
   # Add headers to Jeopardy board
@@ -32,7 +48,9 @@ function(input, output, session) {
     outputId <- paste0("jbd", LETTERS[i])
     output[[outputId]] <- renderText(djCateg[i])
   })  
+  
+  output$gameNameText <- renderText({paste("Game:", gameName())})
 
   #output$question <- renderText({"No question"})
-  output$question <- renderText({gameData()[2]})
+  output$question <- renderText({gameData()[1]})
 }
