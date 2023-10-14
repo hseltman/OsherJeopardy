@@ -46,7 +46,7 @@ ui = navbarPage("Jeopardy Game", theme = shinytheme("flatly"),
                             sidebarPanel(width=0),
                             mainPanel(
                               fluidRow(
-                                shinyFilesButton("files", "File select",
+                                shinyFilesButton("inputFile", "File select",
                                                  "Please select a file", 
                                                  multiple=FALSE)
                               )

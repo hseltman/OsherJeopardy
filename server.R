@@ -14,13 +14,11 @@ library(shiny)
 function(input, output, session) {
   
   # File selection
-  shinyFileChoose(input, "files", roots = roots, filetype="txt")
-  # 
-  data <- reactive({
-    req(input$files)
-    f1 = readLines(input$files)[1]
-    print(f1)
-    f1
+  shinyFileChoose(input, "inputFile", roots = roots, session=session, filetype="txt")
+  gameData <- reactive({
+    req(input$inputFile)
+    fName = parseFilePaths(roots, input$inputFile)$datapath
+    readLines(fName)
   })
   
   # Add headers to Jeopardy board
@@ -36,5 +34,5 @@ function(input, output, session) {
   })  
 
   #output$question <- renderText({"No question"})
-  output$question <- renderText({data})
+  output$question <- renderText({gameData()[2]})
 }
