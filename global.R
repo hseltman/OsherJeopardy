@@ -15,3 +15,24 @@ if (tLoc == -1 || nchar(wd) == tLoc+7) {
   roots = c(wd, substring(wd, 1, tLoc+8))
   names(roots) = c(wd, "Desktop")
 }
+
+# File input is plain text as follows:
+# Blank lines and lines where the first non-blank character is "#" are ignored,
+# "|" is the separator between answer and question
+# Jeopardy round: repeated 6 times 
+#   Category
+#   answer | question  (repeated 5 times)
+#
+# Double Jeopardy round: repeated 6 times 
+#   Category
+#   answer | question  (repeated 5 times)
+#
+# Final Jeopardy
+#   Category
+#   answer | question
+#
+# "separator" bar pattern
+sbPattern = c(rep(c(FALSE, rep(TRUE, 5)), 6*2), FALSE, TRUE)
+
+# pattern of category vs Answer|Question pairs
+catAQPairPattern = c(rep(c(1, 5), 12), 1, 1)

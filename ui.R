@@ -6,9 +6,11 @@
 #    http://shiny.rstudio.com/
 
 library(shiny)
-library(shinydashboard)
+#library(shinydashboard)
 library(shinythemes)
-library(shinyjs)
+library(shinyFiles)
+library(shinyalert)
+#library(shinyjs)
 
 
 makeJBox = function(n, prefix, multiple=1, width=NULL, height=100) {
