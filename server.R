@@ -8,11 +8,11 @@
 #
 
 library(shiny)
-#library(shinydashboard)
+library(shinydashboard)
 library(shinythemes)
 library(shinyFiles)
 library(shinyalert)
-#library(shinyjs)
+library(shinyjs)
 
 
 # Define server logic required to draw a histogram
@@ -150,4 +150,10 @@ function(input, output, session) {
 
   #output$question <- renderText({"No question"})
   output$question <- renderText({gameData()[1]})
-}
+  
+  # Test action button to change tab
+  observeEvent(input$jbsA1, {
+    updateNavbarPage(session=session, "myNavbar", "Question")
+  })
+  
+} # end server function

@@ -6,11 +6,11 @@
 #    http://shiny.rstudio.com/
 
 library(shiny)
-#library(shinydashboard)
+library(shinydashboard)
 library(shinythemes)
 library(shinyFiles)
 library(shinyalert)
-#library(shinyjs)
+library(shinyjs)
 
 
 makeJBox = function(n, prefix, multiple=1, width=NULL, height=100) {
@@ -39,7 +39,7 @@ makeJHColumn = function(prefix, width=NULL, height=150, multiple=1) {
 ## Create User Interface ##
 ###########################
 
-ui = navbarPage("Jeopardy Game", theme = shinytheme("flatly"),
+ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                 #tags$head(tags$style(HTML("pre { white-space: pre-wrap; word-break: keep-all; }"))),
 
                 # Intro Panel  
