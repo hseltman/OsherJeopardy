@@ -146,7 +146,7 @@ function(input, output, session) {
     output[[outputId]] <- renderText(djCateg[i])
   })  
   
-  output$gameNameText <- renderText({paste("Game:", gameName())})
+  output$gameNameText <- renderText({paste("Game:", basename(gameName()))})
 
   #output$question <- renderText({"No question"})
   output$question <- renderText({gameData()[1]})
