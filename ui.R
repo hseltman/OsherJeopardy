@@ -14,7 +14,7 @@ library(shinyjs)
 
 
 makeJBox = function(n, prefix, multiple=1, width=NULL, height=100) {
-  box(actionButton(paste0(prefix, n), paste0(n*100*multiple)), 
+  box(actionButton(paste0(prefix, n), paste0("$", n*100*multiple)), 
       width=NULL, height=height)
 }
 
@@ -81,7 +81,7 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                                       MoreArgs=list(multiple=2))
                              )
                            )
-                )),
+                         )),
                 
                 # Question Panel
                 tabPanel("Question",
@@ -89,10 +89,13 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                            sidebarPanel(width=0),
                            mainPanel(
                              fluidRow(
-                               box(textOutput("question"), height=100))
-                             )
+                               box(textOutput("categoryReminder"),
+                                   width=12, height=100),
+                               box(textOutput("selectedAnswer"),
+                                   width=12, height=400)
+                              )
                            )
-                         )
+                         ))
 ) # end NavbarPage
 
 

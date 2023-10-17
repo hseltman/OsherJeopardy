@@ -30,10 +30,12 @@ function(input, output, session) {
   gameData <- reactive({
     req(gameName())
     fName = gameName()
+    
     # read data and delete blank lines and comment lines
     inData = readLines(fName)
     inData = inData[!grepl("(^\\s*$)|(^\\s*#)", inData)]
     
+    # Guess that user totally forgot data format
     if (length(inData) < 12) {
       shinyalert("Bad input",
                  paste("File must contain 12 sets of 6 lines each",
@@ -63,7 +65,12 @@ function(input, output, session) {
       close(tc)
       temp = strsplit(inData[74], "\\|")[[1]]
       fjAQ = data.frame(Answer=temp[1], Question=temp[2])
-      return("Data Parsed Successfully")    
+      return(list(sjCategories=sjCategories,
+                  dfCategories=dfCategories,
+                  fjCategory=fjCategory,
+                  sjAQ=sjAQ,
+                  dfAQ=djAQ,
+                  fjAQ=fjAQ))
     }
     
     # Handle first part of pattern not 'FTTTTTF'
@@ -132,7 +139,7 @@ function(input, output, session) {
     }
     shinyalert("Bad input", "Unhandled exception", type="error")
     return("Bad Game Data")
-  })
+  }) # end definition of gameData() reactive function
   
   # Add headers to Jeopardy board
   lapply(1:6, function(i) {
@@ -149,11 +156,21 @@ function(input, output, session) {
   output$gameNameText <- renderText({paste("Game:", basename(gameName()))})
 
   #output$question <- renderText({"No question"})
-  output$question <- renderText({gameData()[1]})
+  output$categoryReminder <- renderText({"Nothing selected"})
   
   # Test action button to change tab
   observeEvent(input$jbsA1, {
+    output$categoryReminder <- renderText({gameData()$sjCategories[1]})
+    output$selectedAnswer <- renderText({gameData()$sjAQ[1, "Answer"]})
     updateNavbarPage(session=session, "myNavbar", "Question")
+    
+  })
+  # 
+  observeEvent(input$jbsA2, {
+    output$categoryReminder <- renderText({gameData()$sjCategories[1]})
+    output$selectedAnswer <- renderText({gameData()$sjAQ[2, "Answer"]})
+    updateNavbarPage(session=session, "myNavbar", "Question")
+    
   })
   
 } # end server function
