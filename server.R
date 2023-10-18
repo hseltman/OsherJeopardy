@@ -55,7 +55,7 @@ function(input, output, session) {
       sjCatLoc = seq(1, by=6, length.out=6)
       sjCategories = inData[sjCatLoc]
       djCatLoc = seq(37, by=6, length.out=6)
-      dfCategories = inData[djCatLoc]
+      djCategories = inData[djCatLoc]
       fjCategory = inData[73]
       tc = textConnection(inData[1:36][-sjCatLoc])
       sjAQ = read.table(tc, sep="|", quote="", col.names=c("Answer", "Question"))
@@ -66,10 +66,10 @@ function(input, output, session) {
       temp = strsplit(inData[74], "\\|")[[1]]
       fjAQ = data.frame(Answer=temp[1], Question=temp[2])
       return(list(sjCategories=sjCategories,
-                  dfCategories=dfCategories,
+                  djCategories=djCategories,
                   fjCategory=fjCategory,
                   sjAQ=sjAQ,
-                  dfAQ=djAQ,
+                  djAQ=djAQ,
                   fjAQ=fjAQ))
     }
     
@@ -142,15 +142,15 @@ function(input, output, session) {
   }) # end definition of gameData() reactive function
   
   # Add headers to Jeopardy board
-  lapply(1:6, function(i) {
-    outputId <- paste0("jbs", LETTERS[i])
-    output[[outputId]] <- renderText(sjCateg[i])
+  lapply(1:6, function(column) {
+    outputId <- paste0("jbs", LETTERS[column])
+    output[[outputId]] <- renderText(gameData()[["sjCategories"]][column])
   })  
   
   # Add headers to Double Jeopardy board
-  lapply(1:6, function(i) {
-    outputId <- paste0("jbd", LETTERS[i])
-    output[[outputId]] <- renderText(djCateg[i])
+  lapply(1:6, function(column) {
+    outputId <- paste0("jbd", LETTERS[column])
+    output[[outputId]] <- renderText(gameData()[["sjCategories"]][column])
   })  
   
   output$gameNameText <- renderText({paste("Game:", basename(gameName()))})
@@ -158,19 +158,26 @@ function(input, output, session) {
   #output$question <- renderText({"No question"})
   output$categoryReminder <- renderText({"Nothing selected"})
   
-  # Test action button to change tab
-  observeEvent(input$jbsA1, {
-    output$categoryReminder <- renderText({gameData()$sjCategories[1]})
-    output$selectedAnswer <- renderText({gameData()$sjAQ[1, "Answer"]})
-    updateNavbarPage(session=session, "myNavbar", "Question")
-    
-  })
-  # 
-  observeEvent(input$jbsA2, {
-    output$categoryReminder <- renderText({gameData()$sjCategories[1]})
-    output$selectedAnswer <- renderText({gameData()$sjAQ[2, "Answer"]})
-    updateNavbarPage(session=session, "myNavbar", "Question")
-    
-  })
+  # Function to handle click on a board resulting in showing the Answer on the 
+  # "Question" tab
+  # Board must be "s" or "d"
+  generateClickToAnswer <- function(position, board) {
+    columnNum <- (position+4) %/% 5
+    column <- LETTERS[columnNum]
+    row <- ((position+4) %% 5) + 1 
+    observeEvent(input[[paste0("jb", board, column, row)]], {
+      output$categoryReminder <- renderText(
+        {gameData()[[paste0(board, "jCategories")]][columnNum]})
+      output$selectedAnswer <- renderText(
+        {gameData()[[paste0(board, "jAQ")]][position, "Answer"]})
+      updateNavbarPage(session=session, "myNavbar", "Question")
+    })
+  }
+
+  # Setup Jeopardy action buttons to change tab and show Answer
+  lapply(1:30, generateClickToAnswer, board="s")
+
+  # Setup Double Jeopardy action buttons to change tab and show Answer
+  lapply(1:30, generateClickToAnswer, board="d")
   
 } # end server function

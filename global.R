@@ -1,9 +1,9 @@
-sjCateg = c("1940s", "WWII", "Interesting Pittsburgh",
-            "Mars", "Stravinsky", "Railroads")
-
-djCateg = c("In 'Utero'", "Word Origins", "Mushrooms",
-            "Country of the Sport", "Dreaded Opera Category", "Plants")
-
+# sjCateg = c("1940s", "WWII", "Interesting Pittsburgh",
+#             "Mars", "Stravinsky", "Railroads")
+# 
+# djCateg = c("In 'Utero'", "Word Origins", "Mushrooms",
+#             "Country of the Sport", "Dreaded Opera Category", "Plants")
+# 
 
 # For file input
 wd = getwd()
@@ -15,6 +15,7 @@ if (tLoc == -1 || nchar(wd) == tLoc+7) {
   roots = c(wd, substring(wd, 1, tLoc+8))
   names(roots) = c(wd, "Desktop")
 }
+rm(tLoc)
 
 # File input is plain text as follows:
 # Blank lines and lines where the first non-blank character is "#" are ignored,

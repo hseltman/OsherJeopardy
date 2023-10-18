@@ -22,7 +22,7 @@ makeJColList = function(prefix, width=NULL, height=100, multiple=1) {
   JColumns = list()
   for (n in 1:5) {
     JColumns = c(JColumns, list(makeJBox(n, prefix, multiple=multiple,
-                                         width=widht, height=height)))
+                                         width=width, height=height)))
   }
   return(JColumns)
 }
