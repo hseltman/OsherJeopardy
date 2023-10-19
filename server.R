@@ -17,6 +17,11 @@ library(shinyjs)
 
 # Define server logic required to draw a histogram
 function(input, output, session) {
+  observe({cat("gameName =", gameName(), "\n")})
+  observe({cat("class(gameData()) =", class(gameData()), "\n")})
+  
+  # End the app
+  observeEvent(input$quitApp, {stopApp()})
   
   # File selection
   shinyFileChoose(input, "inputFile", roots = roots, session=session, filetype="txt")

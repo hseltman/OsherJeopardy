@@ -48,10 +48,13 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                             sidebarPanel(width=0),
                             mainPanel(
                               column(width=12,
-                                textOutput("gameNameText"), #height=100),
-                                shinyFilesButton("inputFile", "Select a game",
-                                                 "Please select a game file", 
-                                                 multiple=FALSE), #height=100)
+                                box(textOutput("gameNameText"), width=12, height=30),
+                                box(shinyFilesButton("inputFile", "Select a game",
+                                                     "Please select a game file", 
+                                                      multiple=FALSE),
+                                    width=12, height=50),
+                                box(actionButton("quitApp", "Quit Jeopardy"),
+                                    width=12, height=50)
                               )
                             )
                           )
