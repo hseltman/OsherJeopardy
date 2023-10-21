@@ -14,7 +14,8 @@ library(shinyjs)
 
 
 makeJBox = function(n, prefix, multiple=1, width=NULL, height=height) {
-  box(actionButton(paste0(prefix, n), paste0("$", n*100*multiple)), 
+  box(actionButton(paste0(prefix, n), paste0("$", n*100*multiple), 
+                   style='width:120%; height:140px; font-size:100%'), 
       width=12, height=height)
 }
 
@@ -29,7 +30,14 @@ makeJColList = function(prefix, width=NULL, height=height, multiple=1) {
 
 makeJHColumn = function(prefix, width=2, height=150, multiple=1) {
   list(column(width=width, 
-              div(style = "text-align: center;", 
+              #div(style = "text-align: center;", 
+              div(style=paste("text-align:center;",
+                  "box-shadow: 10px 10px 5px #888888;",
+                  "width:100%;",
+                  "height:100px;",
+                  #"padding-top:70px;",
+                  #"position:relative':,
+                  ";"),
                   box(textOutput(prefix), height=100)),
               makeJColList(prefix, width=width, height=height, 
                            multiple=multiple)))
@@ -41,7 +49,8 @@ makeJHColumn = function(prefix, width=2, height=150, multiple=1) {
 
 ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                 #tags$head(tags$style(HTML("pre { white-space: pre-wrap; word-break: keep-all; }"))),
-
+                #tags$style(type = "text/css", ".navbar{padding-left:2px;
+                #           padding-right:2px ; margin-right:2px; margin-left:2px;}"),
                 # Intro Panel  
                 tabPanel("Intro",
                           sidebarLayout(

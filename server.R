@@ -13,6 +13,7 @@ library(shinythemes)
 library(shinyFiles)
 library(shinyalert)
 library(shinyjs)
+# library(leaflet)
 
 
 # Define server logic required to draw a histogram
