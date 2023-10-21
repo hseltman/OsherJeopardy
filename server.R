@@ -18,7 +18,7 @@ library(shinyjs)
 # Define server logic required to draw a histogram
 function(input, output, session) {
   observe({cat("gameName =", gameName(), "\n")})
-  observe({cat("class(gameData()) =", class(gameData()), "\n")})
+  observe({cat("input$jbsA1() =", class(input$jbsA1), "\n")})
   
   # End the app
   observeEvent(input$quitApp, {stopApp()})
@@ -49,7 +49,8 @@ function(input, output, session) {
                        "by a Final Jeopardy Category, and then a Final",
                        "Jeopardy 'answer|question' pair."),
                  type="error")
-      return("Bad Game Data")
+      gameName(NULL)
+      return(NULL)
     } 
     
     # Find which lines have a single bar
@@ -83,19 +84,22 @@ function(input, output, session) {
       shinyalert("Bad input",
                  paste("First line of game file must contain a category name (no '|')."),
                  type="error")
-      return("Bad Game Data")
+      gameName(NULL)
+      return(NULL)
     }
     if (!all(singleBar[2:6])) {
       shinyalert("Bad input",
                  paste("Lines 2 to 6 of game file must contain 'answer|question' pairs."),
                  type="error")
-      return("Bad Game Data")
+      gameName(NULL)
+      return(NULL)
     }
     if (singleBar[7]) {
       shinyalert("Bad input",
                  paste("Line 7 of game file must contain a category name (no '|')."),
                  type="error")
-      return("Bad Game Data")
+      gameName(NULL)
+      return(NULL)
     }
     
     # Use run length encoding to characterize pattern of categories and A|Q pairs
@@ -107,7 +111,8 @@ function(input, output, session) {
                        "Jeopardy Categories, and one Final Jeopary Category.",
                        "You have", length(temp), "categories."),
                  type="error")
-      return("Bad Game Data")
+      gameName(NULL)
+      return(NULL)
     }
     if (any(temp != 1)) {
       index = which(temp != 1)[1]
@@ -115,7 +120,8 @@ function(input, output, session) {
                  paste0("It appears that the '|' is missing in 'Answer|Question' for",
                        "category number ", index, "."),
                  type="error")
-      return("Bad Game Data")
+      gameName(NULL)
+      return(NULL)
     }
     temp = catAQPair$lengths[catAQPair$values==TRUE]
     if (length(temp) != 13) {
@@ -126,13 +132,15 @@ function(input, output, session) {
                        "for a total of 61 pairs.  ",
                        "You have", sum(temp), "pairs in ", length(temp), "groups."),
                  type="error")
-      return("Bad Game Data")
+      gameName(NULL)
+      return(NULL)
     }
     if (temp[13] != 1) {
       shinyalert("Bad input",
                  paste("There should be just one Final Jeopary 'Answer|Question' pair."),
                  type="error")
-      return("Bad Game Data")
+      gameName(NULL)
+      return(NULL)
     }
     if (any(temp[1:12] != 5)) {
       index = which(temp != 5)[1]
@@ -140,10 +148,12 @@ function(input, output, session) {
                  paste0("Category ", index, " has ", temp[index], " 'Answer|Question'",
                         "pairs."),
                  type="error")
-      return("Bad Game Data")
+      gameName(NULL)
+      return(NULL)
     }
     shinyalert("Bad input", "Unhandled exception", type="error")
-    return("Bad Game Data")
+    gameName(NULL)
+    return(NULL)
   }) # end definition of gameData() reactive function
   
   # Add headers to Jeopardy board
@@ -155,10 +165,15 @@ function(input, output, session) {
   # Add headers to Double Jeopardy board
   lapply(1:6, function(column) {
     outputId <- paste0("jbd", LETTERS[column])
-    output[[outputId]] <- renderText(gameData()[["sjCategories"]][column])
+    output[[outputId]] <- renderText(gameData()[["djCategories"]][column])
   })  
   
-  output$gameNameText <- renderText({paste("Game:", basename(gameName()))})
+  # Show game board file
+  output$gameNameText <- renderText({
+    tName <- gameName()
+    tName <- ifelse(isTruthy(tName), basename(tName), "None")
+    paste("Game board file:", tName)
+  })
 
   #output$question <- renderText({"No question"})
   output$categoryReminder <- renderText({"Nothing selected"})
