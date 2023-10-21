@@ -49,7 +49,6 @@ function(input, output, session) {
                        "by a Final Jeopardy Category, and then a Final",
                        "Jeopardy 'answer|question' pair."),
                  type="error")
-      gameName(NULL)
       return(NULL)
     } 
     
@@ -84,21 +83,18 @@ function(input, output, session) {
       shinyalert("Bad input",
                  paste("First line of game file must contain a category name (no '|')."),
                  type="error")
-      gameName(NULL)
       return(NULL)
     }
     if (!all(singleBar[2:6])) {
       shinyalert("Bad input",
                  paste("Lines 2 to 6 of game file must contain 'answer|question' pairs."),
                  type="error")
-      gameName(NULL)
       return(NULL)
     }
     if (singleBar[7]) {
       shinyalert("Bad input",
                  paste("Line 7 of game file must contain a category name (no '|')."),
                  type="error")
-      gameName(NULL)
       return(NULL)
     }
     
@@ -111,7 +107,6 @@ function(input, output, session) {
                        "Jeopardy Categories, and one Final Jeopary Category.",
                        "You have", length(temp), "categories."),
                  type="error")
-      gameName(NULL)
       return(NULL)
     }
     if (any(temp != 1)) {
@@ -120,7 +115,6 @@ function(input, output, session) {
                  paste0("It appears that the '|' is missing in 'Answer|Question' for",
                        "category number ", index, "."),
                  type="error")
-      gameName(NULL)
       return(NULL)
     }
     temp = catAQPair$lengths[catAQPair$values==TRUE]
@@ -132,14 +126,12 @@ function(input, output, session) {
                        "for a total of 61 pairs.  ",
                        "You have", sum(temp), "pairs in ", length(temp), "groups."),
                  type="error")
-      gameName(NULL)
       return(NULL)
     }
     if (temp[13] != 1) {
       shinyalert("Bad input",
                  paste("There should be just one Final Jeopary 'Answer|Question' pair."),
                  type="error")
-      gameName(NULL)
       return(NULL)
     }
     if (any(temp[1:12] != 5)) {
@@ -148,11 +140,9 @@ function(input, output, session) {
                  paste0("Category ", index, " has ", temp[index], " 'Answer|Question'",
                         "pairs."),
                  type="error")
-      gameName(NULL)
       return(NULL)
     }
     shinyalert("Bad input", "Unhandled exception", type="error")
-    gameName(NULL)
     return(NULL)
   }) # end definition of gameData() reactive function
   

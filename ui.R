@@ -13,12 +13,12 @@ library(shinyalert)
 library(shinyjs)
 
 
-makeJBox = function(n, prefix, multiple=1, width=NULL, height=100) {
+makeJBox = function(n, prefix, multiple=1, width=NULL, height=height) {
   box(actionButton(paste0(prefix, n), paste0("$", n*100*multiple)), 
-      width=NULL, height=height)
+      width=12, height=height)
 }
 
-makeJColList = function(prefix, width=NULL, height=100, multiple=1) {
+makeJColList = function(prefix, width=NULL, height=height, multiple=1) {
   JColumns = list()
   for (n in 1:5) {
     JColumns = c(JColumns, list(makeJBox(n, prefix, multiple=multiple,
@@ -28,7 +28,7 @@ makeJColList = function(prefix, width=NULL, height=100, multiple=1) {
 }
 
 makeJHColumn = function(prefix, width=2, height=150, multiple=1) {
-  list(column(width=2, 
+  list(column(width=width, 
               div(style = "text-align: center;", 
                   box(textOutput(prefix), height=100)),
               makeJColList(prefix, width=width, height=height, 
@@ -68,9 +68,9 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                              fluidRow(
                                mapply(makeJHColumn, 
                                       prefix=paste0("jbs", LETTERS[1:6]),
-                                      MoreArgs=list(multiple=1))
+                                      MoreArgs=list(multiple=1, width=2))
                              ), # end fluidRow()
-                           width=12) # end mainPanel
+                           width=12) # end mainPanel()
                          )),
                 
                 # Double Jeopardy Panel
@@ -81,9 +81,9 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                              fluidRow(
                                mapply(makeJHColumn, 
                                       prefix=paste0("jbd", LETTERS[1:6]),
-                                      MoreArgs=list(multiple=2))
-                             )
-                           )
+                                      MoreArgs=list(multiple=2, width=2))
+                             ), # end fluidRow()
+                           width=12) # end mainPanel()
                          )),
                 
                 # Question Panel
