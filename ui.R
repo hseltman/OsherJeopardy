@@ -27,7 +27,7 @@ makeJColList = function(prefix, width=NULL, height=100, multiple=1) {
   return(JColumns)
 }
 
-makeJHColumn = function(prefix, width=NULL, height=150, multiple=1) {
+makeJHColumn = function(prefix, width=2, height=150, multiple=1) {
   list(column(width=2, 
               div(style = "text-align: center;", 
                   box(textOutput(prefix), height=100)),
@@ -55,10 +55,10 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                                     width=12, height=50),
                                 box(actionButton("quitApp", "Quit Jeopardy"),
                                     width=12, height=50)
-                              )
-                            )
-                          )
-                        ),
+                              ), # end column()
+                            width=12) # end mainPanel()
+                          ) # end sidebarLayout()
+                        ), # end tabPanel
                 
                 # Jeopardy Panel
                 tabPanel("Jeopardy",
@@ -69,8 +69,8 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                                mapply(makeJHColumn, 
                                       prefix=paste0("jbs", LETTERS[1:6]),
                                       MoreArgs=list(multiple=1))
-                             )
-                           )
+                             ), # end fluidRow()
+                           width=12) # end mainPanel
                          )),
                 
                 # Double Jeopardy Panel
