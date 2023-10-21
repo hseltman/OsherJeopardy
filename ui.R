@@ -33,7 +33,11 @@ makeJHColumn = function(prefix, width=2, height=150, multiple=1) {
               #div(style = "text-align: center;", 
               div(style=paste("text-align:center;",
                   "box-shadow: 10px 10px 5px #888888;",
+<<<<<<< HEAD
                     "width:100%;",
+=======
+                  "width:100%;",
+>>>>>>> 2245416871a6c401890581c58041cc5b120d2024
                   "height:100px;",
                   #"padding-top:70px;",
                   #"position:relative':,
