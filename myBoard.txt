@@ -6,8 +6,8 @@ This mammallian order has the most specied|rodent
 This mammal is man's best friend|dog
 
 Word origins
-Sabotoge comes from these French shoes|sabot
-This word means without breath in Greek|apnea
+<em>Sabotage<em> comes from these French shoes|sabot
+This word means without breath in <b>Greek</b>|apnea
 This word for killing someone by pushing them out a window comes from the French word for window|defenestration
 This eponym describes a particular type of early photograph|daguerreotype
 This is the Latin prefix for 'five'|pente
