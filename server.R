@@ -166,7 +166,6 @@ function(input, output, session) {
     paste("Game board file:", tName)
   })
 
-  #output$question <- renderText({"No question"})
   output$categoryReminder <- renderText({"Nothing selected"})
   
   # Function to handle click on a board resulting in showing the Answer on the 
@@ -179,8 +178,8 @@ function(input, output, session) {
     observeEvent(input[[paste0("jb", board, column, row)]], {
       output$categoryReminder <- renderText(
         {gameData()[[paste0(board, "jCategories")]][columnNum]})
-      output$selectedAnswer <- renderText(
-        {gameData()[[paste0(board, "jAQ")]][position, "Answer"]})
+      output$selectedAnswer <- renderIU(
+        {HTML(gameData()[[paste0(board, "jAQ")]][position, "Answer"])})
       updateNavbarPage(session=session, "myNavbar", "Question")
     })
   }

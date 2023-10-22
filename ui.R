@@ -39,7 +39,7 @@ makeJHColumn = function(prefix, width=2, height=150, multiple=1) {
                   #"position:relative':,
                   ";"),
                   box(textOutput(prefix), height=100)),
-              makeJColList(prefix, width=width, height=height, 
+       makeJColList(prefix, width=width, height=height, 
                            multiple=multiple)))
 }
 
@@ -103,8 +103,8 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                              fluidRow(
                                box(textOutput("categoryReminder"),
                                    width=12, height=100),
-                               box(textOutput("selectedAnswer"),
-                                   width=12, height=400)
+                               box(htmlOutput("selectedAnswer"),
+                                       width=12, height=400)
                               )
                            )
                          ))
