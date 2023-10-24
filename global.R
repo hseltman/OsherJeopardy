@@ -14,7 +14,7 @@ rm(tLoc)
 
 # File input is plain text as follows:
 # Blank lines and lines where the first non-blank character is "#" are ignored,
-# "|" is the separator between answer and question
+# "|" (or 'AQSeparator') is the separator between answer and question
 # Jeopardy round: repeated 6 times 
 #   Category
 #   answer | question  (repeated 5 times)
@@ -30,5 +30,5 @@ rm(tLoc)
 # "separator" bar pattern
 sbPattern = c(rep(c(FALSE, rep(TRUE, 5)), 6*2), FALSE, TRUE)
 
-# pattern of category vs Answer|Question pairs
+# pattern of Categories vs Answer|Question pairs in the file input
 catAQPairPattern = c(rep(c(1, 5), 12), 1, 1)

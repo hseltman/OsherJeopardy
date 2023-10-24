@@ -62,6 +62,11 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                                                      "Please select a game file", 
                                                       multiple=FALSE),
                                     width=12, height=50),
+                                box(selectInput("AQSeparator",
+                                                "Separator between Answer and Question",
+                                                choices=c("|", "/", "\\", "&"),
+                                                selected="|", selectize=TRUE), 
+                                    width=12, height=80),
                                 box(actionButton("quitApp", "Quit Jeopardy"),
                                     width=12, height=50)
                               ), # end column()
