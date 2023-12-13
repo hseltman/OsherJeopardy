@@ -188,7 +188,7 @@ function(input, output, session) {
     observeEvent(input[[paste0("jb", board, column, row)]], {
       output$categoryReminder <- renderText(
         {gameData()[[paste0(board, "jCategories")]][columnNum]})
-      output$selectedAnswer <- renderIU(
+      output$selectedAnswer <- renderUI(
         {HTML(gameData()[[paste0(board, "jAQ")]][position, "Answer"])})
       updateNavbarPage(session=session, "myNavbar", "Question")
     })
