@@ -12,6 +12,9 @@ if (tLoc == -1 || nchar(wd) == tLoc+7) {
 }
 rm(tLoc)
 
+# Styles
+scoreStyle <- "text-align:center; font-size: 150%; color: blue;"
+
 # File input is plain text as follows:
 # Blank lines and lines where the first non-blank character is "#" are ignored,
 # "|" (or 'AQSeparator') is the separator between answer and question

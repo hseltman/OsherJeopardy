@@ -58,7 +58,8 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                 #           padding-right:2px ; margin-right:2px; margin-left:2px;}"),
                 # Intro Panel  
                 tabPanel("Intro",
-                          sidebarLayout(
+                         useShinyjs(),  # Set up shinyjs
+                         sidebarLayout(
                             sidebarPanel(width=0),
                             mainPanel(
                               column(width=12,
@@ -103,22 +104,23 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                 
                 # Double Jeopardy Panel
                 tabPanel("Double Jeopardy",
-                         sidebarLayout(
-                           sidebarPanel(width=0),
-                           mainPanel(
-                             fluidRow(
-                               mapply(makeJHColumn, 
-                                      prefix=paste0("jbd", LETTERS[1:6]),
-                                      MoreArgs=list(multiple=2, width=2))),
-                               fluidRow(column(width=4,
-                                               box(style="text-align:center; font-size: 150%; color: blue;",
-                                                   textOutput("djbP1Score"))),
-                                        column(width=4,
-                                               box(style="text-align:center; font-size: 150%; color: blue;",
-                                                   textOutput("djbP2Score"))),
-                                        column(width=4,
-                                               box(style="text-align:center; font-size: 150%; color: blue;",
-                                                   textOutput("djbP3Score")))
+                  sidebarLayout(
+                  sidebarPanel(width=0),
+                  mainPanel(
+                    fluidRow(
+                      mapply(makeJHColumn, 
+                             prefix=paste0("jbd", LETTERS[1:6]),
+                             MoreArgs=list(multiple=2, width=2))
+                    ), # end fluidRow() for category names and dollar values
+                    fluidRow(column(width=4,
+                                    box(style=scoreStyle,
+                                        textOutput("djbP1Score"))),
+                             column(width=4,
+                                    box(style=scoreStyle,
+                                        textOutput("djbP2Score"))),
+                             column(width=4,
+                                    box(style=scoreStyle,
+                                        textOutput("djbP3Score")))
                              ), # end fluidRow()
                            width=12) # end mainPanel()
                          )),
@@ -128,14 +130,39 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                          sidebarLayout(
                            sidebarPanel(width=0),
                            mainPanel(
-                             fluidRow(
-                               box(textOutput("categoryReminder"),
-                                   width=12, height=100),
-                               box(htmlOutput("selectedAnswer"),
-                                       width=12, height=400)
-                              )
-                           )
-                         ))
+                             fluidRow(box(textOutput("categoryReminder"),
+                                          width=12, height=100),
+                                      box(htmlOutput("selectedAnswer"),
+                                          width=12, height=400)
+                             ),  # end fluidRow() for category and selected answer 
+                             fluidRow(column(width=3,
+                                             box(actionButton("P1Correct", "P1 correct"),
+                                                 width=12, height=50),
+                                             box(actionButton("P1Incorrect", "P1 incorrect"),
+                                                 width=12, height=50)
+                                      ), # end column() for Player 1
+                                      column(width=3,
+                                             box(actionButton("P2Correct", "P2 correct"),
+                                                 width=12, height=50),
+                                             box(actionButton("P2Incorrect", "P2 incorrect"),
+                                                 width=12, height=50)
+                                      ), # end column() for Player 2
+                                      column(width=3,
+                                              box(actionButton("P3Correct", "P3 correct"),
+                                                  width=12, height=50),
+                                              box(actionButton("P3Incorrect", "P3 incorrect"),
+                                                  width=12, height=50),
+                                      ), # end column() for Player 3
+                                      column(width=3,
+                                              box(actionButton("backToAnswers", "Back to Answers"),
+                                                  width=12, height=50),
+                                              hidden(box(textInput("ddBet", "Bet", "0"),
+                                                  width=12, height=50))
+                                      ), # end column() for "backToAnswers" and daily double bet
+                                      width=12
+                             )  # end fluidRow() for player buttons
+                           )  # end mainPanel()
+                         ))  # end sidebarLayout() and tabPanel()
 ) # end NavbarPage
 
 
