@@ -13,12 +13,14 @@ library(shinyalert)
 library(shinyjs)
 
 
+# For JColList(), make one dollar amount box
 makeJBox = function(n, prefix, multiple=1, width=NULL, height=height) {
   box(actionButton(paste0(prefix, n), paste0("$", n*100*multiple), 
-                   style='width:120%; height:140px; font-size:100%'), 
+                   style='width:110%; height:65px; font-size:150%'), 
       width=12, height=height)
 }
 
+# For makeJHColumn(), make the five dollar amounts
 makeJColList = function(prefix, width=NULL, height=height, multiple=1) {
   JColumns = list()
   for (n in 1:5) {
@@ -28,15 +30,18 @@ makeJColList = function(prefix, width=NULL, height=height, multiple=1) {
   return(JColumns)
 }
 
-makeJHColumn = function(prefix, width=2, height=150, multiple=1) {
+# Make one Jeopardy board column including category and five dollar amounts
+makeJHColumn = function(prefix, width=2, height=75, multiple=1) {
   list(column(width=width, 
-              #div(style = "text-align: center;", 
               div(style=paste("text-align:center;",
-                  "box-shadow: 10px 10px 5px #888888;",
+                  #"box-shadow: 10px 10px 5px #888888;",
+                  "border-style: solid;",
+                  "margin: 2px 2px 8px 1px;",
                   "width:100%;",
-                  "height:100px;",
-                  #"padding-top:70px;",
-                  #"position:relative':,
+                  "height:200px;",
+                  "text-align: justify;",
+                  "overflow: auto;",
+                  "font-size: 150%;",
                   ";"),
                   box(textOutput(prefix), height=100)),
        makeJColList(prefix, width=width, height=height, 
