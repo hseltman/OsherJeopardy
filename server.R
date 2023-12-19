@@ -18,8 +18,10 @@ library(shinyjs)
 
 # Define server logic required to draw a histogram
 function(input, output, session) {
-  observe({cat("gameName =", gameName(), "\n")})
-  observe({cat("input$jbsA1() =", class(input$jbsA1), "\n")})
+  #observe({cat("gameName =", gameName(), "\n")})
+  #observe({cat("input$jbsA1() =", class(input$jbsA1), "\n")})
+  
+  scores <- reactiveValues(P1=0, P2=0, P3=0)
   
   # End the app
   observeEvent(input$quitApp, {stopApp()})
@@ -199,5 +201,15 @@ function(input, output, session) {
 
   # Setup Double Jeopardy action buttons to change tab and show Answer
   lapply(1:30, generateClickToAnswer, board="d")
+  
+  # Show scores on Jeopardy board
+  output$jbP1Score <- renderText({ paste0("Player 1: $", scores$P1)})
+  output$jbP2Score <- renderText({ paste0("Player 2: $", scores$P2)})
+  output$jbP3Score <- renderText({ paste0("Player 3: $", scores$P3)})
+
+  # Show scores on Jeopardy board
+  output$djbP1Score <- renderText({ paste0("Player 1: $", scores$P1)})
+  output$djbP2Score <- renderText({ paste0("Player 2: $", scores$P2)})
+  output$djbP3Score <- renderText({ paste0("Player 3: $", scores$P3)})
   
 } # end server function

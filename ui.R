@@ -87,8 +87,17 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                              fluidRow(
                                mapply(makeJHColumn, 
                                       prefix=paste0("jbs", LETTERS[1:6]),
-                                      MoreArgs=list(multiple=1, width=2))
-                             ), # end fluidRow()
+                                      MoreArgs=list(multiple=1, width=2))),
+                               fluidRow(column(width=4,
+                                               box(style="text-align:center; font-size: 150%; color: blue;",
+                                                   textOutput("jbP1Score"))),
+                                        column(width=4,
+                                               box(style="text-align:center; font-size: 150%; color: blue;",
+                                                   textOutput("jbP2Score"))),
+                                        column(width=4,
+                                               box(style="text-align:center; font-size: 150%; color: blue;",
+                                                   textOutput("jbP3Score")))
+                               ), # end fluidRow()
                            width=12) # end mainPanel()
                          )),
                 
@@ -100,7 +109,16 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                              fluidRow(
                                mapply(makeJHColumn, 
                                       prefix=paste0("jbd", LETTERS[1:6]),
-                                      MoreArgs=list(multiple=2, width=2))
+                                      MoreArgs=list(multiple=2, width=2))),
+                               fluidRow(column(width=4,
+                                               box(style="text-align:center; font-size: 150%; color: blue;",
+                                                   textOutput("djbP1Score"))),
+                                        column(width=4,
+                                               box(style="text-align:center; font-size: 150%; color: blue;",
+                                                   textOutput("djbP2Score"))),
+                                        column(width=4,
+                                               box(style="text-align:center; font-size: 150%; color: blue;",
+                                                   textOutput("djbP3Score")))
                              ), # end fluidRow()
                            width=12) # end mainPanel()
                          )),
