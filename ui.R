@@ -68,13 +68,16 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                                                      "Please select a game file", 
                                                       multiple=FALSE),
                                     width=12, height=50),
+                                box(p("Player names"), width=12, height=25),
+                                box(textInput("P1Name", "1: "), width=4),
+                                box(textInput("P2Name", "2: "), width=4),
+                                box(textInput("P3Name", "3: "), width=4),
                                 box(selectInput("AQSeparator",
                                                 "Separator between Answer and Question",
                                                 choices=c("|", "/", "\\", "&"),
-                                                selected="|", selectize=TRUE), 
-                                    width=12, height=80),
-                                box(actionButton("quitApp", "Quit Jeopardy"),
-                                    width=12, height=50)
+                                                selected="|", selectize=TRUE),
+                                    width=12),
+                                box(actionButton("quitApp", "Quit Jeopardy"))
                               ), # end column()
                             width=12) # end mainPanel()
                           ) # end sidebarLayout()
@@ -131,8 +134,10 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                            sidebarPanel(width=0),
                            mainPanel(
                              fluidRow(box(textOutput("categoryReminder"),
+                                          style="font-size: 220%;",
                                           width=12, height=100),
                                       box(htmlOutput("selectedAnswer"),
+                                          style="font-size: 200%;",
                                           width=12, height=400)
                              ),  # end fluidRow() for category and selected answer 
                              fluidRow(column(width=3,

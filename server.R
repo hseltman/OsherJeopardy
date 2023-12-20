@@ -203,13 +203,13 @@ function(input, output, session) {
   lapply(1:30, generateClickToAnswer, board="d")
   
   # Show scores on Jeopardy board
-  output$jbP1Score <- renderText({ paste0("Player 1: $", scores$P1)})
-  output$jbP2Score <- renderText({ paste0("Player 2: $", scores$P2)})
-  output$jbP3Score <- renderText({ paste0("Player 3: $", scores$P3)})
+  output$jbP1Score <- renderText({ paste0(input$P1Name, ": $", scores$P1)})
+  output$jbP2Score <- renderText({ paste0(input$P2Name, ": $", scores$P2)})
+  output$jbP3Score <- renderText({ paste0(input$P3Name, ": $", scores$P3)})
 
   # Show scores on Jeopardy board
-  output$djbP1Score <- renderText({ paste0("Player 1: $", scores$P1)})
-  output$djbP2Score <- renderText({ paste0("Player 2: $", scores$P2)})
-  output$djbP3Score <- renderText({ paste0("Player 3: $", scores$P3)})
+  output$djbP1Score <- renderText({ paste0(input$P1Name, ": $", scores$P1)})
+  output$djbP2Score <- renderText({ paste0(input$P2Name, ": $", scores$P2)})
+  output$djbP3Score <- renderText({ paste0(input$P3Name, ": $", scores$P3)})
   
 } # end server function
