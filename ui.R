@@ -169,11 +169,11 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                                                   width=12, height=50),
                                       ), # end column() for Player 3
                                       column(width=3,
-                                              box(actionButton("backToAnswers", "Back to Answers"),
+                                              box(actionButton("backToBoard", "Back to Board"),
                                                   width=12, height=50),
                                               hidden(box(textInput("ddBet", "Bet", "0"),
                                                   width=12, height=50))
-                                      ), # end column() for "backToAnswers" and daily double bet
+                                      ), # end column() for "backToBoard" and daily double bet
                                       width=12
                              )  # end fluidRow() for player buttons
                            )  # end mainPanel()

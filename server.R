@@ -161,6 +161,7 @@ function(input, output, session) {
     return(NULL)
   }) # end definition of gameData() reactive function
   
+  
   # Add headers to Jeopardy board
   lapply(1:6, function(column) {
     outputId <- paste0("jbs", LETTERS[column])
@@ -225,21 +226,44 @@ function(input, output, session) {
     # handle "Answer" tab
   observeEvent(input$P1Correct, {
     scores$P1 <- scores$P1 + dollarAmount()
+    disable("P1Correct")
+    disable("P1Incorrect")
   }, ignoreInit=TRUE)
   observeEvent(input$P2Correct, {
     scores$P2 <- scores$P2 + dollarAmount()
+    disable("P2Correct")
+    disable("P2Incorrect")
   }, ignoreInit=TRUE)
   observeEvent(input$P3Correct, {
     scores$P3 <- scores$P3 + dollarAmount()
+    disable("P3Correct")
+    disable("P3Incorrect")
   }, ignoreInit=TRUE)
   observeEvent(input$P1Incorrect, {
     scores$P1 <- scores$P1 - dollarAmount()
+    disable("P1Correct")
+    disable("P1Incorrect")
   }, ignoreInit=TRUE)
   observeEvent(input$P2Incorrect, {
     scores$P2 <- scores$P2 - dollarAmount()
+    disable("P2Correct")
+    disable("P2Incorrect")
   }, ignoreInit=TRUE)
   observeEvent(input$P3Incorrect, {
     scores$P3 <- scores$P3 - dollarAmount()
+    disable("P3Correct")
+    disable("P3Incorrect")
   }, ignoreInit=TRUE)
-  
+
+  observeEvent(input$backToBoard, {
+    enable("P1Correct")
+    enable("P1Incorrect")
+    enable("P2Correct")
+    enable("P2Incorrect")
+    enable("P3Correct")
+    enable("P3Incorrect")
+    page <- ifelse(stage()=="s", "Jeopardy", "Double Jeopardy")
+    updateNavbarPage(session=session, "myNavbar", page)
+  })
+    
 } # end server function
