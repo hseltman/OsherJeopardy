@@ -20,8 +20,10 @@ library(shinyjs)
 function(input, output, session) {
   #observe({cat("gameName =", gameName(), "\n")})
   #observe({cat("input$jbsA1() =", class(input$jbsA1), "\n")})
-  
+
   scores <- reactiveValues(P1=0, P2=0, P3=0)
+  dollarAmount <- reactiveVal(0)
+  stage <- reactiveVal("s")
   
   # End the app
   observeEvent(input$quitApp, {stopApp()})
@@ -181,18 +183,21 @@ function(input, output, session) {
   output$categoryReminder <- renderText({"Nothing selected"})
   
   # Function to handle click on a board resulting in showing the Answer on the 
-  # "Question" tab
+  # "Answer" tab
   # Board must be "s" or "d"
   generateClickToAnswer <- function(position, board) {
     columnNum <- (position+4) %/% 5
     column <- LETTERS[columnNum]
-    row <- ((position+4) %% 5) + 1 
+    row <- ((position+4) %% 5) + 1
     observeEvent(input[[paste0("jb", board, column, row)]], {
+      #browser()
+      stage(board)
+      dollarAmount(100*row*ifelse(board=="s", 1, 2))
       output$categoryReminder <- renderText(
         {gameData()[[paste0(board, "jCategories")]][columnNum]})
       output$selectedAnswer <- renderUI(
         {HTML(gameData()[[paste0(board, "jAQ")]][position, "Answer"])})
-      updateNavbarPage(session=session, "myNavbar", "Question")
+      updateNavbarPage(session=session, "myNavbar", "Answer")
     })
   }
 
@@ -207,9 +212,34 @@ function(input, output, session) {
   output$jbP2Score <- renderText({ paste0(input$P2Name, ": $", scores$P2)})
   output$jbP3Score <- renderText({ paste0(input$P3Name, ": $", scores$P3)})
 
-  # Show scores on Jeopardy board
+  # Show scores on double Jeopardy board
   output$djbP1Score <- renderText({ paste0(input$P1Name, ": $", scores$P1)})
   output$djbP2Score <- renderText({ paste0(input$P2Name, ": $", scores$P2)})
   output$djbP3Score <- renderText({ paste0(input$P3Name, ": $", scores$P3)})
+  
+  # Show scores on Answer tab
+  output$answerP1Score <- renderText({ paste0(input$P1Name, ": $", scores$P1)})
+  output$answerP2Score <- renderText({ paste0(input$P2Name, ": $", scores$P2)})
+  output$answerP3Score <- renderText({ paste0(input$P3Name, ": $", scores$P3)})
+
+    # handle "Answer" tab
+  observeEvent(input$P1Correct, {
+    scores$P1 <- scores$P1 + dollarAmount()
+  }, ignoreInit=TRUE)
+  observeEvent(input$P2Correct, {
+    scores$P2 <- scores$P2 + dollarAmount()
+  }, ignoreInit=TRUE)
+  observeEvent(input$P3Correct, {
+    scores$P3 <- scores$P3 + dollarAmount()
+  }, ignoreInit=TRUE)
+  observeEvent(input$P1Incorrect, {
+    scores$P1 <- scores$P1 - dollarAmount()
+  }, ignoreInit=TRUE)
+  observeEvent(input$P2Incorrect, {
+    scores$P2 <- scores$P2 - dollarAmount()
+  }, ignoreInit=TRUE)
+  observeEvent(input$P3Incorrect, {
+    scores$P3 <- scores$P3 - dollarAmount()
+  }, ignoreInit=TRUE)
   
 } # end server function

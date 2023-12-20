@@ -128,8 +128,8 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                            width=12) # end mainPanel()
                          )),
                 
-                # Question Panel
-                tabPanel("Question",
+                # Answer Panel
+                tabPanel("Answer",
                          sidebarLayout(
                            sidebarPanel(width=0),
                            mainPanel(
@@ -140,6 +140,16 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                                           style="font-size: 200%;",
                                           width=12, height=400)
                              ),  # end fluidRow() for category and selected answer 
+                             fluidRow(column(width=4,
+                                             box(style=scoreStyle,
+                                                 textOutput("answerP1Score"))),
+                                      column(width=4,
+                                             box(style=scoreStyle,
+                                                 textOutput("answerP2Score"))),
+                                      column(width=4,
+                                             box(style=scoreStyle,
+                                                 textOutput("answerP3Score")))
+                             ), # end fluidRow()
                              fluidRow(column(width=3,
                                              box(actionButton("P1Correct", "P1 correct"),
                                                  width=12, height=50),
