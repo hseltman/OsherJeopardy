@@ -34,15 +34,15 @@ makeJColList = function(prefix, width=NULL, height=height, multiple=1) {
 makeJHColumn = function(prefix, width=2, height=75, multiple=1) {
   list(column(width=width, 
               div(style=paste("text-align:center;",
-                  #"box-shadow: 10px 10px 5px #888888;",
                   "border-style: solid;",
                   "margin: 2px 2px 8px 1px;",
                   "width:100%;",
-                  "height:200px;",
+                  "white-space: no-wrap;",
+                  "height: 200px;",
                   "text-align: justify;",
                   "overflow: auto;",
                   "font-size: 150%;",
-                  ";"),
+                  ")"), # end style()
                   box(textOutput(prefix), height=100)),
        makeJColList(prefix, width=width, height=height, 
                            multiple=multiple)))
