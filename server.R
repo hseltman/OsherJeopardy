@@ -252,10 +252,9 @@ function(input, output, session) {
   returnToBoard <- function() {
     if (answersLeft() == 0) {
       nextBoard()
-    } else {
-      page <- as.character(stageMatch[stage()]) # unnamed object required
-      updateNavbarPage(session=session, "myNavbar", page)
     }
+    page <- as.character(stageMatch[stage()]) # unnamed object required
+    updateNavbarPage(session=session, "myNavbar", page)
   }
   
   nextBoard <- function() {
@@ -263,12 +262,12 @@ function(input, output, session) {
       answersLeft(answersPerBoard)
       stage("d")
     } else {
+      stage("f")
       output$categoryReminder <- renderText(
         {paste0("Final Jeopardy: ", 
                 gameData()[["fjCategory"]])})
       output$selectedAnswer <- renderUI(
         {HTML(gameData()[["fjAQ"]][1, "Answer"])})
-      updateNavbarPage(session=session, "myNavbar", "Answer")
     }
   }
   
