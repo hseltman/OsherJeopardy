@@ -190,10 +190,13 @@ function(input, output, session) {
     columnNum <- (position+4) %/% 5
     column <- LETTERS[columnNum]
     row <- ((position+4) %% 5) + 1
-    observeEvent(input[[paste0("jb", board, column, row)]], {
+    id <- paste0("jb", board, column, row)
+    observeEvent(input[[id]], {
       #browser()
       stage(board)
       dollarAmount(100*row*ifelse(board=="s", 1, 2))
+      updateActionButton(inputId=id, label="")
+      disable(id)
       output$categoryReminder <- renderText(
         {gameData()[[paste0(board, "jCategories")]][columnNum]})
       output$selectedAnswer <- renderUI(
