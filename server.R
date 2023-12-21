@@ -223,7 +223,13 @@ function(input, output, session) {
   output$answerP2Score <- renderText({ paste0(input$P2Name, ": $", scores$P2)})
   output$answerP3Score <- renderText({ paste0(input$P3Name, ": $", scores$P3)})
 
-    # handle "Answer" tab
+  # Start button
+  observeEvent(input$start, {
+    updateNavbarPage(session=session, "myNavbar", "Jeopardy")
+  })
+
+  
+  # handle "Answer" tab
   observeEvent(input$P1Correct, {
     scores$P1 <- scores$P1 + dollarAmount()
     disable("P1Correct")
