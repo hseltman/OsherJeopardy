@@ -35,3 +35,10 @@ sbPattern = c(rep(c(FALSE, rep(TRUE, 5)), 6*2), FALSE, TRUE)
 
 # pattern of Categories vs Answer|Question pairs in the file input
 catAQPairPattern = c(rep(c(1, 5), 12), 1, 1)
+
+# Used by nextBoard()
+stageMatch=c(s="Jeopardy", d="Double Jeopardy", f="Answer")
+
+# Number of answers per board
+# (Set to 30, but temporarily lower for quick testing)
+answersPerBoard <- 3

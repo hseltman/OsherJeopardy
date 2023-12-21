@@ -79,9 +79,9 @@ function(input, output, session) {
       djAQ = read.table(tc, sep=input$AQSeparator, quote="",
                         col.names=c("Answer", "Question"))
       close(tc)
-      temp = strsplit(inData[74], input$AQSeparator)[[1]]
+      temp = strsplit(inData[74], input$AQSeparator, fixed=TRUE)[[1]]
       fjAQ = data.frame(Answer=temp[1], Question=temp[2])
-      answersLeft(30)
+      answersLeft(answersPerBoard)
       return(list(sjCategories=sjCategories,
                   djCategories=djCategories,
                   fjCategory=fjCategory,
@@ -211,10 +211,10 @@ function(input, output, session) {
   }
 
   # Setup Jeopardy action buttons to change tab and show Answer
-  lapply(1:30, generateClickToAnswer, board="s")
+  lapply(1:answersPerBoard, generateClickToAnswer, board="s")
 
   # Setup Double Jeopardy action buttons to change tab and show Answer
-  lapply(1:30, generateClickToAnswer, board="d")
+  lapply(1:answersPerBoard, generateClickToAnswer, board="d")
   
   # Show scores on Jeopardy board
   output$jbP1Score <- renderText({ paste0(input$P1Name, ": $", scores$P1)})
@@ -250,15 +250,25 @@ function(input, output, session) {
   }
   
   returnToBoard <- function() {
-    if (answersLeft() == 0) nextBoard()
-    page <- ifelse(stage()=="s", "Jeopardy", "Double Jeopardy")
-    updateNavbarPage(session=session, "myNavbar", page)
+    if (answersLeft() == 0) {
+      nextBoard()
+    } else {
+      page <- as.character(stageMatch[stage()]) # unnamed object required
+      updateNavbarPage(session=session, "myNavbar", page)
+    }
   }
   
   nextBoard <- function() {
     if (stage() == "s") {
-      answersLeft(30)
+      answersLeft(answersPerBoard)
       stage("d")
+    } else {
+      output$categoryReminder <- renderText(
+        {paste0("Final Jeopardy: ", 
+                gameData()[["fjCategory"]])})
+      output$selectedAnswer <- renderUI(
+        {HTML(gameData()[["fjAQ"]][1, "Answer"])})
+      updateNavbarPage(session=session, "myNavbar", "Answer")
     }
   }
   
