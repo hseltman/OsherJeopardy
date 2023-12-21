@@ -81,6 +81,7 @@ function(input, output, session) {
       close(tc)
       temp = strsplit(inData[74], input$AQSeparator)[[1]]
       fjAQ = data.frame(Answer=temp[1], Question=temp[2])
+      answersLeft(30)
       return(list(sjCategories=sjCategories,
                   djCategories=djCategories,
                   fjCategory=fjCategory,
@@ -195,11 +196,11 @@ function(input, output, session) {
     row <- ((position+4) %% 5) + 1
     id <- paste0("jb", board, column, row)
     observeEvent(input[[id]], {
-      #browser()
       stage(board)
       dollarAmount(100*row*ifelse(board=="s", 1, 2))
       updateActionButton(inputId=id, label="")
       disable(id)
+      answersLeft(isolate(answersLeft()) - 1)
       output$categoryReminder <- renderText(
         {gameData()[[paste0(board, "jCategories")]][columnNum]})
       output$selectedAnswer <- renderUI(
@@ -227,7 +228,7 @@ function(input, output, session) {
   # Show scores on Answer tab
   output$answerP1Score <- renderText({ paste0(input$P1Name, ": $", scores$P1)})
   output$answerP2Score <- renderText({ paste0(input$P2Name, ": $", scores$P2)})
-  output$answerP3Score <- renderText({ paste0(input$P3Name, ": $", scores$P3)})
+  output$answerP3Score <- renderText({ paste0(input$P3Name, ": $", scores$P3, " ", answersLeft())})
 
   # Start button
   observeEvent(input$start, {
@@ -270,31 +271,37 @@ function(input, output, session) {
     currentIncorrect(0)
     returnToBoard()
   }, ignoreInit=TRUE)
+  
   observeEvent(input$P1Incorrect, {
     scores$P1 <- scores$P1 - dollarAmount()
     currentIncorrect(isolate(currentIncorrect()) + 1)
     if (currentIncorrect() == 3) {
       currentIncorrect(0)
+      resetAllCorrectOrIncorrect()
       returnToBoard()
+    } else {
+      disable("P1Correct")
+      disable("P1Incorrect")
     }
-    disable("P1Correct")
-    disable("P1Incorrect")
   }, ignoreInit=TRUE)
   observeEvent(input$P2Incorrect, {
     scores$P2 <- scores$P2 - dollarAmount()
     currentIncorrect(isolate(currentIncorrect()) + 1)
     if (currentIncorrect() == 3) {
       currentIncorrect(0)
+      resetAllCorrectOrIncorrect()
       returnToBoard()
+    } else {
+      disable("P2Correct")
+      disable("P2Incorrect")
     }
-    disable("P2Correct")
-    disable("P2Incorrect")
   }, ignoreInit=TRUE)
   observeEvent(input$P3Incorrect, {
     scores$P3 <- scores$P3 - dollarAmount()
     currentIncorrect(isolate(currentIncorrect()) + 1)
     if (currentIncorrect() == 3) {
       currentIncorrect(0)
+      resetAllCorrectOrIncorrect()
       returnToBoard()
     }
     disable("P3Correct")
