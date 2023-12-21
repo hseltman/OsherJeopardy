@@ -21,9 +21,12 @@ function(input, output, session) {
   #observe({cat("gameName =", gameName(), "\n")})
   #observe({cat("input$jbsA1() =", class(input$jbsA1), "\n")})
 
+  # Reactive values to monitor game progress
   scores <- reactiveValues(P1=0, P2=0, P3=0)
   dollarAmount <- reactiveVal(0)
   stage <- reactiveVal("s")
+  answersLeft <- reactiveVal(0)  # per board
+  currentIncorrect <- reactiveVal(0)  # 0 to 3 incorrect answers given
   
   # End the app
   observeEvent(input$quitApp, {stopApp()})
@@ -231,22 +234,33 @@ function(input, output, session) {
     updateNavbarPage(session=session, "myNavbar", "Jeopardy")
   })
 
+  resetAllCorrectOrIncorrect <- function() {
+    enable("P1Correct")
+    enable("P1Incorrect")
+    enable("P2Correct")
+    enable("P2Incorrect")
+    enable("P3Correct")
+    enable("P3Incorrect")
+  }
   
   # handle "Answer" tab
   observeEvent(input$P1Correct, {
     scores$P1 <- scores$P1 + dollarAmount()
-    disable("P1Correct")
-    disable("P1Incorrect")
+    resetAllCorrectOrIncorrect()
+    page <- ifelse(stage()=="s", "Jeopardy", "Double Jeopardy")
+    updateNavbarPage(session=session, "myNavbar", page)
   }, ignoreInit=TRUE)
   observeEvent(input$P2Correct, {
     scores$P2 <- scores$P2 + dollarAmount()
-    disable("P2Correct")
-    disable("P2Incorrect")
+    resetAllCorrectOrIncorrect()
+    page <- ifelse(stage()=="s", "Jeopardy", "Double Jeopardy")
+    updateNavbarPage(session=session, "myNavbar", page)
   }, ignoreInit=TRUE)
   observeEvent(input$P3Correct, {
     scores$P3 <- scores$P3 + dollarAmount()
-    disable("P3Correct")
-    disable("P3Incorrect")
+    resetAllCorrectOrIncorrect()
+    page <- ifelse(stage()=="s", "Jeopardy", "Double Jeopardy")
+    updateNavbarPage(session=session, "myNavbar", page)
   }, ignoreInit=TRUE)
   observeEvent(input$P1Incorrect, {
     scores$P1 <- scores$P1 - dollarAmount()
