@@ -202,7 +202,8 @@ function(input, output, session) {
       disable(id)
       answersLeft(isolate(answersLeft()) - 1)
       output$categoryReminder <- renderText(
-        {gameData()[[paste0(board, "jCategories")]][columnNum]})
+        {paste0("$", dollarAmount(), ": ", 
+                gameData()[[paste0(board, "jCategories")]][columnNum])})
       output$selectedAnswer <- renderUI(
         {HTML(gameData()[[paste0(board, "jAQ")]][position, "Answer"])})
       updateNavbarPage(session=session, "myNavbar", "Answer")
@@ -228,7 +229,7 @@ function(input, output, session) {
   # Show scores on Answer tab
   output$answerP1Score <- renderText({ paste0(input$P1Name, ": $", scores$P1)})
   output$answerP2Score <- renderText({ paste0(input$P2Name, ": $", scores$P2)})
-  output$answerP3Score <- renderText({ paste0(input$P3Name, ": $", scores$P3, " ", answersLeft())})
+  output$answerP3Score <- renderText({ paste0(input$P3Name, ": $", scores$P3)})
 
   # Start button
   observeEvent(input$start, {
@@ -249,8 +250,16 @@ function(input, output, session) {
   }
   
   returnToBoard <- function() {
+    if (answersLeft() == 0) nextBoard()
     page <- ifelse(stage()=="s", "Jeopardy", "Double Jeopardy")
     updateNavbarPage(session=session, "myNavbar", page)
+  }
+  
+  nextBoard <- function() {
+    if (stage() == "s") {
+      answersLeft(30)
+      stage("d")
+    }
   }
   
   observeEvent(input$P1Correct, {
@@ -276,8 +285,8 @@ function(input, output, session) {
     scores$P1 <- scores$P1 - dollarAmount()
     currentIncorrect(isolate(currentIncorrect()) + 1)
     if (currentIncorrect() == 3) {
-      currentIncorrect(0)
       resetAllCorrectOrIncorrect()
+      currentIncorrect(0)
       returnToBoard()
     } else {
       disable("P1Correct")
@@ -288,8 +297,8 @@ function(input, output, session) {
     scores$P2 <- scores$P2 - dollarAmount()
     currentIncorrect(isolate(currentIncorrect()) + 1)
     if (currentIncorrect() == 3) {
-      currentIncorrect(0)
       resetAllCorrectOrIncorrect()
+      currentIncorrect(0)
       returnToBoard()
     } else {
       disable("P2Correct")
@@ -300,15 +309,17 @@ function(input, output, session) {
     scores$P3 <- scores$P3 - dollarAmount()
     currentIncorrect(isolate(currentIncorrect()) + 1)
     if (currentIncorrect() == 3) {
-      currentIncorrect(0)
       resetAllCorrectOrIncorrect()
+      currentIncorrect(0)
       returnToBoard()
+    } else {
+      disable("P3Correct")
+      disable("P3Incorrect")
     }
-    disable("P3Correct")
-    disable("P3Incorrect")
   }, ignoreInit=TRUE)
 
   observeEvent(input$backToBoard, {
+    currentIncorrect(0)
     resetAllCorrectOrIncorrect()
     returnToBoard()
   })
