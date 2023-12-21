@@ -18,7 +18,7 @@ library(shinyjs)
 
 # Define server logic required to draw a histogram
 function(input, output, session) {
-  #observe({cat("gameName =", gameName(), "\n")})
+  #observe({cat("currentIncorect =", currentIncorrect(), "\n")})
   #observe({cat("input$jbsA1() =", class(input$jbsA1), "\n")})
 
   # Reactive values to monitor game progress
@@ -234,6 +234,10 @@ function(input, output, session) {
     updateNavbarPage(session=session, "myNavbar", "Jeopardy")
   })
 
+  
+  ###########################
+  ### Handle "Answer" tab ###
+  ###########################
   resetAllCorrectOrIncorrect <- function() {
     enable("P1Correct")
     enable("P1Incorrect")
@@ -243,50 +247,63 @@ function(input, output, session) {
     enable("P3Incorrect")
   }
   
-  # handle "Answer" tab
+  returnToBoard <- function() {
+    page <- ifelse(stage()=="s", "Jeopardy", "Double Jeopardy")
+    updateNavbarPage(session=session, "myNavbar", page)
+  }
+  
   observeEvent(input$P1Correct, {
     scores$P1 <- scores$P1 + dollarAmount()
     resetAllCorrectOrIncorrect()
-    page <- ifelse(stage()=="s", "Jeopardy", "Double Jeopardy")
-    updateNavbarPage(session=session, "myNavbar", page)
+    currentIncorrect(0)
+    returnToBoard()
   }, ignoreInit=TRUE)
   observeEvent(input$P2Correct, {
     scores$P2 <- scores$P2 + dollarAmount()
     resetAllCorrectOrIncorrect()
-    page <- ifelse(stage()=="s", "Jeopardy", "Double Jeopardy")
-    updateNavbarPage(session=session, "myNavbar", page)
+    currentIncorrect(0)
+    returnToBoard()
   }, ignoreInit=TRUE)
   observeEvent(input$P3Correct, {
     scores$P3 <- scores$P3 + dollarAmount()
     resetAllCorrectOrIncorrect()
-    page <- ifelse(stage()=="s", "Jeopardy", "Double Jeopardy")
-    updateNavbarPage(session=session, "myNavbar", page)
+    currentIncorrect(0)
+    returnToBoard()
   }, ignoreInit=TRUE)
   observeEvent(input$P1Incorrect, {
     scores$P1 <- scores$P1 - dollarAmount()
+    currentIncorrect(isolate(currentIncorrect()) + 1)
+    if (currentIncorrect() == 3) {
+      currentIncorrect(0)
+      returnToBoard()
+    }
     disable("P1Correct")
     disable("P1Incorrect")
   }, ignoreInit=TRUE)
   observeEvent(input$P2Incorrect, {
     scores$P2 <- scores$P2 - dollarAmount()
+    currentIncorrect(isolate(currentIncorrect()) + 1)
+    if (currentIncorrect() == 3) {
+      currentIncorrect(0)
+      returnToBoard()
+    }
     disable("P2Correct")
     disable("P2Incorrect")
   }, ignoreInit=TRUE)
   observeEvent(input$P3Incorrect, {
     scores$P3 <- scores$P3 - dollarAmount()
+    currentIncorrect(isolate(currentIncorrect()) + 1)
+    if (currentIncorrect() == 3) {
+      currentIncorrect(0)
+      returnToBoard()
+    }
     disable("P3Correct")
     disable("P3Incorrect")
   }, ignoreInit=TRUE)
 
   observeEvent(input$backToBoard, {
-    enable("P1Correct")
-    enable("P1Incorrect")
-    enable("P2Correct")
-    enable("P2Incorrect")
-    enable("P3Correct")
-    enable("P3Incorrect")
-    page <- ifelse(stage()=="s", "Jeopardy", "Double Jeopardy")
-    updateNavbarPage(session=session, "myNavbar", page)
+    resetAllCorrectOrIncorrect()
+    returnToBoard()
   })
     
 } # end server function
