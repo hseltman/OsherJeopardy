@@ -282,6 +282,15 @@ function(input, output, session) {
     }
   }
   
+  observe({
+    if (! isTruthy(isolate(gameName)) || ! isTruthy(input$P1Name) ||
+        ! isTruthy(input$P2Name) || ! isTruthy(input$P3Name)) {
+      disable("start")
+    } else {
+      enable("start")
+    }
+  })
+  
   observeEvent(input$P1Correct, {
     scores$P1 <- scores$P1 + dollarAmount()
     resetAllCorrectOrIncorrect()
