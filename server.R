@@ -18,7 +18,7 @@ library(shinyjs)
 
 # Define server logic required to draw a histogram
 function(input, output, session) {
-  #observe({cat("currentIncorect =", currentIncorrect(), "\n")})
+  #observe({cat("dollarAmount =", dollarAmount(), "\n")})
   #observe({cat("input$jbsA1() =", class(input$jbsA1), "\n")})
 
   # Reactive values to monitor game progress
@@ -196,7 +196,7 @@ function(input, output, session) {
     row <- ((position+4) %% 5) + 1
     id <- paste0("jb", board, column, row)
     observeEvent(input[[id]], {
-      stage(board)
+      stage(board)   #  ?? needed
       dollarAmount(100*row*ifelse(board=="s", 1, 2))
       updateActionButton(inputId=id, label="")
       disable(id)
@@ -237,6 +237,18 @@ function(input, output, session) {
   })
 
   
+  #####################################################################
+  ### Make "Start Game" button disabled until enough info is entered ##
+  #####################################################################
+  observe({
+    if (! isTruthy(isolate(gameName)) || ! isTruthy(input$P1Name) ||
+        ! isTruthy(input$P2Name) || ! isTruthy(input$P3Name)) {
+      disable("start")
+    } else {
+      enable("start")
+    }
+  })
+  
   ###########################
   ### Handle "Answer" tab ###
   ###########################
@@ -250,7 +262,7 @@ function(input, output, session) {
   }
   
   returnToBoard <- function() {
-    if (answersLeft() == 0) {
+    if (stage() != "f" && answersLeft() == 0) {
       nextBoard()
     }
     page <- as.character(stageMatch[stage()]) # unnamed object required
@@ -263,15 +275,26 @@ function(input, output, session) {
       stage("d")
     } else {
       stage("f")
+      answersLeft(answersPerBoard)
+      currentIncorrect(0)
       hide("backToBoard")
       if (scores$P1>0) {
         show("P1ddBet")
+      } else {
+        hide("P1Correct")
+        hide("P1Incorrect")
       }
       if (scores$P2>0) {
         show("P2ddBet")
+      } else {
+        hide("P2Correct")
+        hide("P2Incorrect")
       }
       if (scores$P3>0) {
         show("P3ddBet")
+      } else {
+        hide("P3Correct")
+        hide("P3Incorrect")
       }
       show("nextGame")
       output$categoryReminder <- renderText(
@@ -282,36 +305,56 @@ function(input, output, session) {
     }
   }
   
-  observe({
-    if (! isTruthy(isolate(gameName)) || ! isTruthy(input$P1Name) ||
-        ! isTruthy(input$P2Name) || ! isTruthy(input$P3Name)) {
-      disable("start")
-    } else {
-      enable("start")
-    }
-  })
-  
+  ### Code Correct and Incorrect buttons ###
   observeEvent(input$P1Correct, {
-    scores$P1 <- scores$P1 + dollarAmount()
-    resetAllCorrectOrIncorrect()
-    currentIncorrect(0)
+    if (stage() != "f") {
+      dollars <- dollarAmount()
+      resetAllCorrectOrIncorrect()
+      currentIncorrect(0)
+    } else {
+      dollars <- as.numeric(input$P1ddBet)
+      disable("P1Correct")
+      disable("P1Incorrect")
+    }
+    scores$P1 <- as.numeric(scores$P1) + dollars
     returnToBoard()
   }, ignoreInit=TRUE)
+  
   observeEvent(input$P2Correct, {
-    scores$P2 <- scores$P2 + dollarAmount()
-    resetAllCorrectOrIncorrect()
-    currentIncorrect(0)
+    if (stage() != "f") {
+      dollars <- dollarAmount()
+      resetAllCorrectOrIncorrect()
+      currentIncorrect(0)
+    } else {
+      dollars <- as.numeric(input$P2ddBet)
+      disable("P2Correct")
+      disable("P2Incorrect")
+    }
+    scores$P2 <- as.numeric(scores$P2) + dollars
     returnToBoard()
   }, ignoreInit=TRUE)
+  
   observeEvent(input$P3Correct, {
-    scores$P3 <- scores$P3 + dollarAmount()
-    resetAllCorrectOrIncorrect()
-    currentIncorrect(0)
+    if (stage() != "f") {
+      dollars <- dollarAmount()
+      resetAllCorrectOrIncorrect()
+      currentIncorrect(0)
+    } else {
+      dollars <- as.numeric(input$P3ddBet)
+      disable("P3Correct")
+      disable("P3Incorrect")
+    }
+    scores$P3 <- as.numeric(scores$P3) + dollars
     returnToBoard()
   }, ignoreInit=TRUE)
   
   observeEvent(input$P1Incorrect, {
-    scores$P1 <- scores$P1 - dollarAmount()
+    if (stage() != "f") {
+      dollars <- dollarAmount()
+    } else {
+      dollars <- as.numeric(input$P1ddBet)
+    }
+    scores$P1 <- as.numeric(scores$P1) - dollars
     currentIncorrect(isolate(currentIncorrect()) + 1)
     if (currentIncorrect() == 3) {
       resetAllCorrectOrIncorrect()
@@ -322,8 +365,14 @@ function(input, output, session) {
       disable("P1Incorrect")
     }
   }, ignoreInit=TRUE)
+  
   observeEvent(input$P2Incorrect, {
-    scores$P2 <- scores$P2 - dollarAmount()
+    if (stage() != "f") {
+      dollars <- dollarAmount()
+    } else {
+      dollars <- as.numeric(input$P2ddBet)
+    }
+    scores$P2 <- as.numeric(scores$P2) - dollars
     currentIncorrect(isolate(currentIncorrect()) + 1)
     if (currentIncorrect() == 3) {
       resetAllCorrectOrIncorrect()
@@ -334,8 +383,14 @@ function(input, output, session) {
       disable("P2Incorrect")
     }
   }, ignoreInit=TRUE)
+  
   observeEvent(input$P3Incorrect, {
-    scores$P3 <- scores$P3 - dollarAmount()
+    if (stage() != "f") {
+      dollars <- dollarAmount()
+    } else {
+      dollars <- as.numeric(input$P3ddBet)
+    }
+    scores$P3 <- as.numeric(scores$P3) - dollars
     currentIncorrect(isolate(currentIncorrect()) + 1)
     if (currentIncorrect() == 3) {
       resetAllCorrectOrIncorrect()
