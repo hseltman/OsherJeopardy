@@ -263,6 +263,17 @@ function(input, output, session) {
       stage("d")
     } else {
       stage("f")
+      hide("backToBoard")
+      if (scores$P1>0) {
+        show("P1ddBet")
+      }
+      if (scores$P2>0) {
+        show("P2ddBet")
+      }
+      if (scores$P3>0) {
+        show("P3ddBet")
+      }
+      show("nextGame")
       output$categoryReminder <- renderText(
         {paste0("Final Jeopardy: ", 
                 gameData()[["fjCategory"]])})

@@ -134,49 +134,66 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                          sidebarLayout(
                            sidebarPanel(width=0),
                            mainPanel(
+                             ## Category and answer ##
                              fluidRow(box(textOutput("categoryReminder"),
                                           style="font-size: 220%;",
                                           width=12, height=100),
                                       box(htmlOutput("selectedAnswer"),
                                           style="font-size: 200%;",
-                                          width=12, height=400)
+                                          width=12, height=250)
                              ),  # end fluidRow() for category and selected answer 
+                             ## Scores ##
                              fluidRow(column(width=4,
                                              box(style=scoreStyle,
-                                                 textOutput("answerP1Score"))),
+                                                 textOutput("answerP1Score"), height=50)),
                                       column(width=4,
                                              box(style=scoreStyle,
-                                                 textOutput("answerP2Score"))),
+                                                 textOutput("answerP2Score"), height=50)),
                                       column(width=4,
                                              box(style=scoreStyle,
-                                                 textOutput("answerP3Score")))
+                                                 textOutput("answerP3Score"), height=50)),
+                                      width=12
                              ), # end fluidRow()
-                             fluidRow(column(width=3,
+                             ## Final jeopardy bets ##
+                             fluidRow(
+                               box(hidden(textInput("P1ddBet", "Bet", "0")),
+                                   width=4, height=120),
+                               box(hidden(textInput("P2ddBet", "Bet", "0")),
+                                   width=4, height=120),
+                               box(hidden(textInput("P3ddBet", "Bet", "0")),
+                                   width=4, height=120),
+                               width=12
+                             ), # end fluidRow() for final jeopardy bets
+                             ## Correct/Incorrect buttons ##
+                             fluidRow(column(width=4,
                                              box(actionButton("P1Correct", "P1 correct"),
                                                  width=12, height=50),
                                              box(actionButton("P1Incorrect", "P1 incorrect"),
                                                  width=12, height=50)
                                       ), # end column() for Player 1
-                                      column(width=3,
+                                      column(width=4,
                                              box(actionButton("P2Correct", "P2 correct"),
                                                  width=12, height=50),
                                              box(actionButton("P2Incorrect", "P2 incorrect"),
                                                  width=12, height=50)
                                       ), # end column() for Player 2
-                                      column(width=3,
+                                      column(width=4,
                                               box(actionButton("P3Correct", "P3 correct"),
                                                   width=12, height=50),
                                               box(actionButton("P3Incorrect", "P3 incorrect"),
                                                   width=12, height=50),
                                       ), # end column() for Player 3
-                                      column(width=3,
+                                      width=12), # end fluidRow() for correct/incorrect buttons
+                             fluidRow(column(width=4,
+                                              p(),
                                               box(actionButton("backToBoard", "Back to Board"),
-                                                  width=12, height=50),
-                                              hidden(box(textInput("ddBet", "Bet", "0"),
-                                                  width=12, height=50))
-                                      ), # end column() for "backToBoard" and daily double bet
+                                                  width=12, height=50)
+                                      ), 
                                       width=12
-                             )  # end fluidRow() for player buttons
+                             ),  # end fluidRow() for Back to Board button
+                             ## Move on to next game ##
+                             fluidRow(box(hidden(actionButton("nextGame", "Next game")), width=4),
+                                      width=12)
                            )  # end mainPanel()
                          ))  # end sidebarLayout() and tabPanel()
 ) # end NavbarPage
