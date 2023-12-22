@@ -353,4 +353,11 @@ function(input, output, session) {
     returnToBoard()
   })
     
+  # https://stackoverflow.com/questions/38895710/passing-reactive-values-to-conditionalpanel-condition
+  output$inFinalJeopardy <- reactive({
+    stage()=="f"
+  })
+  outputOptions(output, "inFinalJeopardy", suspendWhenHidden = FALSE)
+  
+  
 } # end server function

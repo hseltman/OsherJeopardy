@@ -155,15 +155,16 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                                       width=12
                              ), # end fluidRow()
                              ## Final jeopardy bets ##
-                             fluidRow(
-                               box(hidden(textInput("P1ddBet", "Bet", "0")),
-                                   width=4, height=120),
-                               box(hidden(textInput("P2ddBet", "Bet", "0")),
-                                   width=4, height=120),
-                               box(hidden(textInput("P3ddBet", "Bet", "0")),
-                                   width=4, height=120),
-                               width=12
-                             ), # end fluidRow() for final jeopardy bets
+                             conditionalPanel(condition='output.inFinalJeopardy',
+                                              fluidRow(box(hidden(textInput("P1ddBet", "Bet", "0")),
+                                                                  width=4, height=120),
+                                                       box(hidden(textInput("P2ddBet", "Bet", "0")),
+                                                                  width=4, height=120),
+                                                       box(hidden(textInput("P3ddBet", "Bet", "0")),
+                                                           width=4, height=120),
+                                                       width=12
+                                              ) # end fluidRow() for final jeopardy bets
+                             ), # end conditionalPanel() for betting (see ui.R)
                              ## Correct/Incorrect buttons ##
                              fluidRow(column(width=4,
                                              box(actionButton("P1Correct", "P1 correct"),
@@ -193,8 +194,8 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                              ),  # end fluidRow() for Back to Board button
                              ## Move on to next game ##
                              fluidRow(box(hidden(actionButton("nextGame", "Next game")), width=4),
-                                      width=12)
-                           )  # end mainPanel()
+                                      width=12),
+                           width=12)  # end mainPanel()
                          ))  # end sidebarLayout() and tabPanel()
 ) # end NavbarPage
 
