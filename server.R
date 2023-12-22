@@ -27,6 +27,7 @@ function(input, output, session) {
   stage <- reactiveVal("s")
   answersLeft <- reactiveVal(0)  # per board
   currentIncorrect <- reactiveVal(0)  # 0 to 3 incorrect answers given
+  question <- reactiveVal("")
   
   # End the app
   observeEvent(input$quitApp, {stopApp()})
@@ -204,8 +205,10 @@ function(input, output, session) {
       output$categoryReminder <- renderText(
         {paste0("$", dollarAmount(), ": ", 
                 gameData()[[paste0(board, "jCategories")]][columnNum])})
+      AQ <- paste0(board, "jAQ")
       output$selectedAnswer <- renderUI(
-        {HTML(gameData()[[paste0(board, "jAQ")]][position, "Answer"])})
+        {HTML(gameData()[[AQ]][position, "Answer"])})
+      question(gameData()[[AQ]][position, "Question"])
       updateNavbarPage(session=session, "myNavbar", "Answer")
     })
   }
@@ -302,6 +305,7 @@ function(input, output, session) {
                 gameData()[["fjCategory"]])})
       output$selectedAnswer <- renderUI(
         {HTML(gameData()[["fjAQ"]][1, "Answer"])})
+      question(gameData()[["fjAQ"]][1, "Question"])
     }
   }
   
@@ -406,6 +410,10 @@ function(input, output, session) {
     currentIncorrect(0)
     resetAllCorrectOrIncorrect()
     returnToBoard()
+  })
+  
+  observeEvent(input$showQuestion, {
+    info(question())
   })
     
   # https://stackoverflow.com/questions/38895710/passing-reactive-values-to-conditionalpanel-condition
