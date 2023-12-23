@@ -286,44 +286,48 @@ function(input, output, session) {
   
   returnToBoard <- function() {
     if (stage() != "f" && answersLeft() == 0) {
-      nextBoard()
+      nextStage()
     }
     page <- as.character(stageMatch[stage()]) # unnamed object required
     updateNavbarPage(session=session, "myNavbar", page)
   }
-  
-  nextBoard <- function() {
+
+  # Go to next stage: called only when all questions on a board are completed
+  nextStage <- function() {
     if (stage() == "s") {
+      # Go from Jeopardy to Double Jeopardy
       answersLeft(answersPerBoard)
       stage("d")
     } else {
+      # Go from Double Jeopardy to Final Jeopardy
       stage("f")
-      answersLeft(answersPerBoard)
+      finalAnswerHidden(TRUE) # Step one of Final Jeopardy
+      #answersLeft(answersPerBoard)
       currentIncorrect(0)
       hide("backToBoard")
+      hide("P1ddBet")
+      hide("P1Correct")
+      hide("P1Incorrect")
+      hide("P2ddBet")
+      hide("P2Correct")
+      hide("P2Incorrect")
+      hide("P3ddBet")
+      hide("P3Correct")
+      hide("P3Incorrect")
       if (scores$P1>0) {
-        #show("P1ddBet")
+        show("P1ddBetPW")
       } else {
-        hide("P1ddBet")
         hide("P1ddBetPW")
-        hide("P1Correct")
-        hide("P1Incorrect")
       }
       if (scores$P2>0) {
-        #show("P2ddBet")
+        show("P2ddBetPW")
       } else {
-        hide("P2ddBet")
         hide("P2ddBetPW")
-        hide("P2Correct")
-        hide("P2Incorrect")
       }
       if (scores$P3>0) {
-        #show("P3ddBet")
+        show("P3ddBetPW")
       } else {
-        hide("P3ddBet")
         hide("P3ddBetPW")
-        hide("P3Correct")
-        hide("P3Incorrect")
       }
       show("nextGame")
       output$categoryReminder <- renderText(
@@ -333,13 +337,19 @@ function(input, output, session) {
         {HTML("")})
       question(gameData()[["fjAQ"]][1, "Question"])
       updateActionButton(inputId="nextGame", label="Show Answer")
-      finalAnswerHidden(TRUE)
     }
   }
   
   ### Handle both "Next game" and "Show Answer" functions of "nextGame" actionButton() ###
   observeEvent(input$nextGame, {
     if (finalAnswerHidden()) {
+      # Switch from Final Jeopardy Step 1 to Step 2
+      show("P1Correct")
+      show("P1Incorrect")
+      show("P2Correct")
+      show("P2Incorrect")
+      show("P3Correct")
+      show("P3Incorrect")
       output$selectedAnswer <- renderUI(
         {HTML(gameData()[["fjAQ"]][1, "Answer"])})
       finalAnswerHidden(FALSE)
