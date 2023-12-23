@@ -41,4 +41,4 @@ stageMatch=c(s="Jeopardy", d="Double Jeopardy", f="Answer")
 0
 # Number of answers per board
 # (Set to 30, but temporarily lower for quick testing)
-answersPerBoard <- 3
+answersPerBoard <- 30
