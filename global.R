@@ -38,7 +38,7 @@ catAQPairPattern = c(rep(c(1, 5), 12), 1, 1)
 
 # Used by nextBoard()
 stageMatch=c(s="Jeopardy", d="Double Jeopardy", f="Answer")
-0
+
 # Number of answers per board
 # (Set to 30, but temporarily lower for quick testing)
-answersPerBoard <- 30
+answersPerBoard <- 3

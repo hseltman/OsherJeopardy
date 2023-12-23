@@ -302,20 +302,26 @@ function(input, output, session) {
       currentIncorrect(0)
       hide("backToBoard")
       if (scores$P1>0) {
-        show("P1ddBet")
+        #show("P1ddBet")
       } else {
+        hide("P1ddBet")
+        hide("P1ddBetPW")
         hide("P1Correct")
         hide("P1Incorrect")
       }
       if (scores$P2>0) {
-        show("P2ddBet")
+        #show("P2ddBet")
       } else {
+        hide("P2ddBet")
+        hide("P2ddBetPW")
         hide("P2Correct")
         hide("P2Incorrect")
       }
       if (scores$P3>0) {
-        show("P3ddBet")
+        #show("P3ddBet")
       } else {
+        hide("P3ddBet")
+        hide("P3ddBetPW")
         hide("P3Correct")
         hide("P3Incorrect")
       }
@@ -455,10 +461,14 @@ function(input, output, session) {
   })
     
   # https://stackoverflow.com/questions/38895710/passing-reactive-values-to-conditionalpanel-condition
-  output$inFinalJeopardy <- reactive({
-    stage()=="f"
+  output$finalStep1 <- reactive({
+    stage()=="f" && finalAnswerHidden() == TRUE
   })
-  outputOptions(output, "inFinalJeopardy", suspendWhenHidden = FALSE)
+  output$finalStep2 <- reactive({
+    stage()=="f" && finalAnswerHidden() == FALSE
+  })
+  outputOptions(output, "finalStep1", suspendWhenHidden = FALSE)
+  outputOptions(output, "finalStep2", suspendWhenHidden = FALSE)
   
   
 } # end server function

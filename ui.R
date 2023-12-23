@@ -155,16 +155,26 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                                       width=12
                              ), # end fluidRow()
                              ## Final jeopardy bets ##
-                             conditionalPanel(condition='output.inFinalJeopardy',
+                             conditionalPanel(condition='output.finalStep1',
+                                              fluidRow(box(passwordInput("P1ddBetPW", "Bet"),
+                                                           width=4, height=120),
+                                                       box(passwordInput("P2ddBetPW", "Bet"),
+                                                           width=4, height=120),
+                                                       box(passwordInput("P3ddBetPW", "Bet"),
+                                                           width=4, height=120),
+                                                       width=12
+                                              ) # end fluidRow() for final jeopardy bets
+                             ), # end conditionalPanel() for betting (see server.R)
+                             conditionalPanel(condition='output.finalStep2',
                                               fluidRow(box(hidden(textInput("P1ddBet", "Bet", "0")),
-                                                                  width=4, height=120),
+                                                           width=4, height=120),
                                                        box(hidden(textInput("P2ddBet", "Bet", "0")),
-                                                                  width=4, height=120),
+                                                           width=4, height=120),
                                                        box(hidden(textInput("P3ddBet", "Bet", "0")),
                                                            width=4, height=120),
                                                        width=12
                                               ) # end fluidRow() for final jeopardy bets
-                             ), # end conditionalPanel() for betting (see ui.R)
+                             ), # end conditionalPanel() for betting (see server.R)
                              ## Correct/Incorrect buttons ##
                              fluidRow(column(width=4,
                                              box(actionButton("P1Correct", "P1 correct"),
