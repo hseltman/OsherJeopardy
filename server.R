@@ -28,6 +28,7 @@ function(input, output, session) {
   answersLeft <- reactiveVal(0)  # per board
   currentIncorrect <- reactiveVal(0)  # 0 to 3 incorrect answers given
   question <- reactiveVal("")
+  inControl <- reactiveVal("P1")
   
   # End the app
   observeEvent(input$quitApp, {stopApp()})
@@ -220,20 +221,38 @@ function(input, output, session) {
   lapply(1:answersPerBoard, generateClickToAnswer, board="d")
   
   # Show scores on Jeopardy board
-  output$jbP1Score <- renderText({ paste0(input$P1Name, ": $", scores$P1)})
-  output$jbP2Score <- renderText({ paste0(input$P2Name, ": $", scores$P2)})
-  output$jbP3Score <- renderText({ paste0(input$P3Name, ": $", scores$P3)})
-
+  output$jbP1Score <- renderText({ 
+    paste0(ifelse(inControl()=="P1", "*", ""), input$P1Name, ": $", scores$P1)
+  })
+  output$jbP2Score <- renderText({
+    paste0(ifelse(inControl()=="P2", "*", ""), input$P2Name, ": $", scores$P2)
+  })
+  output$jbP3Score <- renderText({
+    paste0(ifelse(inControl()=="P3", "*", ""), input$P3Name, ": $", scores$P3)
+  })
+  
   # Show scores on double Jeopardy board
-  output$djbP1Score <- renderText({ paste0(input$P1Name, ": $", scores$P1)})
-  output$djbP2Score <- renderText({ paste0(input$P2Name, ": $", scores$P2)})
-  output$djbP3Score <- renderText({ paste0(input$P3Name, ": $", scores$P3)})
+  output$djbP1Score <- renderText({ 
+    paste0(ifelse(inControl()=="P1", "*", ""), input$P1Name, ": $", scores$P1)
+  })
+  output$djbP2Score <- renderText({
+    paste0(ifelse(inControl()=="P2", "*", ""), input$P2Name, ": $", scores$P2)
+  })
+  output$djbP3Score <- renderText({
+    paste0(ifelse(inControl()=="P3", "*", ""), input$P3Name, ": $", scores$P3)
+  })
   
   # Show scores on Answer tab
-  output$answerP1Score <- renderText({ paste0(input$P1Name, ": $", scores$P1)})
-  output$answerP2Score <- renderText({ paste0(input$P2Name, ": $", scores$P2)})
-  output$answerP3Score <- renderText({ paste0(input$P3Name, ": $", scores$P3)})
-
+  output$answerP1Score <- renderText({
+    
+    paste0(ifelse(inControl()=="P1" && stage()!="f", "*", ""), input$P1Name, ": $", scores$P1)
+  })
+  output$answerP2Score <- renderText({
+    paste0(ifelse(inControl()=="P2" && stage()!="f", "*", ""), input$P2Name, ": $", scores$P2)
+  })
+  output$answerP3Score <- renderText({
+    paste0(ifelse(inControl()=="P3" && stage()!="f", "*", ""), input$P3Name, ": $", scores$P3)
+  })
   # Start button
   observeEvent(input$start, {
     updateNavbarPage(session=session, "myNavbar", "Jeopardy")
@@ -315,6 +334,7 @@ function(input, output, session) {
       dollars <- dollarAmount()
       resetAllCorrectOrIncorrect()
       currentIncorrect(0)
+      inControl("P1")
     } else {
       dollars <- as.numeric(input$P1ddBet)
       disable("P1Correct")
@@ -329,6 +349,7 @@ function(input, output, session) {
       dollars <- dollarAmount()
       resetAllCorrectOrIncorrect()
       currentIncorrect(0)
+      inControl("P2")
     } else {
       dollars <- as.numeric(input$P2ddBet)
       disable("P2Correct")
@@ -343,6 +364,7 @@ function(input, output, session) {
       dollars <- dollarAmount()
       resetAllCorrectOrIncorrect()
       currentIncorrect(0)
+      inControl("P3")
     } else {
       dollars <- as.numeric(input$P3ddBet)
       disable("P3Correct")
