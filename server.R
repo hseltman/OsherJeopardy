@@ -29,6 +29,7 @@ function(input, output, session) {
   currentIncorrect <- reactiveVal(0)  # 0 to 3 incorrect answers given
   question <- reactiveVal("")
   inControl <- reactiveVal("P1")
+  finalAnswerHidden <- reactiveVal(TRUE)
   
   # End the app
   observeEvent(input$quitApp, {stopApp()})
@@ -323,10 +324,25 @@ function(input, output, session) {
         {paste0("Final Jeopardy: ", 
                 gameData()[["fjCategory"]])})
       output$selectedAnswer <- renderUI(
-        {HTML(gameData()[["fjAQ"]][1, "Answer"])})
+        {HTML("")})
       question(gameData()[["fjAQ"]][1, "Question"])
+      updateActionButton(inputId="nextGame", label="Show Answer")
+      finalAnswerHidden(TRUE)
     }
   }
+  
+  ### Handle both "Next game" and "Show Answer" functions of "nextGame" actionButton() ###
+  observeEvent(input$nextGame, {
+    if (finalAnswerHidden()) {
+      output$selectedAnswer <- renderUI(
+        {HTML(gameData()[["fjAQ"]][1, "Answer"])})
+      finalAnswerHidden(FALSE)
+      updateActionButton(inputId="nextGame", label="Next Game")
+    } else {
+      updateNavbarPage(session=session, "myNavbar", "Intro")
+      ##### Code reset everything and start a new game #####
+    }
+  })
   
   ### Code Correct and Incorrect buttons ###
   observeEvent(input$P1Correct, {
