@@ -14,6 +14,7 @@ rm(tLoc)
 
 # Styles
 scoreStyle <- "text-align:center; font-size: 150%; color: blue;"
+betStyle <- "font-size: 120%"
 
 # File input is plain text as follows:
 # Blank lines and lines where the first non-blank character is "#" are ignored,
@@ -41,4 +42,4 @@ stageMatch=c(s="Jeopardy", d="Double Jeopardy", f="Answer")
 
 # Number of answers per board
 # (Set to 30, but temporarily lower for quick testing)
-answersPerBoard <- 3
+answersPerBoard <- 30

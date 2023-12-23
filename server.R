@@ -344,12 +344,27 @@ function(input, output, session) {
   observeEvent(input$nextGame, {
     if (finalAnswerHidden()) {
       # Switch from Final Jeopardy Step 1 to Step 2
-      show("P1Correct")
-      show("P1Incorrect")
-      show("P2Correct")
-      show("P2Incorrect")
-      show("P3Correct")
-      show("P3Incorrect")
+      if (scores$P1 > 0) {
+        show("P1Correct")
+        show("P1Incorrect")
+      } else {
+        hide("P1Correct")
+        hide("P1Incorrect")
+      }
+      if (scores$P2 > 0) {
+        show("P2Correct")
+        show("P2Incorrect")
+      } else {
+        hide("P2Correct")
+        hide("P2Incorrect")
+      }
+      if (scores$P3 > 0) {
+        show("P3Correct")
+        show("P3Incorrect")
+      } else {
+        hide("P3Correct")
+        hide("P3Incorrect")
+      }
       output$selectedAnswer <- renderUI(
         {HTML(gameData()[["fjAQ"]][1, "Answer"])})
       finalAnswerHidden(FALSE)
@@ -368,7 +383,10 @@ function(input, output, session) {
       currentIncorrect(0)
       inControl("P1")
     } else {
-      dollars <- as.numeric(input$P1ddBet)
+      dollars <- as.numeric(input$P1ddBetPW)
+      if (is.na(dollars)) dollars <- 0
+      output$P1ddBet <- renderText(paste("     Bet: $:", dollars))
+      show("P1ddBet")
       disable("P1Correct")
       disable("P1Incorrect")
     }
@@ -383,7 +401,10 @@ function(input, output, session) {
       currentIncorrect(0)
       inControl("P2")
     } else {
-      dollars <- as.numeric(input$P2ddBet)
+      dollars <- as.numeric(input$P2ddBetPW)
+      if (is.na(dollars)) dollars <- 0
+      output$P2ddBet <- renderText(paste("     Bet: $:", dollars))
+      show("P2ddBet")
       disable("P2Correct")
       disable("P2Incorrect")
     }
@@ -398,7 +419,10 @@ function(input, output, session) {
       currentIncorrect(0)
       inControl("P3")
     } else {
-      dollars <- as.numeric(input$P3ddBet)
+      dollars <- as.numeric(input$P3ddBetPW)
+      if (is.na(dollars)) dollars <- 0
+      output$P3ddBet <- renderText(paste("     Bet: $:", dollars))
+      show("P3ddBet")
       disable("P3Correct")
       disable("P3Incorrect")
     }
@@ -410,7 +434,10 @@ function(input, output, session) {
     if (stage() != "f") {
       dollars <- dollarAmount()
     } else {
-      dollars <- as.numeric(input$P1ddBet)
+      dollars <- as.numeric(input$P1ddBetPW)
+      if (is.na(dollars)) dollars <- 0
+      output$P1ddBet <- renderText(paste("     Bet: $:", dollars))
+      show("P1ddBet")
     }
     scores$P1 <- as.numeric(scores$P1) - dollars
     currentIncorrect(isolate(currentIncorrect()) + 1)
@@ -428,7 +455,10 @@ function(input, output, session) {
     if (stage() != "f") {
       dollars <- dollarAmount()
     } else {
-      dollars <- as.numeric(input$P2ddBet)
+      dollars <- as.numeric(input$P2ddBetPW)
+      if (is.na(dollars)) dollars <- 0
+      output$P2ddBet <- renderText(paste("     Bet: $:", dollars))
+      show("P2ddBet")
     }
     scores$P2 <- as.numeric(scores$P2) - dollars
     currentIncorrect(isolate(currentIncorrect()) + 1)
@@ -446,7 +476,10 @@ function(input, output, session) {
     if (stage() != "f") {
       dollars <- dollarAmount()
     } else {
-      dollars <- as.numeric(input$P3ddBet)
+      dollars <- as.numeric(input$P3ddBetPW)
+      if (is.na(dollars)) dollars <- 0
+      output$P3ddBet <- renderText(paste("     Bet: $:", dollars))
+      show("P3ddBet")
     }
     scores$P3 <- as.numeric(scores$P3) - dollars
     currentIncorrect(isolate(currentIncorrect()) + 1)

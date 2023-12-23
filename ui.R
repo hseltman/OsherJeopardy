@@ -166,11 +166,14 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                                               ) # end fluidRow() for final jeopardy bets
                              ), # end conditionalPanel() for betting (see server.R)
                              conditionalPanel(condition='output.finalStep2',
-                                              fluidRow(box(hidden(textOutput("P1ddBet")),
+                                              fluidRow(box(style=betStyle,
+                                                           hidden(textOutput("P1ddBet")),
                                                            width=4, height=120),
-                                                       box(hidden(textOutput("P2ddBet")),
+                                                       box(style=betStyle,
+                                                           hidden(textOutput("P2ddBet")),
                                                            width=4, height=120),
-                                                       box(hidden(textOutput("P3ddBet")),
+                                                       box(style=betStyle,
+                                                           hidden(textOutput("P3ddBet")),
                                                            width=4, height=120),
                                                        width=12
                                               ) # end fluidRow() for final jeopardy bets
