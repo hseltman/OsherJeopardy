@@ -156,24 +156,24 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                              ), # end fluidRow()
                              ## Final jeopardy bets ##
                              conditionalPanel(condition='output.finalStep1',
-                                              fluidRow(box(passwordInput("P1ddBetPW", "Bet"),
+                                              fluidRow(box(passwordInput("P1fjBetPW", "Bet"),
                                                            width=4, height=120),
-                                                       box(passwordInput("P2ddBetPW", "Bet"),
+                                                       box(passwordInput("P2fjBetPW", "Bet"),
                                                            width=4, height=120),
-                                                       box(passwordInput("P3ddBetPW", "Bet"),
+                                                       box(passwordInput("P3fjBetPW", "Bet"),
                                                            width=4, height=120),
                                                        width=12
                                               ) # end fluidRow() for final jeopardy bets
                              ), # end conditionalPanel() for betting (see server.R)
                              conditionalPanel(condition='output.finalStep2',
                                               fluidRow(box(style=betStyle,
-                                                           hidden(textOutput("P1ddBet")),
+                                                           hidden(textOutput("P1fjBet")),
                                                            width=4, height=120),
                                                        box(style=betStyle,
-                                                           hidden(textOutput("P2ddBet")),
+                                                           hidden(textOutput("P2fjBet")),
                                                            width=4, height=120),
                                                        box(style=betStyle,
-                                                           hidden(textOutput("P3ddBet")),
+                                                           hidden(textOutput("P3fjBet")),
                                                            width=4, height=120),
                                                        width=12
                                               ) # end fluidRow() for final jeopardy bets

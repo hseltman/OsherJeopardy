@@ -284,6 +284,49 @@ function(input, output, session) {
     enable("P3Incorrect")
   }
   
+  resetAll <- function() {
+    resetAllCorrectOrIncorrect()
+    scores$P1 <- 0
+    scores$P2 <- 0
+    scores$P3 <- 0
+    dollarAmount(0)
+    stage("s")
+    answersLeft(answersPerBoard)
+    currentIncorrect(0)
+    question("")
+    inControl("P1")
+    finalAnswerHidden(TRUE)
+    show("P1Correct")
+    show("P1Incorrect")
+    show("P2Correct")
+    show("P2Incorrect")
+    show("P3Correct")
+    show("P3Incorrect")
+    show("P1fjBetPW")
+    show("P2fjBetPW")
+    show("P2fjBetPW")
+    show("P1fjBet")
+    show("P2fjBet")
+    show("P2fjBet")
+    show("backToBoard")
+    updateTextInput(inputId="P1Name", value="")
+    updateTextInput(inputId="P2Name", value="")
+    updateTextInput(inputId="P3Name", value="")
+    updateTextInput(inputId="P1fjBetPW", value="")
+    updateTextInput(inputId="P2fjBetPW", value="")
+    updateTextInput(inputId="P3fjBetPW", value="")
+    for (i in 1:answersPerBoard) {
+      bLet <- LETTERS[(i+4) %/% 5]
+      bNum <- (i-1) %% 5 + 1
+      bname <- paste0("jbs", bLet, bNum)
+      updateActionButton(inputId=bname, label=paste0("$", 100*bNum))
+      enable(bname)
+      bname <- paste0("jbd", bLet, bNum)
+      updateActionButton(inputId=bname, label=paste0("$", 200*bNum))
+      enable(bname)
+    }
+  }
+  
   returnToBoard <- function() {
     if (stage() != "f" && answersLeft() == 0) {
       nextStage()
@@ -305,29 +348,29 @@ function(input, output, session) {
       #answersLeft(answersPerBoard)
       currentIncorrect(0)
       hide("backToBoard")
-      hide("P1ddBet")
+      hide("P1fjBet")
       hide("P1Correct")
       hide("P1Incorrect")
-      hide("P2ddBet")
+      hide("P2fjBet")
       hide("P2Correct")
       hide("P2Incorrect")
-      hide("P3ddBet")
+      hide("P3fjBet")
       hide("P3Correct")
       hide("P3Incorrect")
       if (scores$P1>0) {
-        show("P1ddBetPW")
+        show("P1fjBetPW")
       } else {
-        hide("P1ddBetPW")
+        hide("P1fjBetPW")
       }
       if (scores$P2>0) {
-        show("P2ddBetPW")
+        show("P2fjBetPW")
       } else {
-        hide("P2ddBetPW")
+        hide("P2fjBetPW")
       }
       if (scores$P3>0) {
-        show("P3ddBetPW")
+        show("P3fjBetPW")
       } else {
-        hide("P3ddBetPW")
+        hide("P3fjBetPW")
       }
       show("nextGame")
       output$categoryReminder <- renderText(
@@ -369,7 +412,8 @@ function(input, output, session) {
         {HTML(gameData()[["fjAQ"]][1, "Answer"])})
       finalAnswerHidden(FALSE)
       updateActionButton(inputId="nextGame", label="Next Game")
-    } else {
+    } else {  # User clicked "Next Game"
+      resetAll()
       updateNavbarPage(session=session, "myNavbar", "Intro")
       ##### Code reset everything and start a new game #####
     }
@@ -383,10 +427,10 @@ function(input, output, session) {
       currentIncorrect(0)
       inControl("P1")
     } else {
-      dollars <- as.numeric(input$P1ddBetPW)
+      dollars <- as.numeric(input$P1fjBetPW)
       if (is.na(dollars)) dollars <- 0
-      output$P1ddBet <- renderText(paste("     Bet: $:", dollars))
-      show("P1ddBet")
+      output$P1fjBet <- renderText(paste("     Bet: $:", dollars))
+      show("P1fjBet")
       disable("P1Correct")
       disable("P1Incorrect")
     }
@@ -401,10 +445,10 @@ function(input, output, session) {
       currentIncorrect(0)
       inControl("P2")
     } else {
-      dollars <- as.numeric(input$P2ddBetPW)
+      dollars <- as.numeric(input$P2fjBetPW)
       if (is.na(dollars)) dollars <- 0
-      output$P2ddBet <- renderText(paste("     Bet: $:", dollars))
-      show("P2ddBet")
+      output$P2fjBet <- renderText(paste("     Bet: $:", dollars))
+      show("P2fjBet")
       disable("P2Correct")
       disable("P2Incorrect")
     }
@@ -419,10 +463,10 @@ function(input, output, session) {
       currentIncorrect(0)
       inControl("P3")
     } else {
-      dollars <- as.numeric(input$P3ddBetPW)
+      dollars <- as.numeric(input$P3fjBetPW)
       if (is.na(dollars)) dollars <- 0
-      output$P3ddBet <- renderText(paste("     Bet: $:", dollars))
-      show("P3ddBet")
+      output$P3fjBet <- renderText(paste("     Bet: $:", dollars))
+      show("P3fjBet")
       disable("P3Correct")
       disable("P3Incorrect")
     }
@@ -434,10 +478,10 @@ function(input, output, session) {
     if (stage() != "f") {
       dollars <- dollarAmount()
     } else {
-      dollars <- as.numeric(input$P1ddBetPW)
+      dollars <- as.numeric(input$P1fjBetPW)
       if (is.na(dollars)) dollars <- 0
-      output$P1ddBet <- renderText(paste("     Bet: $:", dollars))
-      show("P1ddBet")
+      output$P1fjBet <- renderText(paste("     Bet: $:", dollars))
+      show("P1fjBet")
     }
     scores$P1 <- as.numeric(scores$P1) - dollars
     currentIncorrect(isolate(currentIncorrect()) + 1)
@@ -455,10 +499,10 @@ function(input, output, session) {
     if (stage() != "f") {
       dollars <- dollarAmount()
     } else {
-      dollars <- as.numeric(input$P2ddBetPW)
+      dollars <- as.numeric(input$P2fjBetPW)
       if (is.na(dollars)) dollars <- 0
-      output$P2ddBet <- renderText(paste("     Bet: $:", dollars))
-      show("P2ddBet")
+      output$P2fjBet <- renderText(paste("     Bet: $:", dollars))
+      show("P2fjBet")
     }
     scores$P2 <- as.numeric(scores$P2) - dollars
     currentIncorrect(isolate(currentIncorrect()) + 1)
@@ -476,10 +520,10 @@ function(input, output, session) {
     if (stage() != "f") {
       dollars <- dollarAmount()
     } else {
-      dollars <- as.numeric(input$P3ddBetPW)
+      dollars <- as.numeric(input$P3fjBetPW)
       if (is.na(dollars)) dollars <- 0
-      output$P3ddBet <- renderText(paste("     Bet: $:", dollars))
-      show("P3ddBet")
+      output$P3fjBet <- renderText(paste("     Bet: $:", dollars))
+      show("P3fjBet")
     }
     scores$P3 <- as.numeric(scores$P3) - dollars
     currentIncorrect(isolate(currentIncorrect()) + 1)

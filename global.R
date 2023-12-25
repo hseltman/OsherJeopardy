@@ -43,3 +43,7 @@ stageMatch=c(s="Jeopardy", d="Double Jeopardy", f="Answer")
 # Number of answers per board
 # (Set to 30, but temporarily lower for quick testing)
 answersPerBoard <- 30
+
+# All push buttons to update
+allJeopardyButtons <- paste0("jbs", 1:answersPerBoard)
+allDoubleJeopardyButtons <- paste0("jbd", 1:answersPerBoard)
