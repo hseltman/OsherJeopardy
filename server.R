@@ -557,5 +557,5 @@ function(input, output, session) {
   outputOptions(output, "finalStep1", suspendWhenHidden = FALSE)
   outputOptions(output, "finalStep2", suspendWhenHidden = FALSE)
   
-  
+  #hide("myNavbar")  # Works, but save for after all debugging
 } # end server function
