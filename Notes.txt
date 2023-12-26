@@ -6,18 +6,18 @@ QED: This is the process of letting dough rise again before baking|proofing
 This is the French term for a rounded crusty loaf|boule
 
 Ray
-This blind singer/songwriters won 17 Grammys|Charles
-This American author wrote Fahrenheit 451 and the Martian chronicles|Bradbury
-This man is credited with the global expansion of McDonald’s|Kroc
-This actor played the Scarecrow in the Wizard of Oz|Bolger
-[image]|Liotta
+This blind singer/songwriters won 17 Grammys|Ray Charles
+This American author wrote Fahrenheit 451 and the Martian chronicles|Ray Bradbury
+This man is credited with the global expansion of McDonald’s|Ray Kroc
+This actor played the Scarecrow in the Wizard of Oz|Ray Bolger
+[image]|Ray Liotta
 
 M.E.
 In forensics, this is the meaning of M.E.|Medical Examiner
 This M.E. from Pittsburgh wrote a book contesting the Warren Report|Cyril Wecht
 This actor played Quincy, M.E.|Jack Klugman
-This Man from Uncle actor played an M.E. On NCIS|David McCallum
-This female M.E. Is the the protagonist of a series of novels by Patricia Cromwell|Kay Scarpetta
+This Man from Uncle actor played an M.E. on NCIS|David McCallum
+This female M.E. iss the the protagonist of a series of novels by Patricia Cromwell|Kay Scarpetta
 
 “Fa”
 (4) A long pointed tooth|fang
@@ -29,12 +29,12 @@ This female M.E. Is the the protagonist of a series of novels by Patricia Cromwe
 Soul
 This religious music was a major influence on early soul music|gospel
 This man is called The Godfather of Soul|James Brown
-This Detroit vocal soul group included Otis Williams|the Temptations
+This Detroit vocal soul group had hits like "My Girl"|the Temptations
 This Etta sang soul among other genres|James
 This Turner husband and wife were big in 1960s soul music|Ike and Tina
 
 L.A.
-This is the population of L.A. to the nearest million|4 million
+This historic landmark has more than 2,500 stars embedded in the sidewalk|Hollywood Walk of Fame
 From 1821 to 1847 L.A. was part of this country|Mexico
 Racial tensions led to this 1965 event with 65 deaths|Watts riot
 Either year of hosting the summer Olympics|1932 or 1984
@@ -42,47 +42,53 @@ These two MLB teams are based in L.A.|Dodgers and Angels
 
 
 Odd and interesting Pittsburgh
-This park currently has about 11 bison|South Park
-From 1905 to 1909 Luna Park was an amusement Park in this neighborhood|Oakland
-The Homeless Memorial Wall is in this neighborhood|downtown
+This park currently has a small herd of bison|South Park
 The defunct atom smasher in Forest Hills was owned by this company|Westinghouse
+From 1905 to 1909 Luna Park was an amusement Park in this neighborhood|Oakland
 A quirky “museum” of found art in the North Side is named this after its founder|Randyland
+The Homeless Memorial Wall is in this neighborhood|Downtown
 
-Mars
-Mariner 4, the first successful flyby of Mars, took place in this decade|1960s
-These twin US landers touched down in 1976 and destroyed hopes of visible life on Mars|Viking
-Olympus Mons is the largest one of these in the Solar System|volcano
-These twin rovers, designed for 90 day lifetimes, were sent in 2004 and roamed Mars for years|Spirit and Opportunity
-The polar ice caps are made of frozen water and this gas|carbon dioxide
+Found in "Oakland"
+Disagreeably damp, musty, and typically cold|dank
+A corner or recess, especially one offering seclusion|nook
+A paradoxical anecdote or riddle, used in Zen Buddhism to demonstrate the inadequacy of logical reasoning|koan
+A sum of money that is expected to be paid back|loan
+Slang for nothing or zero|nada
+
+#Mariner 4, the first successful flyby of Mars, took place in this decade|1960s
+#These twin US landers touched down in 1976 and destroyed hopes of visible life on Mars|Viking
+#Olympus Mons is the largest one of these in the Solar System|volcano
+#These twin rovers, designed for 90 day lifetimes, were sent in 2004 and roamed Mars for years|Spirit #and Opportunity
+#The polar ice caps are made of frozen water and this gas|carbon dioxide
 
 1950s TV shows by character
 Ralph and Alice Kramdon|The Honeymooners
 Ward and June Cleaver|Leave it to Beaver
+Matt Dillon and Kitty Russell|Gunsmoke
 Dale Evans|The Roy Rodgers Show
 Princess, Bud, and Kitten Anderson|Father Knows Best
-Matt Dillon and Kitty Russell|Gunsmoke
 
-Artists of 1940/1950 Billboard #1 hits
-1941 Chattanooga Choo Choo|Glenn Miller
-1942 White Christmas|Bing Crosby
-1944 Rum and Coca Cola|Andrews Sisters
-1945 Til the End of Time|Perry Como
-1946 Five Minutes More|Frank Sinatra
+Artists of 1950 Billboard #1 hits
+1950 Goodnight Irene, Goodnight|the Weavers
+1958 La Bamba|Ritchie Valens
+1958 Who's Sorry Now|Connie Francis
+1958 I Want You, I Need You, I Love You|Elvis Presley
+1959 Oh What a Night|the Dells
 
 Operas by Character
 Lieutenant Pinkerton|Madame Butterfly
 Papageno and the Queen of the Night|Magic Flute
+Egyptians Amneris, Radames, and Ramfis|Aida
 Famed courtesan Violetta|La Traviata
 King Herod|Salome
-Amneris, Radames, and Ramfis|Aida
 
 
 Architects by work
 Fallingwater|Frank Lloyd Wright
 Louvre Pyramid|I. M. Pei
 Vietnam Veterans Memorial|Maya Lin
-National Mall|Pierre L’Enfant
 Guggenheim Museum in Bilbao|Frank Gerry
+Rodef Shalom and Hamburg Hall|Henry Hornbostel
 
 
 Carnegie Mellon University
