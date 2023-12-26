@@ -178,6 +178,16 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                                                        width=12
                                               ) # end fluidRow() for final jeopardy bets
                              ), # end conditionalPanel() for betting (see server.R)
+                             conditionalPanel(condition='output.onDD',
+                                              fluidRow(box(textInput("P1ddBet", "Bet"),
+                                                           width=4, height=120),
+                                                       box(textInput("P2ddBet", "Bet"),
+                                                           width=4, height=120),
+                                                       box(textInput("P3ddBet", "Bet"),
+                                                           width=4, height=120),
+                                                       width=12
+                                              ) # end fluidRow() for daily double bets
+                             ), # end conditionalPanel() for betting (see server.R)
                              ## Correct/Incorrect buttons ##
                              fluidRow(column(width=4,
                                              box(actionButton("P1Correct", "P1 correct"),
@@ -204,7 +214,7 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                                                  width=4, height=50),
                                              box(hidden(actionButton("nextGame", "Next game")),
                                                  width=4, height=50),
-                                             box(actionButton("showQuestion", "Show Question"),
+                                             box(actionButton("showQuestion", "[Show Question]"),
                                                  width=4, height=50)
                                       ), # end column() for 3 extra buttons 
                                       width=12
