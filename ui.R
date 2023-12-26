@@ -94,13 +94,13 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                                       prefix=paste0("jbs", LETTERS[1:6]),
                                       MoreArgs=list(multiple=1, width=2))),
                                fluidRow(column(width=4,
-                                               box(style="text-align:center; font-size: 150%; color: blue;",
+                                               box(style="text-align:center; font-size: 190%; color: blue;",
                                                    textOutput("jbP1Score"))),
                                         column(width=4,
-                                               box(style="text-align:center; font-size: 150%; color: blue;",
+                                               box(style="text-align:center; font-size: 190%; color: blue;",
                                                    textOutput("jbP2Score"))),
                                         column(width=4,
-                                               box(style="text-align:center; font-size: 150%; color: blue;",
+                                               box(style="text-align:center; font-size: 190%; color: blue;",
                                                    textOutput("jbP3Score")))
                                ), # end fluidRow()
                            width=12) # end mainPanel()
@@ -117,16 +117,16 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                              MoreArgs=list(multiple=2, width=2))
                     ), # end fluidRow() for category names and dollar values
                     fluidRow(column(width=4,
-                                    box(style=scoreStyle,
+                                    box(style="text-align:center; font-size: 190%; color: blue;",
                                         textOutput("djbP1Score"))),
                              column(width=4,
-                                    box(style=scoreStyle,
+                                    box(style="text-align:center; font-size: 190%; color: blue;",
                                         textOutput("djbP2Score"))),
                              column(width=4,
-                                    box(style=scoreStyle,
+                                    box(style="text-align:center; font-size: 190%; color: blue;",
                                         textOutput("djbP3Score")))
-                             ), # end fluidRow()
-                           width=12) # end mainPanel()
+                    ), # end fluidRow()
+                    width=12) # end mainPanel()
                          )),
                 
                 # Answer Panel
@@ -144,16 +144,26 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                              ),  # end fluidRow() for category and selected answer 
                              ## Scores ##
                              fluidRow(column(width=4,
-                                             box(style=scoreStyle,
-                                                 textOutput("answerP1Score"), height=50)),
+                                             box(style="text-align:center; font-size: 190%; color: blue;",
+                                                 textOutput("answerP1Score"))),
                                       column(width=4,
-                                             box(style=scoreStyle,
-                                                 textOutput("answerP2Score"), height=50)),
+                                             box(style="text-align:center; font-size: 190%; color: blue;",
+                                                 textOutput("answerP2Score"))),
                                       column(width=4,
-                                             box(style=scoreStyle,
-                                                 textOutput("answerP3Score"), height=50)),
-                                      width=12
+                                             box(style="text-align:center; font-size: 190%; color: blue;",
+                                                 textOutput("answerP3Score")))
                              ), # end fluidRow()
+                             # fluidRow(column(width=4,
+                             #                 box(style=scoreStyle,
+                             #                     textOutput("answerP1Score"), height=50)),
+                             #          column(width=4,
+                             #                 box(style=scoreStyle,
+                             #                     textOutput("answerP2Score"), height=50)),
+                             #          column(width=4,
+                             #                 box(style=scoreStyle,
+                             #                     textOutput("answerP3Score"), height=50)),
+                             #          width=12
+                             # ), # end fluidRow()
                              ## Final jeopardy bets ##
                              conditionalPanel(condition='output.finalStep1',
                                               fluidRow(box(passwordInput("P1fjBetPW", "Bet"),
