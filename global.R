@@ -13,8 +13,10 @@ if (tLoc == -1 || nchar(wd) == tLoc+7) {
 rm(tLoc)
 
 # Styles
-scoreStyle <- "text-align:center; font-size: 150%; color: blue;"
+scoreStyle <- "text-align:center; font-size: 190%; color: blue; padding-left: -4px; padding-right: -4px;"
 betStyle <- "font-size: 120%"
+frStyle <- "padding-left: -4px; padding-right: -4px;"
+colStyle <- "padding-left: -8px; padding-right: -8px;"
 
 # File input is plain text as follows:
 # Blank lines and lines where the first non-blank character is "#" are ignored,
