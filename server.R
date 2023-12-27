@@ -470,10 +470,14 @@ function(input, output, session) {
   ### Code Correct and Incorrect buttons ###
   observeEvent(input$P1Correct, {
     if (stage() != "f") {
+      # Jeopardy or Double Jeopardy
       show("backToBoard")
       if (onDailyDouble()) {
         dollars <- as.numeric(input$P1ddBet)
         if (is.na(dollars)) dollars <- 0
+        upper <- max(scores$P1, 500 + 500*(stage()=="d"))
+        if (dollars < 0 || dollars > upper)
+          dollars <- min(upper, max(0, dollars))
       } else {
         dollars <- dollarAmount()
       }
@@ -481,9 +485,13 @@ function(input, output, session) {
       currentIncorrect(0)
       inControl("P1")
     } else {
+      # Final Jeopardy
       hide("backToBoard")
       dollars <- as.numeric(input$P1fjBetPW)
       if (is.na(dollars)) dollars <- 0
+      upper <- scores$P1
+      if (dollars < 0 || dollars > upper)
+        dollars <- min(upper, max(0, dollars))
       output$P1fjBet <- renderText(paste("     Bet: $:", dollars))
       show("P1fjBet")
       disable("P1Correct")
@@ -495,10 +503,14 @@ function(input, output, session) {
   
   observeEvent(input$P2Correct, {
     if (stage() != "f") {
+      # Jeopardy or Double Jeopardy
       show("backToBoard")
       if (onDailyDouble()) {
         dollars <- as.numeric(input$P2ddBet)
         if (is.na(dollars)) dollars <- 0
+        upper <- max(scores$P2, 500 + 500*(stage()=="d"))
+        if (dollars < 0 || dollars > upper)
+          dollars <- min(upper, max(0, dollars))
       } else {
         dollars <- dollarAmount()
       }
@@ -506,9 +518,14 @@ function(input, output, session) {
       currentIncorrect(0)
       inControl("P2")
     } else {
+      # Final Jeopardy
       hide("backToBoard")
       dollars <- as.numeric(input$P2fjBetPW)
       if (is.na(dollars)) dollars <- 0
+      upper <- scores$P2
+      if (dollars < 0 || dollars > scores$P2)
+        dollars <- min(scores$P2, max(0, dollars))
+      
       output$P2fjBet <- renderText(paste("     Bet: $:", dollars))
       show("P2fjBet")
       disable("P2Correct")
@@ -520,10 +537,14 @@ function(input, output, session) {
   
   observeEvent(input$P3Correct, {
     if (stage() != "f") {
+      # Jeopardy or Double Jeopardy
       show("backToBoard")
       if (onDailyDouble()) {
         dollars <- as.numeric(input$P3ddBet)
         if (is.na(dollars)) dollars <- 0
+        upper <- max(scores$P3, 500 + 500*(stage()=="d"))
+        if (dollars < 0 || dollars > upper)
+          dollars <- min(upper, max(0, dollars))
       } else {
         dollars <- dollarAmount()
       }
@@ -531,9 +552,13 @@ function(input, output, session) {
       currentIncorrect(0)
       inControl("P3")
     } else {
+      # Final Jeopardy
       hide("backToBoard")
       dollars <- as.numeric(input$P3fjBetPW)
       if (is.na(dollars)) dollars <- 0
+      upper <- scores$P3
+      if (dollars < 0 || dollars > upper)
+        dollars <- min(upper, max(0, dollars))
       output$P3fjBet <- renderText(paste("     Bet: $:", dollars))
       show("P3fjBet")
       disable("P3Correct")
@@ -545,17 +570,25 @@ function(input, output, session) {
   
   observeEvent(input$P1Incorrect, {
     if (stage() != "f") {
+      # Jeopardy or Double Jeopardy
       show("backToBoard")
       if (onDailyDouble()) {
         dollars <- as.numeric(input$P1ddBet)
         if (is.na(dollars)) dollars <- 0
+        upper <- max(scores$P1, 500 + 500*(stage()=="d"))
+        if (dollars < 0 || dollars > upper)
+          dollars <- min(upper, max(0, dollars))
       } else {
         dollars <- dollarAmount()
       }
     } else {
+      # Final Jeopardy
       hide("backToBoard")
       dollars <- as.numeric(input$P1fjBetPW)
       if (is.na(dollars)) dollars <- 0
+      upper <- scores$P1
+      if (dollars < 0 || dollars > upper)
+        dollars <- min(upper, max(0, dollars))
       output$P1fjBet <- renderText(paste("     Bet: $:", dollars))
       show("P1fjBet")
     }
@@ -574,17 +607,25 @@ function(input, output, session) {
   
   observeEvent(input$P2Incorrect, {
     if (stage() != "f") {
+      # Jeopardy or Double Jeopardy
       show("backToBoard")
       if (onDailyDouble()) {
         dollars <- as.numeric(input$P2ddBet)
         if (is.na(dollars)) dollars <- 0
+        upper <- max(scores$P2, 500 + 500*(stage()=="d"))
+        if (dollars < 0 || dollars > upper)
+          dollars <- min(upper, max(0, dollars))
       } else {
         dollars <- dollarAmount()
       }
     } else {
+      # Final Jeopardy
       hide("backToBoard")
       dollars <- as.numeric(input$P2fjBetPW)
       if (is.na(dollars)) dollars <- 0
+      upper <- scores$P2
+      if (dollars < 0 || dollars > upper)
+        dollars <- min(upper, max(0, dollars))
       output$P2fjBet <- renderText(paste("     Bet: $:", dollars))
       show("P2fjBet")
     }
@@ -603,17 +644,25 @@ function(input, output, session) {
   
   observeEvent(input$P3Incorrect, {
     if (stage() != "f") {
+      # Jeopardy or Double Jeopardy
       show("backToBoard")
       if (onDailyDouble()) {
         dollars <- as.numeric(input$P3ddBet)
         if (is.na(dollars)) dollars <- 0
+        upper <- max(scores$P3, 500 + 500*(stage()=="d"))
+        if (dollars < 0 || dollars > upper)
+          dollars <- min(upper, max(0, dollars))
       } else {
         dollars <- dollarAmount()
       }
     } else {
+      # Final Jeopardy
       hide("backToBoard")
       dollars <- as.numeric(input$P3fjBetPW)
       if (is.na(dollars)) dollars <- 0
+      upper <- scores$P3
+      if (dollars < 0 || dollars > upper)
+        dollars <- min(upper, max(0, dollars))
       output$P3fjBet <- renderText(paste("     Bet: $:", dollars))
       show("P3fjBet")
     }
