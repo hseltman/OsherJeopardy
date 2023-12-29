@@ -224,32 +224,22 @@ function(input, output, session) {
         output$selectedAnswer <- renderUI({HTML("Daily Double")})
         ddAnswer(gameData()[[AQ]][position, "Answer"])
         dailyDoubleAnswerHidden(TRUE)
-        updateActionButton(inputId="backToBoard", label="Show Answer")
+        updateActionButton(inputId="backToBoard", label="Bet Entered")
         disable("P1Correct")
         disable("P1Incorrect")
         disable("P2Correct")
         disable("P2Incorrect")
         disable("P3Correct")
         disable("P3Incorrect")
-        if (inControl() == "P1") {
-          updateTextInput(inputId="P1ddBet", value="")
-          show("P1ddBet")
-          hide("P2ddBet")
-          hide("P3ddBet")
-        } else if (inControl() == "P2") {
-          updateTextInput(inputId="P2ddBet", value="")
-          hide("P1ddBet")
-          show("P2ddBet")
-          hide("P3ddBet")
-        } else {
-          updateTextInput(inputId="P3ddBet", value="")
-          hide("P1ddBet")
-          hide("P2ddBet")
-          show("P3ddBet")
-        }
-      } else { # end if this is a daily double
-        output$selectedAnswer <- renderUI(
-          {HTML(gameData()[[AQ]][position, "Answer"])})
+        hide("P1ddBet")
+        hide("P2ddBet")
+        hide("P3ddBet")
+        ICB <- paste0(inControl(), "ddBet")
+        updateTextInput(inputId=ICB, value="")
+        show(ICB)
+      } else {
+        # if not a daily double
+        output$selectedAnswer <- renderUI({HTML(gameData()[[AQ]][position, "Answer"])})
       }
       question(gameData()[[AQ]][position, "Question"])
       updateNavbarPage(session=session, "myNavbar", "Answer")
@@ -286,7 +276,6 @@ function(input, output, session) {
   
   # Show scores on Answer tab
   output$answerP1Score <- renderText({
-    
     paste0(ifelse(inControl()=="P1" && stage()!="f", "*", ""), input$P1Name, ": $", scores$P1)
   })
   output$answerP2Score <- renderText({
@@ -295,6 +284,7 @@ function(input, output, session) {
   output$answerP3Score <- renderText({
     paste0(ifelse(inControl()=="P3" && stage()!="f", "*", ""), input$P3Name, ": $", scores$P3)
   })
+  
   # Start button
   observeEvent(input$start, {
     updateNavbarPage(session=session, "myNavbar", "Jeopardy")
@@ -339,6 +329,7 @@ function(input, output, session) {
     inControl("P1")
     finalAnswerHidden(TRUE)
     hide("nextGame")
+    show("backToBoard")
     show("P1Correct")
     show("P1Incorrect")
     show("P2Correct")
@@ -351,7 +342,6 @@ function(input, output, session) {
     show("P1fjBet")
     show("P2fjBet")
     show("P2fjBet")
-    show("backToBoard")
     updateTextInput(inputId="P1Name", value="")
     updateTextInput(inputId="P2Name", value="")
     updateTextInput(inputId="P3Name", value="")
@@ -375,7 +365,9 @@ function(input, output, session) {
     djdd$dd2=temp[2]
   }
   
+  ### Handle "Return to Board"
   returnToBoard <- function() {
+    onDailyDouble(FALSE)
     if (stage() != "f" && answersLeft() == 0) {
       nextStage()
     }
@@ -393,9 +385,8 @@ function(input, output, session) {
       # Go from Double Jeopardy to Final Jeopardy
       stage("f")
       finalAnswerHidden(TRUE) # Step one of Final Jeopardy
-      #answersLeft(answersPerBoard)
+      answersLeft(answersPerBoard)
       currentIncorrect(0)
-      hide("backToBoard")
       hide("P1fjBet")
       hide("P1Correct")
       hide("P1Incorrect")
@@ -405,67 +396,69 @@ function(input, output, session) {
       hide("P3fjBet")
       hide("P3Correct")
       hide("P3Incorrect")
-      if (scores$P1>0) {
-        show("P1fjBetPW")
-      } else {
-        hide("P1fjBetPW")
-      }
-      if (scores$P2>0) {
-        show("P2fjBetPW")
-      } else {
-        hide("P2fjBetPW")
-      }
-      if (scores$P3>0) {
-        show("P3fjBetPW")
-      } else {
-        hide("P3fjBetPW")
+      for (player in c("P1", "P2", "P3")) {
+        PB <- paste0(player, "fjBetPW")
+        if (scores[[player]] > 0) {
+          show(PB)
+        } else {
+          hide(PB)
+        }
       }
       output$categoryReminder <- renderText(
-        {paste0("Final Jeopardy: ", 
-                gameData()[["fjCategory"]])})
+        {paste0("Final Jeopardy: ", gameData()[["fjCategory"]])})
       output$selectedAnswer <- renderUI({HTML("")})
       question(gameData()[["fjAQ"]][1, "Question"])
-      updateActionButton(inputId="nextGame", label="Show Answer")
-      show("nextGame")
+      updateActionButton(inputId="backToBoard", label="Bets Entered")
+      show("backToBoard")
     }
   }
   
-  ### Handle both "Next game" and "Show Answer" functions of "nextGame" actionButton() ###
+  ### Handle "Next Game" button
   observeEvent(input$nextGame, {
-    if (finalAnswerHidden()) {
-      # User clicked "Show Answer"
-      # Switch from Final Jeopardy Step 1 to Step 2
-      if (scores$P1 > 0) {
-        show("P1Correct")
-        show("P1Incorrect")
-      } else {
-        hide("P1Correct")
-        hide("P1Incorrect")
-      }
-      if (scores$P2 > 0) {
-        show("P2Correct")
-        show("P2Incorrect")
-      } else {
-        hide("P2Correct")
-        hide("P2Incorrect")
-      }
-      if (scores$P3 > 0) {
-        show("P3Correct")
-        show("P3Incorrect")
-      } else {
-        hide("P3Correct")
-        hide("P3Incorrect")
-      }
-      output$selectedAnswer <- renderUI(
-        {HTML(gameData()[["fjAQ"]][1, "Answer"])})
-      finalAnswerHidden(FALSE)
-      updateActionButton(inputId="nextGame", label="Next Game")
-    } else {  
-      # User clicked "Next Game"
-      resetAll()
-      updateNavbarPage(session=session, "myNavbar", "Intro")
-    }
+    resetAll()
+    updateNavbarPage(session=session, "myNavbar", "Intro")
   })
+  
+  ### Handle "backToBoard" actionButton() which shows:
+  ### mostly: "Back to Board"
+  ### for a daily double: "Bet Entered"
+  ### for Final Jeopardy: "Bets Entered"
+  observeEvent(input$backToBoard, {
+    if (onDailyDouble()) {
+      # handle "Bet Entered" for daily double
+      output$selectedAnswer <- renderUI({HTML(ddAnswer())})
+      who <- inControl()
+      enable(paste0(who, "Correct"))
+      enable(paste0(who, "Incorrect"))
+      updateActionButton(inputId="backToBoard", label="Back to Board")
+      hide("backToBoard")  # host must use Correct/Incorrect buttons to proceed
+      dailyDoubleAnswerHidden(FALSE)
+    } else if (stage()=="f" && finalAnswerHidden()) {
+      # handle "Bets Entered" for Final Jeopardy
+      # Switch from Final Jeopardy Step 1 to Step 2
+      for (player in c("P1", "P2", "P3")) {
+        if (scores[[player]] > 0) {
+          show(paste0(player, "Correct"))
+          show(paste0(player, "Incorrect"))
+        } else {
+          hide(paste0(player, "Correct"))
+          hide(paste0(player, "Incorrect"))
+        }
+      }
+      output$selectedAnswer <- renderUI({HTML(gameData()[["fjAQ"]][1, "Answer"])})
+      finalAnswerHidden(FALSE)
+      updateActionButton(inputId="backToBoard", label="Back to Board")
+      hide("backToBoard")
+      show("nextGame")
+    } else {
+      # handle ordinary "Back to Board"
+      currentIncorrect(0)
+      resetAllCorrectOrIncorrect()
+      show("backToBoard")
+      returnToBoard()
+    }
+  })  # end observeEvent() for "backToBoard"
+  
   
   ### Code Correct and Incorrect buttons ###
   observeEvent(input$P1Correct, {
@@ -597,7 +590,6 @@ function(input, output, session) {
     if (currentIncorrect() == 3 || onDailyDouble()) {
       resetAllCorrectOrIncorrect()
       currentIncorrect(0)
-      onDailyDouble(FALSE)
       returnToBoard()
     } else {
       disable("P1Correct")
@@ -634,7 +626,6 @@ function(input, output, session) {
     if (currentIncorrect() == 3 || onDailyDouble()) {
       resetAllCorrectOrIncorrect()
       currentIncorrect(0)
-      onDailyDouble(FALSE)
       returnToBoard()
     } else {
       disable("P2Correct")
@@ -671,7 +662,6 @@ function(input, output, session) {
     if (currentIncorrect() == 3 || onDailyDouble()) {
       resetAllCorrectOrIncorrect()
       currentIncorrect(0)
-      onDailyDouble(FALSE)
       returnToBoard()
     } else {
       disable("P3Correct")
@@ -679,31 +669,6 @@ function(input, output, session) {
     }
   }, ignoreInit=TRUE)
 
-  # Handle "backToBoard" actionButton() which shows "Back to Board" or, for a daily double,
-    "Bet Entered" #
-  observeEvent(input$backToBoard, {
-    if (onDailyDouble() && dailyDoubleAnswerHidden()) {
-      output$selectedAnswer <- renderUI({HTML(ddAnswer())})
-      if (inControl() == "P1") {
-        enable("P1Correct")
-        enable("P1Incorrect")
-      } else if (inControl() == "P2") {
-        enable("P2Correct")
-        enable("P2Incorrect")
-      } else {
-        enable("P3Correct")
-        enable("P3Incorrect")
-      }
-      updateActionButton(inputId="backToBoard", label="Back to Board")
-      hide("backToBoard")
-      dailyDoubleAnswerHidden(FALSE)
-    } else {
-      currentIncorrect(0)
-      resetAllCorrectOrIncorrect()
-      show("backToBoard")
-      returnToBoard()
-    }
-  })
   
   observeEvent(input$showQuestion, {
     info(question())

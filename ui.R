@@ -203,7 +203,7 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                                     box(actionButton("P3Incorrect", "P3 incorrect"),
                                         width=12, height=50),
                              ), # end third column for Correct/Incorrect action buttons
-                             fluidRow(p()),
+                             fluidRow(box(p(), height=20)),
                              column(width=4,
                                     box(actionButton("backToBoard", "Back to Board"),
                                         width=12, height=50)
@@ -214,7 +214,7 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                              ),
                              column(width=4,
                                     box(actionButton("showQuestion", "[Show Question]"),
-                                        width=12, height=50),
+                                        width=12, height=50)
                              ), # end third column for special action buttons 
                            width=12)  # end mainPanel()
                          ))  # end sidebarLayout() and tabPanel()
