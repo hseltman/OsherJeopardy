@@ -1,9 +1,10 @@
 Mammals
 This mammal is the most common wool producer|sheep
 This mammal has the longest neck|giraffe
+[RayLiotta.jpeg]|Liotta
 These primates have no tail|apes
 This mammallian order has the most specied|rodent
-This mammal is man's best friend|dog
+#This mammal is man's best friend|dog
 
 Word origins
 <em>Sabotage<em> comes from these French shoes|sabot
