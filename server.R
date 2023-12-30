@@ -18,9 +18,11 @@ library(shinyjs)
 
 # Define server logic for Jeopardy Game
 function(input, output, session) {
-  observe({cat("imageAnswer =", imageAnswer(), "\n")})
-  #observe({cat("input$jbsA1() =", class(input$jbsA1), "\n")})
-
+  observe({cat("imageAnswer() =", imageAnswer(), "\n")})
+  observe({cat("subStage() =", subStage(), "\n")})
+  observe({cat("normal = ", imageAnswer() == FALSE || (onDailyDouble() && subStage()=="A"), "\n")})
+  ##observe({cat("showImage = ", imageAnswer() == TRUE && finalAnswerHidden()==FALSE && (onDailyDouble()==FALSE || subStage()=="B"), "\n")})
+  
   # Reactive values to monitor game progress
   scores <- reactiveValues(P1=0, P2=0, P3=0)
   dollarAmount <- reactiveVal(0)
@@ -29,7 +31,7 @@ function(input, output, session) {
   currentIncorrect <- reactiveVal(0)  # 0 to 3 incorrect answers given
   question <- reactiveVal("")
   inControl <- reactiveVal("P1")
-  finalAnswerHidden <- reactiveVal(TRUE)
+  ##finalAnswerHidden <- reactiveVal(TRUE)
   onDailyDouble <- reactiveVal(FALSE)
   dailyDoubleAnswerHidden <- reactiveVal()
   ddAnswer <- reactiveVal()
@@ -38,6 +40,7 @@ function(input, output, session) {
   djdd <- reactiveValues(dd1=temp[1], dd2=temp[2])
   imageAnswer <- reactiveVal(FALSE)
   image <- reactiveVal("")
+  subStage <- reactiveVal("A") # "A" is for image Daily Double before image is shown
   
   # End the app
   observeEvent(input$quitApp, {stopApp()})
@@ -45,6 +48,7 @@ function(input, output, session) {
   # File selection
   shinyFileChoose(input, "inputFile", roots = roots, session=session, filetype="txt")
   
+  # This is the file name as shown on the Intro page 
   gameName = reactive({
     req(input$inputFile)
     parseFilePaths(roots, input$inputFile)$datapath
@@ -231,9 +235,14 @@ function(input, output, session) {
       }
       onDailyDouble(foundOne)
       if (foundOne) {
-        output$selectedAnswer <- renderUI({HTML("Daily Double")})
+        if (imageAnswer()) {
+          output$selectedAnswer <- renderUI({HTML("Video Daily Double")})
+        } else {
+          output$selectedAnswer <- renderUI({HTML("Daily Double")})
+        }
         ddAnswer(answer)
         dailyDoubleAnswerHidden(TRUE)
+        subStage("A")
         updateActionButton(inputId="backToBoard", label="Bet Entered")
         for (player in c("P1", "P2", "P3")) {
           disable(paste0(player, "Correct"))
@@ -248,11 +257,9 @@ function(input, output, session) {
         if (imageAnswer()==FALSE) {
           output$selectedAnswer <- renderUI({HTML(gameData()[[AQ]][position, "Answer"])})
         } else {
-          output$selectedImageAnswer <- renderImage(list(src="./images/RayLiotta.jpeg", height="225px"), 
+          output$selectedImageAnswer <- renderImage(list(src=paste0("./images/", image()),
+                                                         height="400px"), 
                                                     deleteFile=FALSE)
-            # renderImage(list(src=file.path("./images", image()), 
-            #                                              contentType="jpeg", alt="No image"),
-            #                                         deleteFile=FALSE)
         }
       }
       question(gameData()[[AQ]][position, "Question"])
@@ -275,7 +282,7 @@ function(input, output, session) {
   })
   output$jbP3Score <- renderText({
     paste0(ifelse(inControl()=="P3", "*", ""), input$P3Name, ": $", scores$P3)
-  })
+  })  # end generateClickAnswer()
   
   # Show scores on double Jeopardy board
   output$djbP1Score <- renderText({ 
@@ -341,7 +348,7 @@ function(input, output, session) {
     currentIncorrect(0)
     question("")
     inControl("P1")
-    finalAnswerHidden(TRUE)
+    ##finalAnswerHidden(TRUE)
     hide("nextGame")
     show("backToBoard")
     for (player in c("P1", "P2", "P3")) {
@@ -367,6 +374,9 @@ function(input, output, session) {
       enable(bname)
     }
     dailyDoubleAnswerHidden(TRUE)
+    imageAnswer(FALSE)
+    stage("s")
+    subStage("A")
     sjdd(sample(1:answersPerBoard, 1)) # Jeopardy daily double
     temp <- sample(1:answersPerBoard, 2)  # Double Jeopardy daily doubles
     djdd$dd1=temp[1]
@@ -387,25 +397,20 @@ function(input, output, session) {
   # Go to next stage: called only when all questions on a board are completed
   nextStage <- function() {
     if (stage() == "s") {
-      # Go from Jeopardy to Double Jeopardy
+      ## Go from Jeopardy to Double Jeopardy ##
       answersLeft(answersPerBoard)
       stage("d")
     } else {
-      # Go from Double Jeopardy to Final Jeopardy
+      ## Go from Double Jeopardy to Final Jeopardy ##
       stage("f")
-      finalAnswerHidden(TRUE) # Step one of Final Jeopardy
+      subStage("A")
+      ##finalAnswerHidden(TRUE) # Step one of Final Jeopardy
       answersLeft(answersPerBoard)
       currentIncorrect(0)
-      hide("P1fjBet")
-      hide("P1Correct")
-      hide("P1Incorrect")
-      hide("P2fjBet")
-      hide("P2Correct")
-      hide("P2Incorrect")
-      hide("P3fjBet")
-      hide("P3Correct")
-      hide("P3Incorrect")
       for (player in c("P1", "P2", "P3")) {
+        hide(paste0(player, "fjBet"))
+        hide(paste0(player, "Correct"))
+        hide(paste0(player, "Incorrect"))
         PB <- paste0(player, "fjBetPW")
         if (scores[[player]] > 0) {
           show(PB)
@@ -415,6 +420,13 @@ function(input, output, session) {
       }
       output$categoryReminder <- renderText(
         {paste0("Final Jeopardy: ", gameData()[["fjCategory"]])})
+      # Check if answer is an image
+      answer <- gameData()[["fjAQ"]][1, "Answer"]
+      nca <- nchar(answer)
+      if (substring(answer, 1, 1) == "[" && substring(answer, nca) == "]") {
+        imageAnswer(TRUE)
+        image(substring(answer, 2, nca-1))
+      }
       output$selectedAnswer <- renderUI({HTML("")})
       question(gameData()[["fjAQ"]][1, "Question"])
       updateActionButton(inputId="backToBoard", label="Bets Entered")
@@ -442,7 +454,9 @@ function(input, output, session) {
       updateActionButton(inputId="backToBoard", label="Back to Board")
       hide("backToBoard")  # host must use Correct/Incorrect buttons to proceed
       dailyDoubleAnswerHidden(FALSE)
-    } else if (stage()=="f" && finalAnswerHidden()) {
+      if (imageAnswer()) subStage("B")
+    ## } else if (stage()=="f" && finalAnswerHidden()) {
+    } else if (stage()=="f" && subStage()=="A") {
       # handle "Bets Entered" for Final Jeopardy
       # Switch from Final Jeopardy Step 1 to Step 2
       for (player in c("P1", "P2", "P3")) {
@@ -454,8 +468,16 @@ function(input, output, session) {
           hide(paste0(player, "Incorrect"))
         }
       }
-      output$selectedAnswer <- renderUI({HTML(gameData()[["fjAQ"]][1, "Answer"])})
-      finalAnswerHidden(FALSE)
+      if (imageAnswer()) {
+        subStage("B")
+        output$selectedImageAnswer <- renderImage(list(src=paste0("./images/", image()),
+                                                       height="400px"), 
+                                                  deleteFile=FALSE)
+      } else {
+        output$selectedAnswer <- renderUI({HTML(gameData()[["fjAQ"]][1, "Answer"])})
+      }
+      ##finalAnswerHidden(FALSE)
+      subStage("B")
       updateActionButton(inputId="backToBoard", label="Back to Board")
       hide("backToBoard")
       show("nextGame")
@@ -685,25 +707,25 @@ function(input, output, session) {
     
   # https://stackoverflow.com/questions/38895710/passing-reactive-values-to-conditionalpanel-condition
   output$finalStep1 <- reactive({
-    stage()=="f" && finalAnswerHidden() == TRUE
+    stage()=="f" && subStage()=="A" ##finalAnswerHidden() == TRUE
   })
   output$finalStep2 <- reactive({
-    stage()=="f" && finalAnswerHidden() == FALSE
+    stage()=="f" && subStage()=="B"  ##finalAnswerHidden() == FALSE
   })
   output$onDD <- reactive({
     stage()!="f" && onDailyDouble() == TRUE
   })
   output$normal <- reactive({
-    imageAnswer() == FALSE
+    imageAnswer() == FALSE || (onDailyDouble() && subStage()=="A")
   })
-  output$isImage <- reactive({
-    imageAnswer() == TRUE
+  output$showImage <- reactive({
+    imageAnswer() == TRUE && (onDailyDouble()==FALSE && subStage()=="B")
   })
   outputOptions(output, "finalStep1", suspendWhenHidden = FALSE)
   outputOptions(output, "finalStep2", suspendWhenHidden = FALSE)
   outputOptions(output, "onDD", suspendWhenHidden = FALSE)
   outputOptions(output, "normal", suspendWhenHidden = FALSE)
-  outputOptions(output, "isImage", suspendWhenHidden = FALSE)
+  outputOptions(output, "showImage", suspendWhenHidden = FALSE)
   
   #hide("myNavbar")  # Works, but save for after all debugging
 } # end server function

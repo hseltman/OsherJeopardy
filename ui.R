@@ -135,14 +135,15 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                              ## Category and answer ##
                              fluidRow(box(textOutput("categoryReminder"),
                                           style="font-size: 220%;",
-                                          width=12, height=100),
+                                          width=12, height=80),
                                       conditionalPanel(condition='output.normal',
                                         box(htmlOutput("selectedAnswer"),
-                                          style="font-size: 200%;", width=12, height=250)
+                                          style="font-size: 200%;", width=12, height=270)
                                       ),
-                                      conditionalPanel(condition='output.isImage',
+                                      conditionalPanel(condition='output.showImage',
                                         box(imageOutput("selectedImageAnswer"),
-                                          style="font-size: 200%;", width=12, height=250)
+                                          style="text-align: center;", 
+                                          width=12, height=400)
                                       ),
                              ),  # end fluidRow() for category and selected answer 
                              ## Scores ##
