@@ -57,7 +57,7 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                 #tags$style(type = "text/css", ".navbar{padding-left:2px;
                 #           padding-right:2px ; margin-right:2px; margin-left:2px;}"),
                 # Intro Panel  
-                tabPanel("Intro",
+                tabPanel("Intro", style=noGrayBandStyle,
                          useShinyjs(),  # Set up shinyjs
                          sidebarLayout(
                             sidebarPanel(width=0),
@@ -85,7 +85,7 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                         ), # end tabPanel
                 
                 # Jeopardy Panel
-                tabPanel("Jeopardy",
+                tabPanel("Jeopardy", style=noGrayBandStyle,
                          sidebarLayout(
                            sidebarPanel(width=0),
                            mainPanel(#style=frStyle,
@@ -106,7 +106,7 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                          )),
                 
                 # Double Jeopardy Panel
-                tabPanel("Double Jeopardy",
+                tabPanel("Double Jeopardy", style=noGrayBandStyle,
                   sidebarLayout(
                   sidebarPanel(width=0),
                   mainPanel(
@@ -128,7 +128,7 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                     )),  # end sidebarLayout() and tabPanel()
                 
                 # Answer Panel
-                tabPanel("Answer",
+                tabPanel("Answer", style=noGrayBandStyle,
                          sidebarLayout(
                            sidebarPanel(width=0),
                            mainPanel(
