@@ -1,6 +1,8 @@
 Mammals
-This mammal is the most common wool producer|sheep
-This mammal has the longest neck|giraffe
+#This mammal is the most common wool producer|sheep
+[sheep.jpg]|sheep
+#This mammal has the longest neck|giraffe
+[giraffe.jpg]|giraffe
 [RayLiotta.jpeg]|Liotta
 These primates have no tail|apes
 This mammallian order has the most specied|rodent
@@ -89,4 +91,5 @@ FJ|Fuji
 
 
 Crafts
-In weaving, this is perpendicular to the warp|weft
+#In weaving, this is perpendicular to the warp|weft
+[loom.jpeg]|loom
