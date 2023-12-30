@@ -18,7 +18,7 @@ library(shinyjs)
 
 # Define server logic for Jeopardy Game
 function(input, output, session) {
-  #observe({cat("sjdd =", sjdd(), "\n")})
+  observe({cat("imageAnswer =", imageAnswer(), "\n")})
   #observe({cat("input$jbsA1() =", class(input$jbsA1), "\n")})
 
   # Reactive values to monitor game progress
@@ -36,6 +36,8 @@ function(input, output, session) {
   sjdd <- reactiveVal(sample(1:answersPerBoard, 1)) # Jeopardy daily double
   temp <- sample(1:answersPerBoard, 2)  # Double Jeopardy daily doubles
   djdd <- reactiveValues(dd1=temp[1], dd2=temp[2])
+  imageAnswer <- reactiveVal(FALSE)
+  image <- reactiveVal("")
   
   # End the app
   observeEvent(input$quitApp, {stopApp()})
@@ -214,6 +216,14 @@ function(input, output, session) {
         {paste0("$", dollarAmount(), ": ", 
                 gameData()[[paste0(board, "jCategories")]][columnNum])})
       AQ <- paste0(board, "jAQ")
+      answer <- gameData()[[AQ]][position, "Answer"]
+      nca <- nchar(answer)
+      # Check if answer is an image
+      if (substring(answer, 1, 1) == "[" && substring(answer, nca) == "]") {
+        imageAnswer(TRUE)
+        image(substring(answer, 2, nca-1))
+      }
+      # Check if answer is a daily double
       if (stage() == "s") {
         foundOne <- position == isolate(sjdd())
       } else {
@@ -222,24 +232,28 @@ function(input, output, session) {
       onDailyDouble(foundOne)
       if (foundOne) {
         output$selectedAnswer <- renderUI({HTML("Daily Double")})
-        ddAnswer(gameData()[[AQ]][position, "Answer"])
+        ddAnswer(answer)
         dailyDoubleAnswerHidden(TRUE)
         updateActionButton(inputId="backToBoard", label="Bet Entered")
-        disable("P1Correct")
-        disable("P1Incorrect")
-        disable("P2Correct")
-        disable("P2Incorrect")
-        disable("P3Correct")
-        disable("P3Incorrect")
-        hide("P1ddBet")
-        hide("P2ddBet")
-        hide("P3ddBet")
+        for (player in c("P1", "P2", "P3")) {
+          disable(paste0(player, "Correct"))
+          disable(paste0(player, "Incorrect"))
+          hide(paste0(player, "ddBet"))
+        }
         ICB <- paste0(inControl(), "ddBet")
         updateTextInput(inputId=ICB, value="")
         show(ICB)
       } else {
         # if not a daily double
-        output$selectedAnswer <- renderUI({HTML(gameData()[[AQ]][position, "Answer"])})
+        if (imageAnswer()==FALSE) {
+          output$selectedAnswer <- renderUI({HTML(gameData()[[AQ]][position, "Answer"])})
+        } else {
+          output$selectedImageAnswer <- renderImage(list(src="./images/RayLiotta.jpeg", height="225px"), 
+                                                    deleteFile=FALSE)
+            # renderImage(list(src=file.path("./images", image()), 
+            #                                              contentType="jpeg", alt="No image"),
+            #                                         deleteFile=FALSE)
+        }
       }
       question(gameData()[[AQ]][position, "Question"])
       updateNavbarPage(session=session, "myNavbar", "Answer")
@@ -330,18 +344,12 @@ function(input, output, session) {
     finalAnswerHidden(TRUE)
     hide("nextGame")
     show("backToBoard")
-    show("P1Correct")
-    show("P1Incorrect")
-    show("P2Correct")
-    show("P2Incorrect")
-    show("P3Correct")
-    show("P3Incorrect")
-    show("P1fjBetPW")
-    show("P2fjBetPW")
-    show("P2fjBetPW")
-    show("P1fjBet")
-    show("P2fjBet")
-    show("P2fjBet")
+    for (player in c("P1", "P2", "P3")) {
+      show(paste0(player, "Correct"))
+      show(paste0(player, "Incorrect"))
+      show(paste0(player, "fjBetPW"))
+      show(paste0(player, "fjBet"))
+    }
     updateTextInput(inputId="P1Name", value="")
     updateTextInput(inputId="P2Name", value="")
     updateTextInput(inputId="P3Name", value="")
@@ -368,6 +376,7 @@ function(input, output, session) {
   ### Handle "Return to Board"
   returnToBoard <- function() {
     onDailyDouble(FALSE)
+    imageAnswer(FALSE)
     if (stage() != "f" && answersLeft() == 0) {
       nextStage()
     }
@@ -684,9 +693,17 @@ function(input, output, session) {
   output$onDD <- reactive({
     stage()!="f" && onDailyDouble() == TRUE
   })
+  output$normal <- reactive({
+    imageAnswer() == FALSE
+  })
+  output$isImage <- reactive({
+    imageAnswer() == TRUE
+  })
   outputOptions(output, "finalStep1", suspendWhenHidden = FALSE)
   outputOptions(output, "finalStep2", suspendWhenHidden = FALSE)
   outputOptions(output, "onDD", suspendWhenHidden = FALSE)
+  outputOptions(output, "normal", suspendWhenHidden = FALSE)
+  outputOptions(output, "isImage", suspendWhenHidden = FALSE)
   
   #hide("myNavbar")  # Works, but save for after all debugging
 } # end server function
