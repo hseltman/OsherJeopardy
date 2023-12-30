@@ -14,7 +14,7 @@ rm(tLoc)
 
 # Styles
 scoreStyle <- "text-align:center; font-size: 190%; color: blue; padding-left: -4px; padding-right: -4px;"
-betStyle <- "font-size: 120%"
+betStyle <- "text-align:center; font-size: 190%;"
 frStyle <- "padding-left: -4px; padding-right: -4px;"
 colStyle <- "padding-left: -8px; padding-right: -8px;"
 
