@@ -136,14 +136,14 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                              fluidRow(box(textOutput("categoryReminder"),
                                           style="font-size: 220%;",
                                           width=12, height=80),
-                                      conditionalPanel(condition='output.normal',
+                                      conditionalPanel(condition='output.showText',
                                         box(htmlOutput("selectedAnswer"),
-                                          style="font-size: 200%;", width=12, height=270)
+                                          style="font-size: 200%;", width=12, height=375)
                                       ),
                                       conditionalPanel(condition='output.showImage',
                                         box(imageOutput("selectedImageAnswer"),
                                           style="text-align: center;", 
-                                          width=12, height=400)
+                                          width=12, height=375)
                                       ),
                              ),  # end fluidRow() for category and selected answer 
                              ## Scores ##
@@ -182,13 +182,13 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                              conditionalPanel(condition='output.onDD',
                                 column(style=betStyle, width=4,
                                        box(textInput("P1ddBet", NULL),
-                                           width="100%", height=120)),
+                                           width="100%", height=70)),
                                 column(style=betStyle, width=4,
                                        box(textInput("P2ddBet", NULL),
-                                           width="100%", height=120)),
+                                           width="100%", height=70)),
                                 column(style=betStyle, width=4,
                                        box(textInput("P3ddBet", NULL),
-                                           width="100%", height=120)),
+                                           width="100%", height=70)),
                              ), # end conditionalPanel() for betting (see server.R)
                              ## Correct/Incorrect buttons ##
                              column(width=4,
