@@ -439,6 +439,7 @@ function(input, output, session) {
   ### Handle "Next Game" button
   observeEvent(input$nextGame, {
     resetAll()
+    removeUI(selector = "#fjAudio")
     updateNavbarPage(session=session, "myNavbar", "Intro")
   })
   
@@ -470,7 +471,6 @@ function(input, output, session) {
         }
       }
       if (imageAnswer()) {
-        subStage("B")
         output$selectedImageAnswer <- renderImage(list(src=paste0("./images/", image()),
                                                        height="375px"), 
                                                   deleteFile=FALSE)
@@ -481,6 +481,15 @@ function(input, output, session) {
       updateActionButton(inputId="backToBoard", label="Back to Board")
       hide("backToBoard")
       show("nextGame")
+      # https://stackoverflow.com/questions/71504072/how-to-conditionally-play-an-audio-clip-in-r-shiny
+      insertUI(selector = "#backToBoard",
+               where = "afterEnd",
+               ui= tags$div(
+                 id = "fjAudio",
+                   tags$audio(src = themeSong, type = "audio/mp3", autoplay = NA,
+                              controls = NA, style="display:none;")  
+               ) # end tags$div()
+      )
     } else {
       # handle ordinary "Back to Board"
       currentIncorrect(0)

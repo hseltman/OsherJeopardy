@@ -47,6 +47,9 @@ stageMatch=c(s="Jeopardy", d="Double Jeopardy", f="Answer")
 # (Set to 30, but temporarily lower for quick testing)
 answersPerBoard <- 30
 
+# Audio file
+themeSong <- "Jeopardy-theme-song.mp3"
+
 # All push buttons to update
 allJeopardyButtons <- paste0("jbs", 1:answersPerBoard)
 allDoubleJeopardyButtons <- paste0("jbd", 1:answersPerBoard)
