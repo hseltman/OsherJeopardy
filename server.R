@@ -142,7 +142,7 @@ function(input, output, session) {
     if (length(temp) != 13) {
       shinyalert("Bad input",
                  paste("File must contain 6 Jeopardy Categories, 6 Double",
-                       "Jeopardy Categories, and one Final Jeopary Category.",
+                       "Jeopardy Categories, and one Final Jeopardy Category.",
                        "You have", length(temp), "categories."),
                  type="error")
       return(NULL)
@@ -163,7 +163,7 @@ function(input, output, session) {
                        "Question' pairs ",
                        "for Jeopardy, 6 groups of 5 'Answer", input$AQSeparator,
                        "Question' pairs for Double Jeopardy, and one Final ",
-                       "Jeopary 'Answer", input$AQSeparator, "Question' pair ",
+                       "Jeopardy 'Answer", input$AQSeparator, "Question' pair ",
                        "for a total of 61 pairs.  ",
                        "You have", sum(temp), "pairs in ", length(temp), "groups."),
                  type="error")
@@ -171,7 +171,7 @@ function(input, output, session) {
     }
     if (temp[13] != 1) {
       shinyalert("Bad input",
-                 paste0("There should be just one Final Jeopary 'Answer",
+                 paste0("There should be just one Final Jeopardy 'Answer",
                  input$AQSeparator, "Question' pair."),
                  type="error")
       return(NULL)
