@@ -19,6 +19,15 @@ frStyle <- "padding-left: -4px; padding-right: -4px;"
 colStyle <- "padding-left: -8px; padding-right: -8px;"
 noGrayBandStyle <- "margin-top: -60px"
 
+# Generate locations of Daily Doubles
+genDD <- function(n, restrict=NA) {
+  if (!is.na(restrict)) return(sample(1:restrict, n))
+  column <- sample(1:6, n)
+  row <- sample(1:5, n, replace=TRUE, prob=c(0.05, 0.1, 0.2, 0.325, 0.325))
+  return((column-1)*5 + row)
+}
+
+
 # File input is plain text as follows:
 # Blank lines and lines where the first non-blank character is "#" are ignored,
 # "|" (or 'AQSeparator') is the separator between answer and question

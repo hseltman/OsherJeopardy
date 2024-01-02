@@ -43,8 +43,8 @@ function(input, output, session) {
   inControl <- reactiveVal("P1")
   bettingAnswer <- reactiveVal(FALSE)  # Daily double or Final Jeopardy
   ddAnswer <- reactiveVal()
-  sjdd <- reactiveVal(sample(1:answersPerBoard, 1)) # Jeopardy daily double
-  temp <- sample(1:answersPerBoard, 2)  # Double Jeopardy daily doubles
+  sjdd <- reactiveVal(genDD(1, ifelse(debugging, answersPerBoard, NA)))
+  temp <- genDD(2, ifelse(debugging, answersPerBoard, NA))
   djdd <- reactiveValues(dd1=temp[1], dd2=temp[2])
   imageAnswer <- reactiveVal(FALSE)
   image <- reactiveVal("")
@@ -376,8 +376,8 @@ function(input, output, session) {
     imageAnswer(FALSE)
     stage("s")
     subStage("A")
-    sjdd(sample(1:answersPerBoard, 1)) # Jeopardy daily double
-    temp <- sample(1:answersPerBoard, 2)  # Double Jeopardy daily doubles
+    sjdd(genDD(1, ifelse(debugging, answersPerBoard, NA))) # Jeopardy daily double
+    temp <- genDD(2, ifelse(debugging, answersPerBoard, NA))
     djdd$dd1=temp[1]
     djdd$dd2=temp[2]
   }
