@@ -25,11 +25,11 @@ Word Problems
 If Sally eats a dozen eggs every other week, she eats this many dozen in a year|26
 If Achmed can paint 3 rooms a day, it takes this long to paint 18 rooms|6 days
 If Noah eats 2 slices of pizza a day, it takes this many days to eat two 8-slice pizzas|8
-If there are 2 tbsp in an ounce, and 8 tbsp to a cup, there are this many tsp are in a cup|16
+If there are 2 tbsp in an ounce, and 8 tbsp to a cup, there are this many tbsp in a cup|16
 If an abscess has a diameter of 2 cm, it has approximately this volume|24 cc
 
 
-1970s Billboard Hot 100 Artists by Song
+1970s Billboard Artists by Song
 Let It Be|The Beatles
 Bridge Over Troubled Waters|Simon and Garfunkel
 Close to You|The Carpenters
@@ -59,7 +59,7 @@ The Firm|John Grisham
 Waiting to Exhale|Terri McMillan
 The Da Vinci Code|Dan Brown 
 
-Sitcom by Character
+TV Show by Character
 Pavel Chekov|Star Trek
 Barney Rubble|The Flintstones
 Edith Bunker|All In the Family
@@ -68,11 +68,11 @@ Arnie Becker|L.A. Law
 
 
 Etymology
-This CSI word comes from Theseus finding his way out of the Labyrinth|Clue
-Meaning wild confusion this word come form the Greek for "all" and the Latin for  "evil spirit"|Pandemonium
-This spirit comes from the Gaelic "uisge beatha" (water of life)|whiskey
 This pandemic term comes from the Italian for 40 days|quarantine
+This form of alcohol comes from the Gaelic "uisge beatha" (water of life)|whiskey
 This games term comes from the Arabic al-shāh māta, meaning “the king died”|checkmate 
+Meaning wild confusion this word come from the Greek for "all" and the Latin for "evil spirit"|pandemonium
+This CSI word comes from Theseus finding his way out of the Labyrinth|clue
 
 
 Countries by Capital

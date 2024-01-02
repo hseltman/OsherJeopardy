@@ -6,18 +6,18 @@ QED: This is the process of letting dough rise again before baking|proofing
 This is the French term for a rounded crusty loaf|boule
 
 Ray
-This blind singer/songwriters won 17 Grammys|Ray Charles
+This blind singer/songwriter won 17 Grammys|Ray Charles
 This American author wrote Fahrenheit 451 and the Martian chronicles|Ray Bradbury
 This man is credited with the global expansion of McDonald’s|Ray Kroc
 This actor played the Scarecrow in the Wizard of Oz|Ray Bolger
-[image]|Ray Liotta
+[RayLiotta.jpeg]|Ray Liotta
 
 M.E.
 In forensics, this is the meaning of M.E.|Medical Examiner
 This M.E. from Pittsburgh wrote a book contesting the Warren Report|Cyril Wecht
 This actor played Quincy, M.E.|Jack Klugman
 This Man from Uncle actor played an M.E. on NCIS|David McCallum
-This female M.E. iss the the protagonist of a series of novels by Patricia Cromwell|Kay Scarpetta
+This female M.E. is the the protagonist of a series of novels by Patricia Cromwell|Kay Scarpetta
 
 “Fa”
 (4) A long pointed tooth|fang
@@ -45,14 +45,14 @@ Odd and interesting Pittsburgh
 This park currently has a small herd of bison|South Park
 The defunct atom smasher in Forest Hills was owned by this company|Westinghouse
 From 1905 to 1909 Luna Park was an amusement Park in this neighborhood|Oakland
-A quirky “museum” of found art in the North Side is named this after its founder|Randyland
+A quirky “museum” of found art in the North Side is named this, after its founder|Randyland
 The Homeless Memorial Wall is in this neighborhood|Downtown
 
 Found in "Oakland"
-Disagreeably damp, musty, and typically cold|dank
 A corner or recess, especially one offering seclusion|nook
-A paradoxical anecdote or riddle, used in Zen Buddhism to demonstrate the inadequacy of logical reasoning|koan
 A sum of money that is expected to be paid back|loan
+A paradoxical anecdote or riddle, used in Zen Buddhism to demonstrate the inadequacy of logical reasoning|koan
+Disagreeably damp, musty, and typically cold|dank
 Slang for nothing or zero|nada
 
 #Mariner 4, the first successful flyby of Mars, took place in this decade|1960s
