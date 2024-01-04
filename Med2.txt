@@ -1,6 +1,6 @@
 Spanish to English
 gracias|thank you
-por Favor|please
+por favor|please
 mujer|woman
 caliente|hot
 ayudar|help
