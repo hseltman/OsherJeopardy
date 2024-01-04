@@ -47,7 +47,8 @@ function(input, output, session) {
   temp <- genDD(2, ifelse(debugging, answersPerBoard, NA))
   djdd <- reactiveValues(dd1=temp[1], dd2=temp[2])
   imageAnswer <- reactiveVal(FALSE)
-  image <- reactiveVal("")
+  audioAnswer <- reactiveVal(FALSE)
+  mmFileName <- reactiveVal("")
   subStage <- reactiveVal("A") # Daily Double or Final Jeopardy before image is shown
   
   # End the app
@@ -232,12 +233,20 @@ function(input, output, session) {
       answer <- gameData()[[AQ]][position, "Answer"]
       nca <- nchar(answer)
       # Check if answer is an image
-      if (substring(answer, 1, 1) == "[" && substring(answer, nca) == "]") {
-        imageAnswer(TRUE)
-        image(substring(answer, 2, nca-1))
-        output$selectedImageAnswer <- renderImage(list(src=paste0("./images/", image()),
-                                                       height="375px"), 
-                                                  deleteFile=FALSE)
+      REP <- regexpr(".", answer, fixed=TRUE)
+      if (REP != -1 && REP < (nca-1) && substring(answer, 1, 1) == "[" &&
+          substring(answer, nca) == "]") {
+        suffix <- substring(answer, REP+1, nca-1)
+        mmFileName(substring(answer, 2, nca-1))
+        if (suffix %in% audioExtensions) {
+          audioAnswer(TRUE)
+        } else {
+          imageAnswer(TRUE)
+          output$selectedImageAnswer <- renderImage(list(src=paste0("./images/", 
+                                                                    mmFileName()),
+                                                         height="375px"), 
+                                                    deleteFile=FALSE)
+        }
       }
       # Check if answer is a daily double
       if (stage() == "s") {
@@ -247,13 +256,15 @@ function(input, output, session) {
       }
       bettingAnswer(foundOne)
       if (foundOne) {
+        # This is a Daily Double
         if (imageAnswer()) {
           output$selectedAnswer <- renderUI({HTML("Video Daily Double")})
+        } else if (audioAnswer()) {
+          output$selectedAnswer <- renderUI({HTML("Audio Daily Double")})
         } else {
           output$selectedAnswer <- renderUI({HTML("Daily Double")})
         }
         ddAnswer(answer)
-        ##dailyDoubleAnswerHidden(TRUE)
         subStage("A")
         updateActionButton(inputId="backToBoard", label="Bet Entered")
         for (player in c("P1", "P2", "P3")) {
@@ -264,6 +275,16 @@ function(input, output, session) {
         ICB <- paste0(inControl(), "ddBet")
         updateTextInput(inputId=ICB, value="")
         show(ICB)
+      } else if (audioAnswer() == TRUE) {
+        # Audio, but not a Daily Double
+        insertUI(selector = "#backToBoard",
+                 where = "afterEnd",
+                 ui= tags$div(
+                   id = "fjAudio",
+                   tags$audio(src = mmFileName(), type = "audio/mp3", autoplay = NA,
+                              controls = NA, style="display:none;")  
+                 ) # end tags$div()
+        )
       } else if (imageAnswer() == FALSE) {
         # if not a daily double and not an image, show text
           output$selectedAnswer <- renderUI({HTML(gameData()[[AQ]][position, "Answer"])})
@@ -352,7 +373,6 @@ function(input, output, session) {
     currentIncorrect(0)
     question("")
     inControl("P1")
-    ##finalAnswerHidden(TRUE)
     hide("nextGame")
     show("backToBoard")
     for (player in c("P1", "P2", "P3")) {
@@ -374,6 +394,7 @@ function(input, output, session) {
       enable(bname)
     }
     imageAnswer(FALSE)
+    audioAnswer(FALSE)
     stage("s")
     subStage("A")
     sjdd(genDD(1, ifelse(debugging, answersPerBoard, NA))) # Jeopardy daily double
@@ -388,6 +409,10 @@ function(input, output, session) {
       bettingAnswer(FALSE)
       subStage("A")
       imageAnswer(FALSE)
+      if (audioAnswer()) {
+        removeUI(selector = "#jAudio")
+        audioAnswer(FALSE)
+      }
       if (answersLeft() == 0) {
         nextStage()
       }
@@ -427,7 +452,7 @@ function(input, output, session) {
       nca <- nchar(answer)
       if (substring(answer, 1, 1) == "[" && substring(answer, nca) == "]") {
         imageAnswer(TRUE)
-        image(substring(answer, 2, nca-1))
+        mmFileName(substring(answer, 2, nca-1))
       }
       output$selectedAnswer <- renderUI({HTML("")})
       question(gameData()[["fjAQ"]][1, "Question"])
@@ -449,15 +474,24 @@ function(input, output, session) {
   ### for Final Jeopardy: "Bets Entered"
   observeEvent(input$backToBoard, {
     if (bettingAnswer() && stage()!="f") {
-      # handle "Bet Entered" for daily double
+      # handle "Bet Entered" for Daily Double
       output$selectedAnswer <- renderUI({HTML(ddAnswer())})
       who <- inControl()
       enable(paste0(who, "Correct"))
       enable(paste0(who, "Incorrect"))
       updateActionButton(inputId="backToBoard", label="Back to Board")
       hide("backToBoard")  # host must use Correct/Incorrect buttons to proceed
-      #dailyDoubleAnswerHidden(FALSE)
       subStage("B")
+      if (audioAnswer()) {
+        insertUI(selector = "#backToBoard",
+                 where = "afterEnd",
+                 ui= tags$div(
+                   id = "jAudio",
+                   tags$audio(src = mmFileName(), type = "audio/mp3", autoplay = NA,
+                              controls = NA, style="display:none;")  
+                 ) # end tags$div()
+        )
+      }
     } else if (stage()=="f" && subStage()=="A") {
       # handle "Bets Entered" for Final Jeopardy
       # Switch from Final Jeopardy Step 1 to Step 2
@@ -471,10 +505,11 @@ function(input, output, session) {
         }
       }
       if (imageAnswer()) {
-        output$selectedImageAnswer <- renderImage(list(src=paste0("./images/", image()),
+        output$selectedImageAnswer <- renderImage(list(src=paste0("./images/", mmFileName()),
                                                        height="375px"), 
                                                   deleteFile=FALSE)
       } else {
+        # Note: Final Jeopardy cannot be an audio answer
         output$selectedAnswer <- renderUI({HTML(gameData()[["fjAQ"]][1, "Answer"])})
       }
       subStage("B")
@@ -485,7 +520,7 @@ function(input, output, session) {
       insertUI(selector = "#backToBoard",
                where = "afterEnd",
                ui= tags$div(
-                 id = "fjAudio",
+                 id = "jAudio",
                    tags$audio(src = themeSong, type = "audio/mp3", autoplay = NA,
                               controls = NA, style="display:none;")  
                ) # end tags$div()
@@ -717,16 +752,17 @@ function(input, output, session) {
     
   # https://stackoverflow.com/questions/38895710/passing-reactive-values-to-conditionalpanel-condition
   output$finalStep1 <- reactive({
-    stage()=="f" && subStage()=="A" ##finalAnswerHidden() == TRUE
+    stage()=="f" && subStage()=="A"
   })
   output$finalStep2 <- reactive({
-    stage()=="f" && subStage()=="B"  ##finalAnswerHidden() == FALSE
+    stage()=="f" && subStage()=="B"
   })
   output$onDD <- reactive({
     stage()!="f" && bettingAnswer() == TRUE
   })
   output$showText <- reactive({
-    imageAnswer() == FALSE || (bettingAnswer() && subStage()=="A")
+    (imageAnswer() == FALSE && audioAnswer() == FALSE) ||
+      (bettingAnswer() && subStage()=="A")
   })
   output$showImage <- reactive({
     imageAnswer() == TRUE && (bettingAnswer()==FALSE || subStage()=="B")
