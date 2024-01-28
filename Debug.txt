@@ -1,7 +1,8 @@
 Single Cat 1
 [AlkaSeltzer.m4a]|Alka Seltzer
-SAC1 $200|SQC1 $200
-SAC1 $300|SQC1 $300
+[JKRowling.png]|J.K. Rowling
+#[EllaFitzgerald.mov]|Ella Fitzgerald
+SAC1 #300|SQC1 #300
 SAC1 $400|SQC1 $400
 SAC1 $500|SQC1 $500
 
