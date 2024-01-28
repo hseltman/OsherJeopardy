@@ -48,6 +48,7 @@ function(input, output, session) {
   djdd <- reactiveValues(dd1=temp[1], dd2=temp[2])
   imageAnswer <- reactiveVal(FALSE)
   audioAnswer <- reactiveVal(FALSE)
+  videoAnswer <- reactiveVal(FALSE)
   mmFileName <- reactiveVal("")
   subStage <- reactiveVal("A") # Daily Double or Final Jeopardy before image is shown
   
@@ -97,11 +98,11 @@ function(input, output, session) {
       fjCategory = inData[73]
       tc = textConnection(inData[1:36][-sjCatLoc])
       sjAQ = read.table(tc, sep=input$AQSeparator, quote="",
-                        col.names=c("Answer", "Question"))
+                        col.names=c("Answer", "Question"), comment.char="")
       close(tc)
       tc = textConnection(inData[37:72][-sjCatLoc]) # [sic]
       djAQ = read.table(tc, sep=input$AQSeparator, quote="",
-                        col.names=c("Answer", "Question"))
+                        col.names=c("Answer", "Question"), comment.char="")
       close(tc)
       temp = strsplit(inData[74], input$AQSeparator, fixed=TRUE)[[1]]
       fjAQ = data.frame(Answer=temp[1], Question=temp[2])
@@ -240,6 +241,8 @@ function(input, output, session) {
         mmFileName(substring(answer, 2, nca-1))
         if (suffix %in% audioExtensions) {
           audioAnswer(TRUE)
+        } else if (suffix %in% videoExtensions) {
+          videoAnswer(TRUE)
         } else {
           imageAnswer(TRUE)
           output$selectedImageAnswer <- renderImage(list(src=paste0("./images/", 
@@ -257,7 +260,7 @@ function(input, output, session) {
       bettingAnswer(foundOne)
       if (foundOne) {
         # This is a Daily Double
-        if (imageAnswer()) {
+        if (imageAnswer() || videoAnswer()) {
           output$selectedAnswer <- renderUI({HTML("Video Daily Double")})
         } else if (audioAnswer()) {
           output$selectedAnswer <- renderUI({HTML("Audio Daily Double")})
@@ -280,9 +283,19 @@ function(input, output, session) {
         insertUI(selector = "#backToBoard",
                  where = "afterEnd",
                  ui= tags$div(
-                   id = "fjAudio",
+                   id = "jAudioVideo",
                    tags$audio(src = mmFileName(), type = "audio/mp3", autoplay = NA,
                               controls = NA, style="display:none;")  
+                 ) # end tags$div()
+        )
+      } else if (videoAnswer() == TRUE) {
+        # Video, but not a Daily Double
+        insertUI(selector = "#categoryReminder",
+                 where = "afterEnd",
+                 ui= tags$div(
+                   id = "jAudioVideo",
+                   tags$video(src = mmFileName(), type = "video/mov", autoplay = NA,
+                              controls = NA) #, style="display:none;")  
                  ) # end tags$div()
         )
       } else if (imageAnswer() == FALSE) {
@@ -395,6 +408,7 @@ function(input, output, session) {
     }
     imageAnswer(FALSE)
     audioAnswer(FALSE)
+    videoAnswer(FALSE)
     stage("s")
     subStage("A")
     sjdd(genDD(1, ifelse(debugging, answersPerBoard, NA))) # Jeopardy daily double
@@ -409,8 +423,8 @@ function(input, output, session) {
       bettingAnswer(FALSE)
       subStage("A")
       imageAnswer(FALSE)
-      if (audioAnswer()) {
-        removeUI(selector = "#jAudio")
+      if (audioAnswer() || videoAnswer()) {
+        removeUI(selector = "#jAudioVideo")
         audioAnswer(FALSE)
       }
       if (answersLeft() == 0) {
@@ -486,8 +500,17 @@ function(input, output, session) {
         insertUI(selector = "#backToBoard",
                  where = "afterEnd",
                  ui= tags$div(
-                   id = "jAudio",
+                   id = "jAudioVideo",
                    tags$audio(src = mmFileName(), type = "audio/mp3", autoplay = NA,
+                              controls = NA, style="display:none;")  
+                 ) # end tags$div()
+        )
+      } else if (videoAnswer()) {
+        insertUI(selector = "#categoryReminder",
+                 where = "afterEnd",
+                 ui= tags$div(
+                   id = "jAudioVideo",
+                   tags$vidio(src = mmFileName(), type = "video/mov", autoplay = NA,
                               controls = NA, style="display:none;")  
                  ) # end tags$div()
         )
@@ -509,18 +532,19 @@ function(input, output, session) {
                                                        height="375px"), 
                                                   deleteFile=FALSE)
       } else {
-        # Note: Final Jeopardy cannot be an audio answer
+        # Note: Final Jeopardy cannot be an audio or video answer
         output$selectedAnswer <- renderUI({HTML(gameData()[["fjAQ"]][1, "Answer"])})
       }
       subStage("B")
       updateActionButton(inputId="backToBoard", label="Back to Board")
       hide("backToBoard")
       show("nextGame")
+      # Play the final Jeopardy theme song
       # https://stackoverflow.com/questions/71504072/how-to-conditionally-play-an-audio-clip-in-r-shiny
       insertUI(selector = "#backToBoard",
                where = "afterEnd",
                ui= tags$div(
-                 id = "jAudio",
+                 id = "jAudioVideo",
                    tags$audio(src = themeSong, type = "audio/mp3", autoplay = NA,
                               controls = NA, style="display:none;")  
                ) # end tags$div()
@@ -761,7 +785,7 @@ function(input, output, session) {
     stage()!="f" && bettingAnswer() == TRUE
   })
   output$showText <- reactive({
-    (imageAnswer() == FALSE && audioAnswer() == FALSE) ||
+    (imageAnswer() == FALSE && audioAnswer() == FALSE & videoAnswer() == FALSE) ||
       (bettingAnswer() && subStage()=="A")
   })
   output$showImage <- reactive({

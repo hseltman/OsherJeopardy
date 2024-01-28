@@ -31,6 +31,9 @@ genDD <- function(n, restrict=NA) {
 # File extensions for audio files
 audioExtensions <- c("mp3", "m4a")
 
+# File extensions for video files
+videoExtensions <- c("mov")
+
 # File input is plain text as follows:
 # Blank lines and lines where the first non-blank character is "#" are ignored,
 # "|" (or 'AQSeparator') is the separator between answer and question
