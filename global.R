@@ -28,11 +28,10 @@ genDD <- function(n, restrict=NA) {
 }
 
 
-# File extensions for audio files
+# File extensions for multimedia files
+imageExtensions <- c("jpg", "jpeg", "png")
 audioExtensions <- c("mp3", "m4a")
-
-# File extensions for video files
-videoExtensions <- c("mov")
+videoExtensions <- c("mov", "mp4")
 
 # File input is plain text as follows:
 # Blank lines and lines where the first non-blank character is "#" are ignored,

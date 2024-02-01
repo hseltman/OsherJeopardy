@@ -17,9 +17,9 @@ library(shinyjs)
 
 # Define server logic for Jeopardy Game
 function(input, output, session) {
-  debugging <- FALSE
+  debugging <- TRUE
   if (debugging) {
-    answersPerBoard <- 3
+    answersPerBoard <- 5
     observe({cat("imageAnswer() =", imageAnswer(), "\n")})
     observe({cat("bettingAnswer() =", bettingAnswer(), "\n")})
     observe({cat("stage() =", stage(), "\n")})
@@ -49,7 +49,9 @@ function(input, output, session) {
   imageAnswer <- reactiveVal(FALSE)
   audioAnswer <- reactiveVal(FALSE)
   videoAnswer <- reactiveVal(FALSE)
-  mmFileName <- reactiveVal("")
+  imageFileName <- reactiveVal("")
+  audioFileName <- reactiveVal("")
+  videoFileName <- reactiveVal("")
   subStage <- reactiveVal("A") # Daily Double or Final Jeopardy before image is shown
   
   # End the app
@@ -211,6 +213,30 @@ function(input, output, session) {
   })
 
   output$categoryReminder <- renderText({"Nothing selected"})
+
+  # Function to parse an answer for audio-visuals
+  parseInput <- function(txt) {
+    rslt <- list(text="", imageFile=NULL, audioFile=NULL, videoFile=NULL)
+    for (i in 1:2) {
+      LB <- regexpr("\\[.+?[.].+?\\]", txt)
+      if (LB == -1) break
+      if (LB>1) {
+        warning(txt, " is not in a form not handled by parseInput()")
+        break
+      }
+      fLen <- attr(LB, "match.length")
+      fName <- substring(txt, 2, fLen - 1)
+      txt <- substring(txt, fLen+1)
+      startExt <- regexpr("[^.]+$", fName)
+      ext <- substring(fName, startExt)
+      if (ext %in% imageExtensions) rslt$imageFile <- fName
+      if (ext %in% audioExtensions) rslt$audioFile <- fName
+      if (ext %in% videoExtensions) rslt$videoFile <- fName
+    } # up to two multimedia files per answer (only supported combo is image+audio)
+    rslt$text <- txt
+    return(rslt)
+  }
+  
   
   # Function to handle click on Jeopardy or Double Jeopardy board resulting in showing
   # the Answer on the "Answer" tab
@@ -232,24 +258,23 @@ function(input, output, session) {
                 gameData()[[paste0(board, "jCategories")]][columnNum])})
       AQ <- paste0(board, "jAQ")
       answer <- gameData()[[AQ]][position, "Answer"]
-      nca <- nchar(answer)
-      # Check if answer is an image
-      REP <- regexpr(".", answer, fixed=TRUE)
-      if (REP != -1 && REP < (nca-1) && substring(answer, 1, 1) == "[" &&
-          substring(answer, nca) == "]") {
-        suffix <- substring(answer, REP+1, nca-1)
-        mmFileName(substring(answer, 2, nca-1))
-        if (suffix %in% audioExtensions) {
-          audioAnswer(TRUE)
-        } else if (suffix %in% videoExtensions) {
-          videoAnswer(TRUE)
-        } else {
-          imageAnswer(TRUE)
-          output$selectedImageAnswer <- renderImage(list(src=paste0("./images/", 
-                                                                    mmFileName()),
-                                                         height="375px"), 
-                                                    deleteFile=FALSE)
-        }
+      parsedAnswer <- parseInput(answer)
+      # Check if answer is multimedia
+      if (!is.null(parsedAnswer$imageFile)) {
+        imageAnswer(TRUE)
+        imageFileName(parsedAnswer$imageFile)
+        output$selectedImageAnswer <- renderImage(list(src=paste0("./images/", imageFileName()),
+                                                       height="375px"), 
+                                                  deleteFile=FALSE)
+        
+      }
+      if (!is.null(parsedAnswer$audioFile)) {
+        audioAnswer(TRUE)
+        audioFileName(parsedAnswer$audioFile)
+      }
+      if (!is.null(parsedAnswer$videoFile)) {
+        videoAnswer(TRUE)
+        videoFileName(parsedAnswer$videoFile)
       }
       # Check if answer is a daily double
       if (stage() == "s") {
@@ -267,7 +292,7 @@ function(input, output, session) {
         } else {
           output$selectedAnswer <- renderUI({HTML("Daily Double")})
         }
-        ddAnswer(answer)
+        ddAnswer(parsedAnswer$text)
         subStage("A")
         updateActionButton(inputId="backToBoard", label="Bet Entered")
         for (player in c("P1", "P2", "P3")) {
@@ -284,7 +309,7 @@ function(input, output, session) {
                  where = "afterEnd",
                  ui= tags$div(
                    id = "jAudioVideo",
-                   tags$audio(src = mmFileName(), type = "audio/mp3", autoplay = NA,
+                   tags$audio(src = audioFileName(), type = "audio/mp3", autoplay = NA,
                               controls = NA, style="display:none;")  
                  ) # end tags$div()
         )
@@ -294,7 +319,7 @@ function(input, output, session) {
                  where = "afterEnd",
                  ui= tags$div(
                    id = "jAudioVideo",
-                   tags$video(src = mmFileName(), type = "video/mov", autoplay = NA,
+                   tags$video(src = videoFileName(), type = "video/mov", autoplay = NA,
                               controls = NA) #, style="display:none;")  
                  ) # end tags$div()
         )
@@ -426,6 +451,7 @@ function(input, output, session) {
       if (audioAnswer() || videoAnswer()) {
         removeUI(selector = "#jAudioVideo")
         audioAnswer(FALSE)
+        videoAnswer(FALSE)
       }
       if (answersLeft() == 0) {
         nextStage()
@@ -463,10 +489,10 @@ function(input, output, session) {
         {paste0("Final Jeopardy: ", gameData()[["fjCategory"]])})
       # Check if answer is an image
       answer <- gameData()[["fjAQ"]][1, "Answer"]
-      nca <- nchar(answer)
-      if (substring(answer, 1, 1) == "[" && substring(answer, nca) == "]") {
+      parsedAnswer <- parseInput(answer)
+      if (!is.null(parsedAnswer$imageFile)) {
         imageAnswer(TRUE)
-        mmFileName(substring(answer, 2, nca-1))
+        imageFileName(parsedAnswer$imageFile)
       }
       output$selectedAnswer <- renderUI({HTML("")})
       question(gameData()[["fjAQ"]][1, "Question"])
@@ -501,7 +527,7 @@ function(input, output, session) {
                  where = "afterEnd",
                  ui= tags$div(
                    id = "jAudioVideo",
-                   tags$audio(src = mmFileName(), type = "audio/mp3", autoplay = NA,
+                   tags$audio(src = audioFileName(), type = "audio/mp3", autoplay = NA,
                               controls = NA, style="display:none;")  
                  ) # end tags$div()
         )
@@ -510,7 +536,7 @@ function(input, output, session) {
                  where = "afterEnd",
                  ui= tags$div(
                    id = "jAudioVideo",
-                   tags$vidio(src = mmFileName(), type = "video/mov", autoplay = NA,
+                   tags$vidio(src = videoFileName(), type = "video/mov", autoplay = NA,
                               controls = NA, style="display:none;")  
                  ) # end tags$div()
         )
@@ -528,7 +554,7 @@ function(input, output, session) {
         }
       }
       if (imageAnswer()) {
-        output$selectedImageAnswer <- renderImage(list(src=paste0("./images/", mmFileName()),
+        output$selectedImageAnswer <- renderImage(list(src=paste0("./images/", imageFileName()),
                                                        height="375px"), 
                                                   deleteFile=FALSE)
       } else {
