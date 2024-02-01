@@ -17,7 +17,7 @@ library(shinyjs)
 
 # Define server logic for Jeopardy Game
 function(input, output, session) {
-  debugging <- TRUE
+  debugging <- FALSE
   if (debugging) {
     answersPerBoard <- 5
     observe({cat("imageAnswer() =", imageAnswer(), "\n")})
