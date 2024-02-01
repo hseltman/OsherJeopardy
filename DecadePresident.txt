@@ -26,12 +26,13 @@ Before and after: President plus celebrity
 23rd president who portrayed Indiana Jones|Benjamin Harrison Ford
 7th president who was an American abstract expressionist|Andrew Jackson Pollock
 
-1950/1960's Nobel Literature winners
-France, 1957 "The Plague"|Albert Camus
-Soviet Union, 1958   "Doctor Zhivago"|Boris Pasternak
-U.S., 1962 "Grapes of Wrath"|John Steinbeck
-France, 1964 "Being and Nothingness"|Jean-Paul Sartre
-Ireland, 1969 "Waiting For Godot"|Samuel Beckett
+Identify the Jazz Musician
+[EllaFitzgerald.jpg][EllaFitzgerald.m4a]|Ella Fitzgerald (Summertime)
+[LouisArmstrong.jpg][LouisArmstrong.m4a]|Louis Armstrong (Wonderful World)
+[BillieHoliday.jpg][BillieHoliday.m4a]|Billie Holiday (Blue Moon)
+[DukeEllington.jpg][DukeEllington.m4a]|Duke Ellington (Mood Indigo)
+[MilesDavis.jpg][MilesDavis.m4a]|Miles Davis (Kind of Blue)
+
 
 President by picture
 [lincoln.jpg]|Lincoln
