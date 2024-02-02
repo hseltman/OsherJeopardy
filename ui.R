@@ -138,7 +138,7 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                                           width=12, height=80),
                                       conditionalPanel(condition='output.showText',
                                         box(htmlOutput("selectedAnswer"),
-                                          style="font-size: 200%;", width=12, height=375)
+                                          style="font-size: 300%;", width=12, height=375)
                                       ),
                                       conditionalPanel(condition='output.showImage',
                                         box(imageOutput("selectedImageAnswer"),
