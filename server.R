@@ -331,7 +331,14 @@ function(input, output, session) {
       updateNavbarPage(session=session, "myNavbar", "Answer")
     })
   }
-
+  
+  observeEvent(input$fixScoresFromJ, {
+    updateNavbarPage(session=session, "myNavbar", "FixScores")
+  })
+  observeEvent(input$fixScoresFromDJ, {
+    updateNavbarPage(session=session, "myNavbar", "FixScores")
+  })
+  
   # Setup Jeopardy action buttons to change tab and show Answer
   lapply(1:answersPerBoard, generateClickToAnswer, board="s")
 
@@ -371,7 +378,19 @@ function(input, output, session) {
     paste0(ifelse(inControl()=="P3" && stage()!="f", "*", ""), input$P3Name, ": $", scores$P3)
   })
   
-  # Start button
+  # Show scores on fixScores tab
+  output$fixP1Score <- renderText({
+    paste0(ifelse(inControl()=="P1" && stage()!="f", "*", ""), input$P1Name, ": $", scores$P1)
+  })
+  output$fixP2Score <- renderText({
+    paste0(ifelse(inControl()=="P2" && stage()!="f", "*", ""), input$P2Name, ": $", scores$P2)
+  })
+  output$fixP3Score <- renderText({
+    paste0(ifelse(inControl()=="P3" && stage()!="f", "*", ""), input$P3Name, ": $", scores$P3)
+  })
+  
+  
+    # Start button
   observeEvent(input$start, {
     updateNavbarPage(session=session, "myNavbar", "Jeopardy")
   })
@@ -795,6 +814,23 @@ function(input, output, session) {
     }
   }, ignoreInit=TRUE)
 
+  # Handle Fix Scores tab
+  observeEvent(input$fixScoresReturn, {
+    for (player in 1:3) {
+      who <- paste0("P", player)
+      what <- paste0(who, "ScoreAdjust")
+      dollars <- as.numeric(input[[what]])
+      if (is.na(dollars)) dollars <- 0
+      scores[[who]] <- as.numeric(scores[[who]]) + dollars
+      updateTextInput(inputId=what, value="")
+    }
+    if (stage()=="s") {
+      updateNavbarPage(session=session, "myNavbar", "Jeopardy")
+    } else {
+      updateNavbarPage(session=session, "myNavbar", "Double Jeopardy")
+    }
+  })
+      
   
   # https://stackoverflow.com/questions/38895710/passing-reactive-values-to-conditionalpanel-condition
   output$finalStep1 <- reactive({

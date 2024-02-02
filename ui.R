@@ -92,17 +92,25 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                              fluidRow(#style=frStyle,
                                mapply(makeJHColumn, 
                                       prefix=paste0("jbs", LETTERS[1:6]),
-                                      MoreArgs=list(multiple=1, width=2)), width=12),
-                               column(width=4, style=colStyle,
-                                             box(style=scoreStyle, width="100%",
-                                                 textOutput("jbP1Score"))),
-                                      column(width=4, style=colStyle,
-                                             box(style=scoreStyle, width="100%",
-                                                 textOutput("jbP2Score"))),
-                                      column(width=4, style=paste(colStyle, "margin: 2px 0px 8px 0px;"),
-                                             box(style=scoreStyle, width="100%",
-                                                 textOutput("jbP3Score"))),
-                           width=12) # end mainPanel()
+                                      MoreArgs=list(multiple=1, width=2)),
+                             width=12), # end fluidRow()
+                             column(width=4, style=colStyle,
+                                    box(style=scoreStyle, width="100%",
+                                        textOutput("jbP1Score"))),
+                             column(width=4, style=colStyle,
+                                    box(style=scoreStyle, width="100%",
+                                        textOutput("jbP2Score"))),
+                             column(width=4, style=paste(colStyle, "margin: 2px 0px 8px 0px;"),
+                                    box(style=scoreStyle, width="100%",
+                                        textOutput("jbP3Score"))),
+                             fluidRow(p("")), fluidRow(p("")), fluidRow(p("")),
+                             fluidRow(p("")), fluidRow(p("")), fluidRow(p("")),
+                             fluidRow(p("")), fluidRow(p("")), fluidRow(p("")),
+                             column(width=4,
+                                    box(actionButton("fixScoresFromJ", "Fix scores",
+                                        style="color: #b8b8b8; background-color: #EFEFEF; border-color=#EFEFEF;"))
+                             ),
+                             width=12) # end mainPanel()
                          )),
                 
                 # Double Jeopardy Panel
@@ -124,6 +132,13 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                     column(width=4, style=paste(colStyle, "margin: 2px 0px 8px 0px;"),
                            box(style=scoreStyle, width="100%",
                                textOutput("djbP3Score"))),
+                    fluidRow(p("")), fluidRow(p("")), fluidRow(p("")),
+                    fluidRow(p("")), fluidRow(p("")), fluidRow(p("")),
+                    fluidRow(p("")), fluidRow(p("")), fluidRow(p("")),
+                    column(width=4,
+                           box(actionButton("fixScoresFromDJ", "Fix scores",
+                                            style="color: #b8b8b8; background-color: #EFEFEF; border-color=#EFEFEF;"))
+                    ),
                     width=12) # end mainPanel()
                     )),  # end sidebarLayout() and tabPanel()
                 
@@ -219,6 +234,34 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                                         width=12, height=50)
                              ), # end third column for special action buttons 
                            width=12)  # end mainPanel()
+                         )),  # end sidebarLayout() and tabPanel()
+                # Fix Scores Panel
+                tabPanel("FixScores", style=noGrayBandStyle,
+                         sidebarLayout(
+                           sidebarPanel(width=0),
+                           mainPanel(
+                             ## Scores ##
+                             column(width=4,
+                                    box(style=scoreStyle, width="100%",
+                                        textOutput("fixP1Score"))),
+                             column(width=4,
+                                    box(style=scoreStyle, width="100%",
+                                        textOutput("fixP2Score"))),
+                             column(width=4,
+                                    box(style=scoreStyle, width="100%",
+                                        textOutput("fixP3Score"))),
+                             column(style=betStyle, width=4,
+                                    box(textInput("P1ScoreAdjust", NULL),
+                                        width="100%", height=70)),
+                             column(style=betStyle, width=4,
+                                    box(textInput("P2ScoreAdjust", NULL),
+                                        width="100%", height=70)),
+                             column(style=betStyle, width=4,
+                                    box(textInput("P3ScoreAdjust", NULL),
+                                        width="100%", height=70)),
+                             column(width=4,
+                                    box(actionButton("fixScoresReturn", "Return"))),
+                             width=12)  # end mainPanel()
                          ))  # end sidebarLayout() and tabPanel()
 ) # end NavbarPage
 
