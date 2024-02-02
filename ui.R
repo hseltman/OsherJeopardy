@@ -217,10 +217,6 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                              column(width=4,
                                     box(hidden(actionButton("nextGame", "Next game")),
                                         width=12, height=50)
-                             ),
-                             column(width=4,
-                                    box(actionButton("showQuestion", "[Show Question]"),
-                                        width=12, height=50)
                              ), # end third column for special action buttons 
                            width=12)  # end mainPanel()
                          ))  # end sidebarLayout() and tabPanel()

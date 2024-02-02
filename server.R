@@ -796,10 +796,6 @@ function(input, output, session) {
   }, ignoreInit=TRUE)
 
   
-  observeEvent(input$showQuestion, {
-    info(question())
-  })
-    
   # https://stackoverflow.com/questions/38895710/passing-reactive-values-to-conditionalpanel-condition
   output$finalStep1 <- reactive({
     stage()=="f" && subStage()=="A"
