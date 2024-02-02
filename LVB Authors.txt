@@ -26,12 +26,13 @@ The presence of this inherited disease is though to have influenced Jewish circu
 This is the number of chemical bases in each letter of the genetic code|Three
 These four letters symbolize the four bases in the genetic code|GTAC
 
-Headquarters of American Companies
-U.S. Steel headquarters are in this city|Pittsburgh
-Coca Cola headquarters are in this city|Atlanta
-Chase Bank headquarters are in this city|NYC
-Ford Motor Company headquarters are in this city near Detroit|Dearborn
-Telemundo headquarters are in this city|Miami
+Tom Lehrer Lyrics
+First you get down on your knees<br>Fiddle with your rosaries<br>Bow your head with great respect<br>And _________, _________, _________.|genuflect, genuflect, genuflect (Vatican Rag)
+It won't do you a bit of good to review math.<br>It's so simple,<br>So very simple,<br>That only a _____ ___ __ __!|child can do it (New Math)
+Oh, the Protestants hate the Catholics,<br>And the Catholics hate the Protestants,<br>And the Hindus hate the Moslems,<br>And everybody hates ___ ____.|the Jews 
+Don't say that he's hypocritical<br>Say rather that he's apolitical<br>"Once the rockets are up, who cares where they come down?<br>That's not my department!" says _______ ___ _____.|Wernher von Braun
+And if they'd say "You're hired,"<br>I'd gladly throw away<br>Those fat books that they made me read<br>All I really need __ _ ___.|Is a job (All I need is a job) 
+
 
 European Mountains
 This mountain range straddles France and Spain|The Pyrenees
@@ -49,18 +50,18 @@ The country that won the most medals and the most gold medals|Soviet Union
 The flame was flown from Athens to Darwin by this airline|Qantas
 Lazlo Papp of this country won gold in boxing despite the Soviet invasion of his country|Hungary
 
-Art Terms
-A closely woven, sturdy cloth of hemp, cotton, linen, or a similar fiber, frequently stretched over a frame and used as a surface for painting|Canvas
-The school of art and design founded in Germany by Walter Gropius in 1919|Bauhaus
-This is a work of art consisting of three sections or panels, usually hinged together|Triptych
-A painting technique developed by French artists Georges-Pierre Seurat and Paul Signac in which small, distinct spots of unmixed color are applied in patterns to form an image|Pointillism
-A type of photographic print which uses egg white as a binder|Albumen silver print
+Folk Singers of the 60s and 70s
+[PeteSeeger.jpg][PeteSeeger.m4a]|Pete Seeger (If I had a hammer)
+[JoniMitchell.jpg][JoniMitchell.m4a]|Joni Mitchell (Both sides now)
+[SimonAndGarfunkel.png][SimonAndGarfunkel.m4a]|Simon and Garfunkel (Sounds of silence)
+[CaroleKing.jpg][caroleKing.m4a]|Carole King (You've got a friend)
+[BuffySaintMarie.png][BuffySaintMarie.m4a]|Buffy Saint Marie (Wounded Knee)
 
 World Leaders of the 1950s
 Prime Minister of the United Kingdom 1951-1955|Winston Churchill
 Premier of the Soviet Union starting 1958|Nikita Kruschchev
 Prime Minister of France starting June 1958|Charles deGaulle
-Emperor of Ethiopia from 1941 to 194|Haile Sellasie
+Emperor of Ethiopia from 1941 to 1974|Haile Sellasie
 President of Yugoslavia from 1953 to 1980|Josip Tito
 
 Women Astronauts
@@ -68,11 +69,11 @@ First American woman in space|Sally Ride
 First woman in space|Valentina Tereshkova
 She was the first Jewish woman in space and died on the Challenger|Judith Resnick
 She was chosen to be the first teacher-in-space and died on the Challenger|Christa McAuliffe
-First black woman astronaut|Mae Jamison
+She was the first black woman astronaut|Mae Jamison
 
 TV Anchors by Voice
 [BarbaraWalters.m4a]|Barbara Walters
-[Walter Cronkite.m4a]|Walter Cronkite
+[WalterCronkite.m4a]|Walter Cronkite
 [EdwardRMurrow.m4a]|Edward R. Murrow
 [JudyWoodruff.m4a]|Judy Woodruff
 [DavidBrinkley.m4a]|David Brinkley
