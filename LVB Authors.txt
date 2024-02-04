@@ -1,6 +1,6 @@
 Hidden countries
 It is Amex I could use in this North American country|Mexico
-He had mistaken yaks for animals from a country in East Africa|Kenya
+He had mistaken yaks for animals from this country in East Africa|Kenya
 A bigger man yells in this European country|Germany 
 I hope rubles are accepted in this South American country|Peru
 Soviet names are not used in this Asian country|Vietnam
@@ -31,8 +31,7 @@ First you get down on your knees<br>Fiddle with your rosaries<br>Bow your head w
 It won't do you a bit of good to review math.<br>It's so simple,<br>So very simple,<br>That only a _____ ___ __ __!|child can do it (New Math)
 Oh, the Protestants hate the Catholics,<br>And the Catholics hate the Protestants,<br>And the Hindus hate the Moslems,<br>And everybody hates ___ ____.|the Jews 
 Don't say that he's hypocritical<br>Say rather that he's apolitical<br>"Once the rockets are up, who cares where they come down?<br>That's not my department!" says _______ ___ _____.|Wernher von Braun
-And if they'd say "You're hired,"<br>I'd gladly throw away<br>Those fat books that they made me read<br>All I really need __ _ ___.|Is a job (All I need is a job) 
-
+If you visit American city,<br>You will find it very pretty.<br>Just two things of which you must beware:<br>Don't drink the water and ___'_ _______ __ ___!|don't breathe the air 
 
 European Mountains
 This mountain range straddles France and Spain|The Pyrenees
@@ -64,7 +63,7 @@ Prime Minister of France starting June 1958|Charles deGaulle
 Emperor of Ethiopia from 1941 to 1974|Haile Sellasie
 President of Yugoslavia from 1953 to 1980|Josip Tito
 
-Women Astronauts
+Female Astronauts
 First American woman in space|Sally Ride
 First woman in space|Valentina Tereshkova
 She was the first Jewish woman in space and died on the Challenger|Judith Resnick
@@ -78,12 +77,12 @@ TV Anchors by Voice
 [JudyWoodruff.m4a]|Judy Woodruff
 [DavidBrinkley.m4a]|David Brinkley
 
-Five Syllable Words
-Children's doctor|Pediatrician
-So remarkable as to strain credulity|Unbelievable
-Treatment or consideration of, or making a distinction in favor of or against, a person or thing based on the group, class, or category to which that person or thing belongs rather than on individual merit|Discrimination
-Worldwide integration and development|Globalization
-Causing timidity, hesitancy, or anxiety, especially because of difficulty or risk; daunting|Intimidating
+Pittsburgh Sports Teams by Player
+Roberto Clemente|Pittsburgh Pirates
+Lynn Swann|Steelers
+Jaromír J&aacute;gr|Pittsburgh Penguins
+Midfielder Danny Griffin and goalkeeper Eric Dick|Pittsburgh Riverhounds
+Quarterback Marcelina Chavez and wide receiver Amanda Haeg|A
 
 Bridges and Tunnels
 In 1964 this replaced ferry service between Virginia's Eastern Shore and the Norfolk/Virginia Beach area|The Chesapeake Bay Bridge-Tunnel
