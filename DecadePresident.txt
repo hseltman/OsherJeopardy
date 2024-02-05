@@ -26,12 +26,14 @@ Before and after: President plus celebrity
 23rd president who portrayed Indiana Jones|Benjamin Harrison Ford
 7th president who was an American abstract expressionist|Andrew Jackson Pollock
 
-Identify the Jazz Musician
-[EllaFitzgerald.jpg][EllaFitzgerald.m4a]|Ella Fitzgerald (Summertime)
-[LouisArmstrong.jpg][LouisArmstrong.m4a]|Louis Armstrong (Wonderful World)
-[BillieHoliday.jpg][BillieHoliday.m4a]|Billie Holiday (Blue Moon)
-[DukeEllington.jpg][DukeEllington.m4a]|Duke Ellington (Mood Indigo)
-[MilesDavis.jpg][MilesDavis.m4a]|Miles Davis (Kind of Blue)
+
+French to English
+au revoir|goodbye
+bonsoir|good evening
+penser|to think
+qui|who
+l'avocat|lawyer
+
 
 
 President by picture

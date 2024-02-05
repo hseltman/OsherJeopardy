@@ -26,12 +26,13 @@ This is a work of art consisting of three sections or panels, usually hinged tog
 A painting technique developed by French artists Georges-Pierre Seurat and Paul Signac in which small, distinct spots of unmixed color are applied in patterns to form an image|Pointillism
 A type of photographic print which uses egg white as a binder|Albumen silver print
 
-French to English
-au revoir|goodbye
-bonsoir|good evening
-penser|to think
-qui|who
-l'avocat|lawyer
+Identify the Jazz Musician
+[EllaFitzgerald.jpg][EllaFitzgerald.m4a]|Ella Fitzgerald (Summertime)
+[LouisArmstrong.jpg][LouisArmstrong.m4a]|Louis Armstrong (Wonderful World)
+[BillieHoliday.jpg][BillieHoliday.m4a]|Billie Holiday (Blue Moon)
+[DukeEllington.jpg][DukeEllington.m4a]|Duke Ellington (Mood Indigo)
+[MilesDavis.jpg][MilesDavis.m4a]|Miles Davis (Kind of Blue)
+
 
 Identify the Historic Photos
 [Tiananmen.jpg]|Tiananmen Square, China
@@ -54,12 +55,15 @@ Reformer Tsar who reigned 1682-1725 and founded the Navy|Peter the Great
 Avante-garde composer who became a French Citizen in 1934 and US citizen in 1945|Stravinsky
 First Woman in Space|Valentina Tereshkova
 
-Television journalists
-CBS anchor called "the most trusted man in America"|Walter Cronkite
-Chief International Anchor for CNN who hosted a show named after her|Christiane Amanpour
-Founding Mother of NPR whose father was a U.S. representative for New Orleans|Cokie Roberrs
-Host of Today and the ABC Evening News best known for her interviews|Barbara Walters
-African American NBC Nightly News anchor who moderated the first presidential debate of 2016|Lester Holt
+Books by Character
+Nurse Ratched|One Flew over the Cuckoo's Nest
+Atticus Finch|To Kill a Mockingbird
+Holden Caulfield|Catcher in the Rye
+Ralph and Piggy|Lord of the Flies
+Billy Pilgrim|Slaughterhouse Five
+
+
+
 
 Chocolate
 The oldest evidence for use of cacoa comes from this continent|North America
@@ -94,5 +98,6 @@ A recently constructed, azure collection of wild animals|new, blue zoo
 
 
 
-Africa
-Julius Nyerere was the first president (1964-1985) of this Swahili speaking country|Tanzania
+21st Century Africa
+She was the first elected female head of state in Africa and served as the 24th president of Liberia from 2006 to 2018|Ellen Johnson Sirleaf
+
