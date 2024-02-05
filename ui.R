@@ -153,12 +153,12 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                                           width=12, height=80),
                                       conditionalPanel(condition='output.showText',
                                         box(htmlOutput("selectedAnswer"),
-                                          style="font-size: 400%;", width=12, height=375)
+                                          style="font-size: 380%;", width=12, height=425)
                                       ),
                                       conditionalPanel(condition='output.showImage',
                                         box(imageOutput("selectedImageAnswer"),
                                           style="text-align: center;", 
-                                          width=12, height=375)
+                                          width=12, height=400)
                                       ),
                              ),  # end fluidRow() for category and selected answer 
                              ## Scores ##
