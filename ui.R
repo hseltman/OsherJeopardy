@@ -149,11 +149,11 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                            mainPanel(
                              ## Category and answer ##
                              fluidRow(box(textOutput("categoryReminder"),
-                                          style="font-size: 220%;",
+                                          style="font-size: 320%;",
                                           width=12, height=80),
                                       conditionalPanel(condition='output.showText',
                                         box(htmlOutput("selectedAnswer"),
-                                          style="font-size: 300%;", width=12, height=375)
+                                          style="font-size: 400%;", width=12, height=375)
                                       ),
                                       conditionalPanel(condition='output.showImage',
                                         box(imageOutput("selectedImageAnswer"),
