@@ -125,9 +125,11 @@ JTxtToDoc <- function(fName, AQSeparator="|") {
     djMatrix <- apply(djMatrix, 1, paste, collapse=betweenText)
     
     Doc <- c(paste(fName, "Jeopardy Round"), " ", jMatrix,
-             paste(fName, "Double Jeopardy Round"), " ", djMatrix)
-    write(Doc, file=paste0(fName, "Cheat.txt"))
-    
+             paste(fName, "Double Jeopardy Round"), " ", djMatrix,
+             fjAQ$Question)
+    newName <- paste0(fName, "Cheat.txt")
+    write(Doc, file=newName)
+
     return("Success!")
   }
 
