@@ -39,10 +39,9 @@ function(input, output, session) {
   stage <- reactiveVal("s")
   answersLeft <- reactiveVal(0)  # per board
   currentIncorrect <- reactiveVal(0)  # 0 to 3 incorrect answers given
-  question <- reactiveVal("")
   inControl <- reactiveVal("P1")
   bettingAnswer <- reactiveVal(FALSE)  # Daily double or Final Jeopardy
-  ddAnswer <- reactiveVal()
+  answerText <- reactiveVal()
   sjdd <- reactiveVal(genDD(1, ifelse(debugging, answersPerBoard, NA)))
   temp <- genDD(2, ifelse(debugging, answersPerBoard, NA))
   djdd <- reactiveValues(dd1=temp[1], dd2=temp[2])
@@ -259,6 +258,8 @@ function(input, output, session) {
       AQ <- paste0(board, "jAQ")
       answer <- gameData()[[AQ]][position, "Answer"]
       parsedAnswer <- parseInput(answer)
+      answerText(parsedAnswer$text)
+      output$selectedAnswer <- renderUI({HTML(answerText())}) # overridden if daily double
       # Check if answer is multimedia
       if (!is.null(parsedAnswer$imageFile)) {
         imageAnswer(TRUE)
@@ -292,7 +293,6 @@ function(input, output, session) {
         } else {
           output$selectedAnswer <- renderUI({HTML("Daily Double")})
         }
-        ddAnswer(parsedAnswer$text)
         subStage("A")
         updateActionButton(inputId="backToBoard", label="Bet Entered")
         for (player in c("P1", "P2", "P3")) {
@@ -323,11 +323,7 @@ function(input, output, session) {
                               controls = NA) #, style="display:none;")  
                  ) # end tags$div()
         )
-      } else if (imageAnswer() == FALSE) {
-        # if not a daily double and not an image, show text
-          output$selectedAnswer <- renderUI({HTML(gameData()[[AQ]][position, "Answer"])})
-      }
-      question(gameData()[[AQ]][position, "Question"])
+      }      
       updateNavbarPage(session=session, "myNavbar", "Answer")
     })
   }
@@ -428,7 +424,6 @@ function(input, output, session) {
     stage("s")
     answersLeft(answersPerBoard)
     currentIncorrect(0)
-    question("")
     inControl("P1")
     hide("nextGame")
     show("backToBoard")
@@ -517,7 +512,6 @@ function(input, output, session) {
         imageFileName(parsedAnswer$imageFile)
       }
       output$selectedAnswer <- renderUI({HTML("")})
-      question(gameData()[["fjAQ"]][1, "Question"])
       updateActionButton(inputId="backToBoard", label="Bets Entered")
       show("backToBoard")
     }
@@ -537,7 +531,7 @@ function(input, output, session) {
   observeEvent(input$backToBoard, {
     if (bettingAnswer() && stage()!="f") {
       # handle "Bet Entered" for Daily Double
-      output$selectedAnswer <- renderUI({HTML(ddAnswer())})
+      output$selectedAnswer <- renderUI({HTML(answerText())})
       who <- inControl()
       enable(paste0(who, "Correct"))
       enable(paste0(who, "Incorrect"))
@@ -846,7 +840,7 @@ function(input, output, session) {
     stage()!="f" && bettingAnswer() == TRUE
   })
   output$showText <- reactive({
-    (imageAnswer() == FALSE && audioAnswer() == FALSE & videoAnswer() == FALSE) ||
+    (imageAnswer() == FALSE && videoAnswer() == FALSE) ||
       (bettingAnswer() && subStage()=="A")
   })
   output$showImage <- reactive({
