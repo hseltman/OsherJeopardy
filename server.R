@@ -486,6 +486,9 @@ function(input, output, session) {
       ## Go from Jeopardy to Double Jeopardy ##
       answersLeft(answersPerBoard)
       stage("d")
+      scores3 = c(scores$P1, scores$P2, scores$P3)
+      minScore = min(scores3)
+      inControl(paste0("P", sample(which(scores3==minScore), size=1)))
     } else {
       ## Go from Double Jeopardy to Final Jeopardy ##
       stage("f")
