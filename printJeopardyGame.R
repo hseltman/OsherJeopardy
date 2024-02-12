@@ -57,7 +57,7 @@ JTxtToDoc <- function(fName, AQSeparator="|") {
   }
   
   
-  inData <- try(readLines(paste0(fName, ".txt")))
+  inData <- try(readLines(paste0("gameboards/", fName, ".txt")))
   if (is(inData, "try-error")) return("Bad File")
 
 
@@ -179,11 +179,11 @@ JTxtToDoc <- function(fName, AQSeparator="|") {
     Doc <- c(paste(fName, "Jeopardy Round"), " ", jMatrix,
              paste(fName, "Double Jeopardy Round"), " ", djMatrix,
              fjAQ$Question)
-    newName <- paste0(fName, "Cheat.txt")
+    newName <- paste0("gameboards/", fName, "Cheat.txt")
     write(Doc, file=newName)
     
     write(c(paste(djCategories, collapse=", "), paste(sjCategories, collapse=", ")),
-          file=paste0(fName, "Categories.txt"))
+          file=paste0("gameboards/", fName, "Categories.txt"))
 
     return("Success!")
   }
