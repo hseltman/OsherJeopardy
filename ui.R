@@ -15,7 +15,7 @@ library(shinyjs)
 
 # For JColList(), make one dollar amount box
 makeJBox = function(n, prefix, multiple=1, width=NULL, height=height) {
-  box(actionButton(paste0(prefix, n), paste0("$", n*100*multiple), 
+  box(actionButton(paste0(prefix, n), paste0("$", n*200*multiple), 
                    style='width:110%; height:65px; font-size:150%'), 
       width=12, height=height)
 }

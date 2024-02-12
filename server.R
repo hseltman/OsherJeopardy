@@ -248,7 +248,7 @@ function(input, output, session) {
     observeEvent(input[[id]], {
       if (stage()!=board) alert("stage()!=board")
       stage(board)   #  ?? needed
-      dollarAmount(100*row*ifelse(board=="s", 1, 2))
+      dollarAmount(200*row*ifelse(board=="s", 1, 2))
       updateActionButton(inputId=id, label="")
       disable(id)
       answersLeft(isolate(answersLeft()) - 1)
@@ -610,7 +610,7 @@ function(input, output, session) {
       if (bettingAnswer()) {
         dollars <- as.numeric(input$P1ddBet)
         if (is.na(dollars)) dollars <- 0
-        upper <- max(scores$P1, 500 + 500*(stage()=="d"))
+        upper <- max(scores$P1, 1000 + 1000*(stage()=="d"))
         if (dollars < 0 || dollars > upper)
           dollars <- min(upper, max(0, dollars))
       } else {
@@ -643,7 +643,7 @@ function(input, output, session) {
       if (bettingAnswer()) {
         dollars <- as.numeric(input$P2ddBet)
         if (is.na(dollars)) dollars <- 0
-        upper <- max(scores$P2, 500 + 500*(stage()=="d"))
+        upper <- max(scores$P2, 1000 + 1000*(stage()=="d"))
         if (dollars < 0 || dollars > upper)
           dollars <- min(upper, max(0, dollars))
       } else {
@@ -677,7 +677,7 @@ function(input, output, session) {
       if (bettingAnswer()) {
         dollars <- as.numeric(input$P3ddBet)
         if (is.na(dollars)) dollars <- 0
-        upper <- max(scores$P3, 500 + 500*(stage()=="d"))
+        upper <- max(scores$P3, 1000 + 1000*(stage()=="d"))
         if (dollars < 0 || dollars > upper)
           dollars <- min(upper, max(0, dollars))
       } else {
@@ -710,7 +710,7 @@ function(input, output, session) {
       if (bettingAnswer()) {
         dollars <- as.numeric(input$P1ddBet)
         if (is.na(dollars)) dollars <- 0
-        upper <- max(scores$P1, 500 + 500*(stage()=="d"))
+        upper <- max(scores$P1, 1000 + 1000*(stage()=="d"))
         if (dollars < 0 || dollars > upper)
           dollars <- min(upper, max(0, dollars))
       } else {
@@ -746,7 +746,7 @@ function(input, output, session) {
       if (bettingAnswer()) {
         dollars <- as.numeric(input$P2ddBet)
         if (is.na(dollars)) dollars <- 0
-        upper <- max(scores$P2, 500 + 500*(stage()=="d"))
+        upper <- max(scores$P2, 1000 + 1000*(stage()=="d"))
         if (dollars < 0 || dollars > upper)
           dollars <- min(upper, max(0, dollars))
       } else {
@@ -782,7 +782,7 @@ function(input, output, session) {
       if (bettingAnswer()) {
         dollars <- as.numeric(input$P3ddBet)
         if (is.na(dollars)) dollars <- 0
-        upper <- max(scores$P3, 500 + 500*(stage()=="d"))
+        upper <- max(scores$P3, 1000 + 1000*(stage()=="d"))
         if (dollars < 0 || dollars > upper)
           dollars <- min(upper, max(0, dollars))
       } else {
