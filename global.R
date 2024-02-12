@@ -1,7 +1,7 @@
 # OsherJeopardy global.R file
 
 # For file input
-wd = getwd()
+wd = paste0(getwd(), "/gameboards")
 tLoc = regexpr("/Desktop/", wd)
 if (tLoc == -1 || nchar(wd) == tLoc+7) {
   roots = wd
