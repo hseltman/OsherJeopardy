@@ -71,14 +71,66 @@ JTxtToDoc <- function(fName, AQSeparator="|") {
                     "2 to 5 are 'answer", AQSeparator, "question' pairs), ",
                     "followed by a Final Jeopardy Category, and then a Final ",
                     "Jeopardy 'answer", AQSeparator, "question' pair."))
-} 
+  } 
 
   # Find which lines have a single bar (or 'AQSeparator') 
   singleBar = grepl(paste0("^([^", AQSeparator, "]+?)[", AQSeparator,
                            "]([^", AQSeparator, "]+)$"), inData)
 
-  # Handle correct pattern
-  if (length(singleBar) == length(sbPattern) && all(singleBar==sbPattern)) {
+  # Handle incorrect pattern
+  if (length(singleBar) != length(sbPattern) ||  any(singleBar!=sbPattern)) {
+    ## Report on various problems if not successful ##
+    
+    # Handle first part of pattern not 'FTTTTTF'
+    if (singleBar[1]) {
+      return(paste0("First line of game file must contain a category name ",
+                    "(no '", AQSeparator, "')."))
+    }
+    if (!all(singleBar[2:6])) {
+      return(paste0("Lines 2 to 6 of game file must contain 'answer",
+                    AQSeparator, "question' pairs."))
+    }
+    if (singleBar[7]) {
+      return(paste0("Line 7 of game file must contain a category name (no '",
+                    AQSeparator, "')."))
+    }
+    
+    # Use run length encoding to characterize pattern of categories and A|Q pairs
+    catAQPair = rle(singleBar) 
+    temp = catAQPair$lengths[catAQPair$values==FALSE]
+    if (length(temp) != 13) {
+      return(paste("File must contain 6 Jeopardy Categories, 6 Double",
+                   "Jeopardy Categories, and one Final Jeopardy Category.",
+                   "You have", length(temp), "categories."))
+    }
+    if (any(temp != 1)) {
+      index = which(temp != 1)[1]
+      return(paste0("It appears that the '", AQSeparator,
+                    "' is missing in 'Answer", AQSeparator, "Question' for",
+                    " category number ", index, "."))
+    }
+    temp = catAQPair$lengths[catAQPair$values==TRUE]
+    if (length(temp) != 13) {
+      return(paste0("File must contain 6 groups of 5 'Answer", AQSeparator,
+                    "Question' pairs ",
+                    "for Jeopardy, 6 groups of 5 'Answer", AQSeparator,
+                    "Question' pairs for Double Jeopardy, and one Final ",
+                    "Jeopardy 'Answer", AQSeparator, "Question' pair ",
+                    "for a total of 61 pairs.  ",
+                    "You have", sum(temp), "pairs in ", length(temp), "groups."))
+    }
+    if (temp[13] != 1) {
+      return(paste0("There should be just one Final Jeopardy 'Answer",
+                    AQSeparator, "Question' pair."))
+    }
+    if (any(temp[1:12] != 5)) {
+      index = which(temp != 5)[1]
+      return(paste0("Category ", index, " has ", temp[index], " 'Answer",
+                    AQSeparator, "Question' pairs."))
+    }
+    return("Bad input", "Unhandled exception", type="error")
+  } else {
+    ## Input is all goood
     sjCatLoc = seq(1, by=6, length.out=6)
     sjCategories = inData[sjCatLoc]
     djCatLoc = seq(37, by=6, length.out=6)
@@ -129,60 +181,13 @@ JTxtToDoc <- function(fName, AQSeparator="|") {
              fjAQ$Question)
     newName <- paste0(fName, "Cheat.txt")
     write(Doc, file=newName)
+    
+    write(c(paste(djCategories, collapse=", "), paste(sjCategories, collapse=", ")),
+          file=paste0(fName, "Categories.txt"))
 
     return("Success!")
   }
-
-  
-  
-  ## Report on various problems if not successful ##
-  
-  # Handle first part of pattern not 'FTTTTTF'
-  if (singleBar[1]) {
-    return(paste0("First line of game file must contain a category name ",
-                  "(no '", AQSeparator, "')."))
-  }
-  if (!all(singleBar[2:6])) {
-    return(paste0("Lines 2 to 6 of game file must contain 'answer",
-                    AQSeparator, "question' pairs."))
-  }
-  if (singleBar[7]) {
-    return(paste0("Line 7 of game file must contain a category name (no '",
-                  AQSeparator, "')."))
-  }
-
-  # Use run length encoding to characterize pattern of categories and A|Q pairs
-  catAQPair = rle(singleBar) 
-  temp = catAQPair$lengths[catAQPair$values==FALSE]
-  if (length(temp) != 13) {
-    return(paste("File must contain 6 Jeopardy Categories, 6 Double",
-                   "Jeopardy Categories, and one Final Jeopardy Category.",
-                   "You have", length(temp), "categories."))
-  }
-  if (any(temp != 1)) {
-    index = which(temp != 1)[1]
-    return(paste0("It appears that the '", AQSeparator,
-                    "' is missing in 'Answer", AQSeparator, "Question' for",
-                    " category number ", index, "."))
-  }
-  temp = catAQPair$lengths[catAQPair$values==TRUE]
-  if (length(temp) != 13) {
-    return(paste0("File must contain 6 groups of 5 'Answer", AQSeparator,
-                    "Question' pairs ",
-                    "for Jeopardy, 6 groups of 5 'Answer", AQSeparator,
-                    "Question' pairs for Double Jeopardy, and one Final ",
-                    "Jeopardy 'Answer", AQSeparator, "Question' pair ",
-                    "for a total of 61 pairs.  ",
-                    "You have", sum(temp), "pairs in ", length(temp), "groups."))
-  }
-  if (temp[13] != 1) {
-    return(paste0("There should be just one Final Jeopardy 'Answer",
-                    AQSeparator, "Question' pair."))
-  }
-  if (any(temp[1:12] != 5)) {
-    index = which(temp != 5)[1]
-    return(paste0("Category ", index, " has ", temp[index], " 'Answer",
-                    AQSeparator, "Question' pairs."))
-  }
-  return("Bad input", "Unhandled exception", type="error")
 }
+
+  
+  
