@@ -439,10 +439,10 @@ function(input, output, session) {
       bLet <- LETTERS[(i+4) %/% 5]
       bNum <- (i-1) %% 5 + 1
       bname <- paste0("jbs", bLet, bNum)
-      updateActionButton(inputId=bname, label=paste0("$", 100*bNum))
+      updateActionButton(inputId=bname, label=paste0("$", 200*bNum))
       enable(bname)
       bname <- paste0("jbd", bLet, bNum)
-      updateActionButton(inputId=bname, label=paste0("$", 200*bNum))
+      updateActionButton(inputId=bname, label=paste0("$", 400*bNum))
       enable(bname)
     }
     imageAnswer(FALSE)
