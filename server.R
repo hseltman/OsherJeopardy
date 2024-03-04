@@ -483,7 +483,9 @@ function(input, output, session) {
       stage("d")
       scores3 = c(scores$P1, scores$P2, scores$P3)
       minScore = min(scores3)
-      inControl(paste0("P", sample(which(scores3==minScore), size=1)))
+      lowest = which(scores3==minScore)
+      if (length(lowest)>1) lowest <- sample(lowest, 1)
+      inControl(paste0("P", lowest))
     } else {
       ## Go from Double Jeopardy to Final Jeopardy ##
       stage("f")
