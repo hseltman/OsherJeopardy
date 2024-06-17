@@ -34,7 +34,14 @@ JTxtToDoc <- function(fName, AQSeparator="|") {
 
   # Main helper function  
   textWrapper <- function(txt, width=13, length=3, pad=TRUE) {
+    if (substring(txt, 1, 1) == " ") {
+      txt <- substring(txt, 2)
+    }
     words <- strsplit(txt, " ", fixed=TRUE)[[1]]
+    ncw <- nchar(words)
+    if (length(words)==1 && ncw>width) {
+      words <- c(substring(words, 1, width), substring(words, width+1))
+    }
     words <- substring(words, 1, width)
     if (length(words) == 1) {
       rslt <- c(str_pad(words, width, side="right"), rep(str_pad("", width, side="right"), length-1))
@@ -45,7 +52,12 @@ JTxtToDoc <- function(fName, AQSeparator="|") {
     cLengths[1] <- cLengths[1] - 1
     rslt <- rep("", length)
     for (line in 1:length) {
-      n = max(which(cLengths <= width))
+      wlw <- cLengths <= width
+      if (any(wlw)) {
+        n = max(which(wlw))
+      } else {
+        n <- 1
+      }
       rslt[line] <- paste(words[1:n], collapse=" ")
       if (length(words) == n) break
       words <- words[-(1:n)]
