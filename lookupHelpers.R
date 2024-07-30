@@ -198,8 +198,35 @@ tally <- function(dtf) {
 search <- function(what, searchTerm, dtf, short, narrow) {
   codes <- c("category", "type", "answer", "question", "aq")
   what <- codes[pmatch(what, codes)]
-  
-  cat("look in", what, "for", searchTerm, ":", short, narrow, "\n")
+  if (what=="aq") {
+    Sel <- grepl(searchTerm, paste(dtf$answer, dtf$question))
+    cols <- c("question", "answer")
+    if (!narrow) {
+      cols <- c("filename", "board", "category", cols)
+    }
+  } else if (what %in% c("answer", "question")) {
+    Sel <- grepl(searchTerm, dtf[[what]])
+    cols <- c("category", what)
+    if (!narrow) {
+      cols <- c("filename", "board", cols)
+    }
+  } else if (what == "category") {
+    Sel <- grepl(searchTerm, dtf$category)
+    cols <- "category"
+    if (!narrow) {
+      cols <- c("filename", "board", cols)
+    }
+  } else { # "type"
+    Sel <- grepl(searchTerm, dtf$categoryType)
+    cols <- "category"
+  }
+  dtf2 <- dtf[Sel, cols, drop=FALSE]
+  if (what %in% c("category", "type")) {
+    asone <- apply(dtf2, 1, function(x) paste(x, collapse=""))
+    dtf2 <- dtf2[!duplicated(asone), , drop=FALSE]
+  }
+  print(dtf2, row.names=FALSE)
+  #cat("look in", what, "for", searchTerm, ":", short, narrow, "\n")
   return(NULL)
 }
 

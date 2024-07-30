@@ -77,29 +77,28 @@ lookup<- function(loadCurrent=FALSE, loadUsed=FALSE) {
   # Query the data 
   while(TRUE) {
     #browser()
-    cat("quit/tally/c/t/a/q/aq SEARCH TERMS [|short/narrow]\n")
+    cat("quit/tally/c/t/an/q/aq SEARCH TERMS [narrow]\n")
     text <- readline("? ")
-    text <- strsplit(text, "|", fixed=TRUE)[[1]]
-    short <- FALSE
     narrow <- FALSE
-    if (length(text) > 1) {
-      if (grepl("short", text[2])) short <- TRUE
-      if (grepl("narrow", text[2])) narrow <- TRUE
-      text <- text[1]
-    } 
     text <- strsplit(text, " ", fixed=TRUE)[[1]]
-    if (!text[1] %in% c("quit", "tally", "c", "t", "a", "q", "aq")) {
+    if (length(text) == 0) next
+    if (!text[1] %in% c("quit", "tally", "c", "t", "an", "q", "aq")) {
       cat("Bad input\n")
       next
     }
     if (text[1] == "quit") break
+    lt <- length(text)
+    if (lt > 1 && text[lt]=="narrow") {
+      narrow <- TRUE
+      text <- text[-lt]
+    }
     if (text[1] == "tally") {
       tally(dtf)
       next
     }
-    searchTerms <- paste(text[-1], collapse=" ")
+    searchTerm <- paste(text[-1], collapse=" ")
     text <- text[1]
-    search(text, searchTerms, dtf, short, narrow)    
+    search(text, searchTerm, dtf, short, narrow)    
   }
   
   # 
