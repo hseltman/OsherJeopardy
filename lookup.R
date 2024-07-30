@@ -42,7 +42,7 @@ lookup<- function(loadCurrent=FALSE, loadUsed=FALSE) {
     if (length(files) > 0) {
       for (fName in files) {
         if (readline(paste0("Load ", fName, " (y or n)? ")) != "y") next
-        temp <- loadAndCategorize(file.path("gameboards", fName))
+        temp <- loadAndCategorize(file.path("gameboards", fName), categoryTypes)
         if (is.data.frame(temp)) {
           dtf <- rbind(dtf, temp)
           newGames <- TRUE
@@ -60,7 +60,7 @@ lookup<- function(loadCurrent=FALSE, loadUsed=FALSE) {
     if (length(files) > 0) {
       for (fName in files) {
         if (readline(paste0("Load ", fName, " (y or n)? ")) != "y") next
-        temp <- loadAndCategorize(file.path(fp, fName))
+        temp <- loadAndCategorize(file.path(fp, fName), categoryTypes)
         if (is.data.frame(temp)) {
           dtf <- rbind(dtf, temp)
           newGames <- TRUE

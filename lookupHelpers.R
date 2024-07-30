@@ -120,7 +120,7 @@ readOne <- function(fName) {
 # Input: the name of a category
 # Output: the category type corresponding to the user's input (may be "quit")
 #
-getACategoryType <- function(category) {
+getACategoryType <- function(category, categoryTypes) {
   index <- NA
   while (TRUE) {
     input <- readline(paste0(category, "? "))
@@ -145,7 +145,7 @@ getACategoryType <- function(category) {
 #    question: character
 #    answer: character
 #
-loadAndCategorize <- function(fName) {
+loadAndCategorize <- function(fName, categoryTypes) {
   boardVec <- c(rep("s", 30), rep("d", 30), "f")
   one = readOne(fName)
   if (!is.list(one)) {
@@ -154,16 +154,16 @@ loadAndCategorize <- function(fName) {
   }
   myCats <- character(0)
   for (category in one$sjCategories) {
-    ct <- getACategoryType(category)
+    ct <- getACategoryType(category, categoryTypes)
     if (ct == "quit") return(NULL)
     myCats <- c(myCats, rep(ct, 5))
   }
   for (category in one$djCategories) {
-    ct <- getACategoryType(category)
+    ct <- getACategoryType(category, categoryTypes)
     if (ct == "quit") return(NULL)
     myCats <- c(myCats, rep(ct, 5))
   }
-  ct <- getACategoryType(one$fjCategory)
+  ct <- getACategoryType(one$fjCategory, categoryTypes)
   if (ct == "quit") return(NULL)
   myCats <- c(myCats, ct)
   temp <- data.frame(filename=basename(fName),
