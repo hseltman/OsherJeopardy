@@ -98,7 +98,7 @@ lookup<- function(loadCurrent=FALSE, loadUsed=FALSE) {
     }
     searchTerm <- paste(text[-1], collapse=" ")
     text <- text[1]
-    search(text, searchTerm, dtf, short, narrow)    
+    searchHistory(text, searchTerm, dtf, short, narrow)    
   }
   
   # 

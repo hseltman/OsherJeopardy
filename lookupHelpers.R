@@ -193,9 +193,9 @@ tally <- function(dtf) {
   return(NULL)
 }
 
-# Search something
+# Search for something in the gameboard history
 #
-search <- function(what, searchTerm, dtf, short, narrow) {
+searchHistory <- function(what, searchTerm, dtf, short, narrow) {
   codes <- c("category", "type", "answer", "question", "aq")
   what <- codes[pmatch(what, codes)]
   if (what=="aq") {
