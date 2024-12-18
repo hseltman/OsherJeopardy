@@ -29,7 +29,7 @@ genDD <- function(n, restrict=NA) {
 
 
 # File extensions for multimedia files
-imageExtensions <- c("jpg", "jpeg", "png")
+imageExtensions <- c("jpg", "jpeg", "png", "webp")
 audioExtensions <- c("mp3", "m4a")
 videoExtensions <- c("mov", "mp4")
 
