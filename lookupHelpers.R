@@ -199,25 +199,25 @@ searchHistory <- function(what, searchTerm, dtf, short, narrow) {
   codes <- c("category", "type", "answer", "question", "aq")
   what <- codes[pmatch(what, codes)]
   if (what=="aq") {
-    Sel <- grepl(searchTerm, paste(dtf$answer, dtf$question))
+    Sel <- grepl(searchTerm, paste(dtf$answer, dtf$question), ignore.case=TRUE)
     cols <- c("question", "answer")
     if (!narrow) {
       cols <- c("filename", "board", "category", cols)
     }
   } else if (what %in% c("answer", "question")) {
-    Sel <- grepl(searchTerm, dtf[[what]])
+    Sel <- grepl(searchTerm, dtf[[what]], ignore.case=TRUE)
     cols <- c("category", what)
     if (!narrow) {
       cols <- c("filename", "board", cols)
     }
   } else if (what == "category") {
-    Sel <- grepl(searchTerm, dtf$category)
+    Sel <- grepl(searchTerm, dtf$category, ignore.case=TRUE)
     cols <- "category"
     if (!narrow) {
       cols <- c("filename", "board", cols)
     }
   } else { # "type"
-    Sel <- grepl(searchTerm, dtf$categoryType)
+    Sel <- grepl(searchTerm, dtf$categoryType, ignore.case=TRUE)
     cols <- "category"
   }
   dtf2 <- dtf[Sel, cols, drop=FALSE]
