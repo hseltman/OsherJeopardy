@@ -1,0 +1,40 @@
+ls()
+x = 3
+ls()
+print(x)
+y = 1:100
+print(y)
+y[10:12]
+y[10:12] ^ 2
+q()
+objects()
+x
+print(y)
+5+3*4
+rm(x, y)
+objects()
+x = 6:10
+x
+x + 3
+n = "name"
+n
+n = c(n, "else", n)
+n
+length(n)
+nchars(n)
+nchar(n)
+q()
+setwd("Desktop/Osher/Jeopardy/OsherJeopardy/")
+library(shiny)
+ls()
+list.files()
+source("lookup.R")
+ls()
+lookup()
+install.packages("stringr")
+library(stringr)
+lookup()
+lookup()
+runApp()
+runApp()
+q()
