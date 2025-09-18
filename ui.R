@@ -227,7 +227,10 @@ ui = navbarPage("Jeopardy Game", id="myNavbar", theme = shinytheme("flatly"),
                              fluidRow(box(p(), height=20)),
                              column(width=4,
                                     box(actionButton("backToBoard", "Back to Board"),
-                                        width=12, height=50)
+                                        width=12, height=50)),
+                             column(width=4,
+                                    box(actionButton("replayAudio", "Replay",
+                                                     style="color: #b8b8b8; background-color: #EFEFEF; border-color=#EFEFEF;"))
                              ),
                              column(width=4,
                                     box(hidden(actionButton("nextGame", "Next game")),

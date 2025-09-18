@@ -272,6 +272,11 @@ function(input, output, session) {
       if (!is.null(parsedAnswer$audioFile)) {
         audioAnswer(TRUE)
         audioFileName(parsedAnswer$audioFile)
+        enable("replayAudio")
+        show("replayAudio")
+      } else {
+        disable("replayAudio")
+        hide("replayAudio")
       }
       if (!is.null(parsedAnswer$videoFile)) {
         videoAnswer(TRUE)
@@ -813,6 +818,18 @@ function(input, output, session) {
     }
   }, ignoreInit=TRUE)
 
+  # Handle audio replay
+  observeEvent(input$replayAudio, {
+    insertUI(selector = "#backToBoard",
+             where = "afterEnd",
+             ui= tags$div(
+               id = "jAudioVideo",
+               tags$audio(src = audioFileName(), type = "audio/mp3", autoplay = NA,
+                          controls = NA, style="display:none;")  
+             ) # end tags$div()
+    )
+  })
+  
   # Handle Fix Scores tab
   observeEvent(input$fixScoresReturn, {
     for (player in 1:3) {
